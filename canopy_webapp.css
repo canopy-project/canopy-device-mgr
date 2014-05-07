@@ -1,0 +1,196 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 300;
+    font-size: 14pt;
+    color: #505050;
+}
+
+.code {
+    display: block;
+    unicode-bidi: embed;
+    font-family: monospace;
+    white-space: pre;
+    background: #f0f0f0;
+    padding: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: 153060;
+}
+
+.icode {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 14px;
+    background: #f0f0f0;
+    color: 153060;
+    padding: 4px;
+}
+
+td {
+    font-size: 14pt;
+}
+.center_channel {
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo {
+    font-family: "ABeeZee";
+    font-size: 35px;
+    color: #3060a0;
+}
+.cano-logo {
+    font-family: "ABeeZee";
+    font-size: 25px;
+    color: #3060a0;
+    margin-left: 50px;
+}
+.cano-sidebar {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+a.cano-sidebar-item {
+    color: #404040;
+}
+.cano-topbar {
+    background: #f0f0f0;
+    border-bottom: 1px solid #d0d0d0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 100%;
+    height: 30px;
+    z-index: 100;
+}
+.main-section {
+    width: 100%;
+    position: absolute;
+    top: 56px;
+}
+.darkest {
+    color: #000000;
+}
+.big {
+    font-size: 34px;
+}
+.xxl {
+    font-size: 48px;
+}
+.ml {
+    font-size: 26px;
+}
+.s {
+    font-size: 13px;
+}
+.thin {
+    font-weight: 200;
+}
+h2 {
+    font-weight: 200;
+    font-size: 34px;
+    margin-bottom: 0px;
+}
+.logo-in-text {
+    font-family: "ABeeZee";
+    color: #3060a0;
+}
+.logo-in-text-light {
+    font-family: "ABeeZee";
+    color: #a0b0f8;
+}
+.gray-section
+{
+    background: #283860;
+    color: #ffffff;
+}
+
+.shutterstock-network
+{
+    background-color: #ffffff;
+    background-image:url('http://image.shutterstock.com/display_pic_with_logo/1206974/130694135/stock-vector-molecule-and-communication-background-vector-illustration-graphic-design-useful-for-your-design-130694135.jpg');
+    background-repeat: no-repeat;
+    background-position: 460px -160px;;
+}
+.tbl-box
+{
+    padding: 16px;
+    width: 270px;
+    border-right: 2px solid #d0d0c0;
+}
+.hvy
+{
+    font-weight: 600;
+}
+.justify
+{
+    text-align: justify;
+}
+a, a.visited
+{
+    color: #3060a0;
+    text-decoration: none;
+}
+a:hover
+{
+    color: #50a0ff
+}
+a.logo:hover
+{
+    color: #3060a0;
+}
+
+.cano-event-panel-title {
+    font-weight: 300;
+    font-size: 26px;
+    color: #3060a0;
+}
+
+.cano-event-panel-time {
+    font-size: 13px;
+    color: #606060;
+}
+.cano-event-panel-message {
+    font-size: 18px;
+}
+
+.cano-event-panel-green {
+    background: #d8f8d8 !important;
+}
+
+.cano-event-panel-red {
+    background: #f8d8d8 !important;
+}
+
+.cano-event-panel-outer {
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: 8px;
+    line-height: 1.20;
+    margin-bottom: 16px;
+}
+
+#rightbar {
+    position: fixed;
+    right: 50px;
+    width: 260px;
+    top: 80px;
+    bottom: 40px;
+}
+.warning_bar
+{
+    background: #ffff60;
+    padding: 16px;
+    border-radius: 5px;
+    color: #000000;
+}
+.cano-chart
+{
+    position: absolute;
+    top: 50%;
+    bottom: 50px;
+    left: 200px;
+    right: 200px;
+}
