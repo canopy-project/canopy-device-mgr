@@ -32,14 +32,17 @@ function CanoPlotNode()
                 ]);
 
         var options = {
-title: '# Toastings by time of day (over past 12 months)',
-       legend: { position: 'none' },
-       height: 400,
+            title: '# Toastings by time of day (over past 12 months)',
+            legend: { position: 'none' },
+            chartArea : {left: 24, top: 24, width: '100%', height: '80%'},
+            height: 400,
+            fontName : "Titillium Web",
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
-    drawChart()
+    drawChart();
+    window.onresize = drawChart;
 }
 

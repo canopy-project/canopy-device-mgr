@@ -5,6 +5,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script src="nodes/cano_event_panel.js"></script>
+<script src="nodes/cano_status_panel.js"></script>
 <script src="nodes/cano_sidebar.js"></script>
 <script src="nodes/cano_topbar.js"></script>
 <script src="nodes/cano_plout.js"></script>
@@ -14,6 +15,7 @@
 <body>
 <div id="main"></div>
 <div id="sidebar"></div>
+<div id="status_panel"></div>
 <div class=cano-chart><div id="chart_div"></div></div>
 <div id="rightbar"></div>
 </body>
@@ -22,6 +24,7 @@ $(function() {
     new CanoTopbarNode().render($("#main"));
     new CanoSidebarNode().render($("#sidebar"));
     new CanoEventPanelNode().render($("#rightbar"));
+    new CanoStatusPanelNode().render($("#status_panel"));
     setTimeout(function(){google.load('visualization', '1', {'callback':'CanoPlotNode()', 'packages':['corechart']})}, 50);
 });
 </script>

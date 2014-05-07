@@ -7,6 +7,12 @@ body {
     color: #505050;
 }
 
+.cano-topbar-account {
+    float: right;
+    margin-top: 3px;
+    margin-right: 32px;
+    font-size: 16px;
+}
 .code {
     display: block;
     unicode-bidi: embed;
@@ -47,18 +53,22 @@ td {
     font-family: "ABeeZee";
     font-size: 25px;
     color: #3060a0;
-    margin-left: 50px;
+    margin-left: 24px;
 }
 .cano-sidebar {
-    margin-top: 50px;
-    margin-left: 50px;
+    border-top: 16px solid #dcdad8;
+    position: fixed;
+    padding: 16px;
+    padding-top: 8px;
+    top: 42px;
+    left: 8px;
+    width: 200px;
+    height: 100%;
 }
 a.cano-sidebar-item {
     color: #404040;
 }
 .cano-topbar {
-    background: #f0f0f0;
-    border-bottom: 1px solid #d0d0d0;
     padding-top: 4px;
     padding-bottom: 4px;
     width: 100%;
@@ -142,6 +152,19 @@ a.logo:hover
     color: #3060a0;
 }
 
+#status_panel
+{
+    position: fixed;
+    font-size: 15px;
+    left: 256px;
+    top: 42px;
+    right: 316px;
+    height: 200px;
+    border-top: 16px solid #dcdad8;
+    padding: 16px;
+    padding-top: 8px;
+}
+
 .cano-event-panel-title {
     font-weight: 300;
     font-size: 26px;
@@ -174,10 +197,14 @@ a.logo:hover
 
 #rightbar {
     position: fixed;
-    right: 50px;
+    overflow: auto;
+    top: 42px;
+    right: 8px;
+    height: 100%;
     width: 260px;
-    top: 80px;
-    bottom: 40px;
+    border-top: 16px solid #dcdad8;
+    padding: 16px;
+    padding-top: 8px;
 }
 .warning_bar
 {
@@ -188,9 +215,12 @@ a.logo:hover
 }
 .cano-chart
 {
-    position: absolute;
-    top: 50%;
-    bottom: 50px;
-    left: 200px;
-    right: 200px;
+    position: fixed;
+    top: 35%;
+    bottom: 16px;
+    left: 256px;
+    right: 316px;
+    border-top: 16px solid #dcdad8;
+    padding: 16px;
+    padding-top: 8px;
 }
