@@ -35,8 +35,8 @@ function CanoPlotNode()
             title: '# Toastings by time of day (over past 12 months)',
             legend: { position: 'none' },
             chartArea : {left: 24, top: 24, width: '100%', height: '80%'},
-            height: 400,
-            fontName : "Titillium Web",
+            height: 300,
+            fontName : "Source Sans Pro",
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
