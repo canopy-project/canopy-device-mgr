@@ -6,6 +6,21 @@ body {
     font-size: 20px;
     color: #000000;
 }
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.cano-dialog {
+    text-align: left;
+    border-top: 10px solid #dcdad8;
+    display: inline-block;
+    padding: 16px;
+    padding-top: 8px;
+    background: #f8f6f4;
+    vertical-align:top;
+    margin-bottom: 16px;
+}
 
 .cano-topbar-account {
     float: right;
@@ -85,6 +100,30 @@ a.cano-sidebar-item {
 .darkest {
     color: #000000;
 }
+input[type=submit] {
+    border:1px solid #4060a0;
+    background: #e0e6f0;
+    color: #101010;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background: #f0f6ff;
+}
+
+input[type=text], input[type=password] {
+    border:1px solid #c0c0c0;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 2px;
+    padding: 8px;
+}
+.l {
+    font-size: 34px;
+}
 .big {
     font-size: 34px;
 }
@@ -93,6 +132,9 @@ a.cano-sidebar-item {
 }
 .ml {
     font-size: 26px;
+}
+.ms {
+    font-size: 18px;
 }
 .s {
     font-size: 15px;
