@@ -1,4 +1,4 @@
-function CanoLoginDialogNode(canopy) {
+function CanoLoginDialogNode(canopy, dispatcher) {
     var self=this,
         $me;
 
@@ -14,9 +14,8 @@ function CanoLoginDialogNode(canopy) {
             var password = $("#password").val();
             canopy.login(username, password, 
                 function() {
-                    alert("Login sucessful");
-                    $me.fadeOut();
-                    canopy.getPrivate();
+                    dispatcher.showPage("test");
+                    canopy.getLoggedInUser(null, null);
                 },
                 function() {
                     alert("Login failed");

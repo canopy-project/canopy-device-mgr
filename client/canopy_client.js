@@ -1,4 +1,21 @@
 function CanopyClient() {
+    this.getLoggedInUser = function(onSuccess, onError) {
+        $.ajax({
+            type: "GET",
+            url: "http://canopy.link:8080/me",
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function() {
+        })
+        .fail(function() {
+            alert("me fail");
+        });
+        
+    }
+
     this.login = function(username, password, onSuccess, onError) {
         $.ajax({
             type: "POST",
@@ -15,23 +32,6 @@ function CanopyClient() {
         })
         .fail(function() {
             onError();
-        });
-    }
-
-    this.getPrivate = function() {
-        $.ajax({
-            type: "GET",
-            url: "http://canopy.link:8080/private",
-            xhrFields: {
-                 withCredentials: true
-            },
-            crossDomain: true
-        })
-        .done(function() {
-            alert("private success");
-        })
-        .fail(function() {
-            alert("private fail");
         });
     }
 }
