@@ -1,5 +1,6 @@
-function CanoLoginDialogNode() {
-    var $me;
+function CanoLoginDialogNode(canopy) {
+    var self=this,
+        $me;
 
     $.extend(this, new CanoNode());
 
@@ -8,6 +9,20 @@ function CanoLoginDialogNode() {
     }
 
     this.onLive = function() {
+        $("#signin_button").off().on("click", function() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            canopy.login(username, password, 
+                function() {
+                    alert("Login sucessful");
+                    $me.fadeOut();
+                    canopy.getPrivate();
+                },
+                function() {
+                    alert("Login failed");
+                }
+            );
+        });
     }
 
     $me = $("\
@@ -16,9 +31,9 @@ function CanoLoginDialogNode() {
                 <div class=l>Sign in</div>\
                 <div class=ms>Monitor and control your<br><span class=logo-in-text>canopy</span>-enabled devices.</div>\
                 <br>\
-                Username or email<input type=text></input><br><br>\
-                Password <input type=password></input><br><br>\
-                <input type=submit value='SIGN IN'></input>\
+                Username or email<br><input name=username id=username type=text></input><br><br>\
+                Password<br><input name=password id=password type=password></input><br><br>\
+                <input id='signin_button' type=submit value='SIGN IN'></input>\
             </div>\
         </div>");
 }

@@ -4,6 +4,7 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script src="client/canopy_client.js"></script>
 <script src="nodes/cano.js"></script>
 <script src="nodes/cano_event_panel.js"></script>
 <script src="nodes/cano_login_dialog.js"></script>
@@ -21,8 +22,9 @@
 </body>
 <script>
 $(function() {
+    var canopy = new CanopyClient();
     var pageNode;
-    pageNode = new CanoLoginPageNode();
+    pageNode = new CanoLoginPageNode(canopy);
     pageNode.render($("#main"));
 });
 </script>

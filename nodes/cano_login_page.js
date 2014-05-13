@@ -1,4 +1,4 @@
-function CanoLoginPageNode() {
+function CanoLoginPageNode(canopy) {
     var $me,
         topbarNode;
 
@@ -15,7 +15,7 @@ function CanoLoginPageNode() {
     }
 
     topbarNode = new CanoTopbarNode();
-    loginDialogNode = new CanoLoginDialogNode();
+    loginDialogNode = new CanoLoginDialogNode(canopy);
     signupDialogNode = new CanoSignupDialogNode();
 
     $me = $("<div>\
