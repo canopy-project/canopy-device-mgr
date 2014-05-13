@@ -15,8 +15,20 @@ function CanoLoginPageNode(canopy, dispatcher) {
     }
 
     topbarNode = new CanoTopbarNode(canopy, dispatcher);
-    loginDialogNode = new CanoLoginDialogNode(canopy, dispatcher);
-    signupDialogNode = new CanoSignupDialogNode();
+    loginDialogNode = new CanoLoginDialogNode({
+        canopyClient: canopy,
+        dispatcher: dispatcher,
+        onExpand: function() {
+            signupDialogNode.collapse();
+        }
+    });
+    signupDialogNode = new CanoSignupDialogNode({
+        canopyClient: canopy,
+        dispatcher: dispatcher,
+        onExpand: function() {
+            loginDialogNode.collapse();
+        }
+    });
 
     $me = $("<div>\
         <div id=topbar></div>\
