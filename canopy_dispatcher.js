@@ -21,8 +21,8 @@ function CanopyDispatcher(canopy) {
         if (pageName == "login") {
             this.switchTo(new CanoLoginPageNode(canopy, self));
         }
-        else if (pageName == "test") {
-            this.switchTo(new CanoLoginDialogNode(canopy, self));
+        else if (pageName == "main") {
+            this.switchTo(new CanoMainPageNode(canopy, self));
         }
     }
 }

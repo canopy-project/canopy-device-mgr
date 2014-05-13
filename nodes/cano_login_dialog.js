@@ -14,8 +14,7 @@ function CanoLoginDialogNode(canopy, dispatcher) {
             var password = $("#password").val();
             canopy.login(username, password, 
                 function() {
-                    dispatcher.showPage("test");
-                    canopy.getLoggedInUser(null, null);
+                    dispatcher.showPage("main");
                 },
                 function() {
                     alert("Login failed");

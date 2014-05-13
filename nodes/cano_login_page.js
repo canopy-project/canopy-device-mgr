@@ -14,7 +14,7 @@ function CanoLoginPageNode(canopy, dispatcher) {
         signupDialogNode.render($("#signup_dialog"));
     }
 
-    topbarNode = new CanoTopbarNode();
+    topbarNode = new CanoTopbarNode(canopy, dispatcher);
     loginDialogNode = new CanoLoginDialogNode(canopy, dispatcher);
     signupDialogNode = new CanoSignupDialogNode();
 

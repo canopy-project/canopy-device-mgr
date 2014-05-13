@@ -1,17 +1,21 @@
 function CanopyClient() {
-    this.getLoggedInUser = function(onSuccess, onError) {
+    this.getLoggedInUsername = function(onSuccess, onError) {
         $.ajax({
             type: "GET",
+            dataType : "json",
             url: "http://canopy.link:8080/me",
             xhrFields: {
                  withCredentials: true
             },
             crossDomain: true
         })
-        .done(function() {
+        .done(function(data, textStatus, jqXHR) {
+            if (onSuccess != null)
+                onSuccess(data['username']);
         })
         .fail(function() {
-            alert("me fail");
+            if (onError != null)
+                onError();
         });
         
     }
@@ -32,6 +36,26 @@ function CanopyClient() {
         })
         .fail(function() {
             onError();
+        });
+    }
+
+    this.logout = function(onSuccess, onError) {
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/logout",
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function() {
+            if (onSuccess != null)
+                onSuccess();
+        })
+        .fail(function() {
+            if (onError != null)
+                onError();
         });
     }
 }
