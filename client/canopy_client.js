@@ -58,4 +58,25 @@ function CanopyClient() {
                 onError();
         });
     }
+
+    this.createAccount = function(username, email, password, password_confirm, onSuccess, onError) {
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/create_account",
+            data: JSON.stringify({username : username, email: email, password : password, password_confirm: password_confirm}),
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function() {
+            if (onSuccess != null)
+                onSuccess();
+        })
+        .fail(function() {
+            if (onError != null)
+                onError();
+        });
+    }
 }

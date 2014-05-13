@@ -1,5 +1,7 @@
 function CanoSignupDialogNode(params) {
     var self=this,
+        canopy = params.canopyClient,
+        dispatcher = params.dispatcher,
         $me;
 
     $.extend(this, new CanoNode());
@@ -9,6 +11,20 @@ function CanoSignupDialogNode(params) {
     }
 
     this.onLive = function() {
+        $("#signup_button").off('click').on("click", function() {
+            var username = $("#signup_username").val();
+            var email = $("#signup_email").val();
+            var password = $("#signup_password").val();
+            var password_confirm = $("#signup_password2").val();
+            canopy.createAccount(username, email, password, password_confirm,
+                function() {
+                    dispatcher.showPage("main");
+                },
+                function() {
+                    alert("Create acct failed");
+                }
+            );
+        });
         $("#signup_submit").off('click').on('click', function() {
             self.expand();
             if (params.onExpand())
@@ -34,8 +50,8 @@ function CanoSignupDialogNode(params) {
                 <div id=signup_form style='display:none;'>\
                     Choose a username<br><input name=signup_username id=signup_username type=text></input><br><br>\
                     Enter your email address<br><input name=signup_email id=signup_email type=text></input><br><br>\
-                    Choose a password<br><input name=password id=password type=password></input><br><br>\
-                    Confirm your password<br><input name=password id=password type=password></input><br><br>\
+                    Choose a password<br><input name=signup_password id=signup_password type=password></input><br><br>\
+                    Confirm your password<br><input name=signup_password2 id=signup_password2 type=password></input><br><br>\
                 </div>\
             <input id='signup_button' type=submit style='display:none' value='CREATE ACCOUNT'></input>\
             <input id=signup_submit type=submit style='margin-top:16px' value='SIGN UP'></input>\
