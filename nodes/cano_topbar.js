@@ -26,7 +26,7 @@ function CanoTopbarNode(canopy, dispatcher) {
 
     $me = $("\
 <div class=cano-topbar>\
-    <div class=cano-topbar-account><img align=top src='http://c.dryicons.com/images/icon_sets/coquette_icons_set/png/32x32/user.png'><a id=topbar_username href='javascript:void(0)';></a></div>\
+    <div class=cano-topbar-account><img align=top src='icons/dryicons/coquette/32x32/user.png'><a id=topbar_username href='javascript:void(0)';></a></div>\
     <div class=cano-logo>canopy</div>\
 </div>\
     ");

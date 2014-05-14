@@ -1,6 +1,6 @@
 function CanoPlotNode()
 {
-    google.load("visualization", "1", {packages:["corechart"]});
+    /*google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(drawChart);
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
@@ -44,7 +44,8 @@ function CanoPlotNode()
         chart.draw(data, options);
     }
     drawChart();
-    window.onresize = drawChart;
+    window.onresize = drawChart;*/
+    drawChart = function(){};
 }
 
-setTimeout(function(){google.load('visualization', '1', {'callback':'CanoPlotNode()', 'packages':['corechart']})}, 50);
+/*setTimeout(function(){google.load('visualization', '1', {'callback':'CanoPlotNode()', 'packages':['corechart']})}, 500);*/
