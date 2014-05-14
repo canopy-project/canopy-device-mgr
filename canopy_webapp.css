@@ -35,7 +35,7 @@ body {
     left: 8px;
     bottom: 8px;
     top: 46px;
-    width: 200px;
+    width: 232px;
     overflow: auto;
     margin-bottom: 0px;
 }
@@ -43,10 +43,21 @@ body {
     position: absolute;
     left: 248px;
     top: 46px;
-    bottom: 50%;
+    bottom: 60%;
+    right: 216px;
+    overflow: auto;
+    margin-bottom: 8px;
+}
+
+.cano-main-bottom-half-layout {
+    position: absolute;
+    left: 248px;
+    top: 40%;
+    bottom: 8px;
     right: 216px;
     overflow: auto;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .cano-topbar-account {

@@ -12,6 +12,7 @@ function CanoMainPageNode(canopy, dispatcher) {
         topbarNode.render($("#topbar"));
         devicesNode.render($("#main_sidebar"));
         deviceControlsNode.render($("#main_top_center"));
+        deviceSensorsNode.render($("#main_bottom_center"));
     }
 
     topbarNode = new CanoTopbarNode(canopy, dispatcher);
@@ -19,11 +20,13 @@ function CanoMainPageNode(canopy, dispatcher) {
         canopyClient: canopy,
     });
     deviceControlsNode = new CanoDeviceControlsDialogNode({canopyClient: canopy});
+    deviceSensorsNode = new CanoDeviceSensorsDialogNode({canopyClient: canopy});
 
     $me = $("<div>\
         <div id=topbar></div>\
         <div id=main_sidebar></div>\
         <div id=main_top_center></div>\
+        <div id=main_bottom_center></div>\
     </div>");
 
 }

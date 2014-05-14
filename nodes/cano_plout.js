@@ -1,7 +1,7 @@
 function CanoPlotNode()
 {
-    /*google.load("visualization", "1", {packages:["corechart"]});*/
-    //google.setOnLoadCallback(drawChart);
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
             ['Hour of Day', 'Length'],
@@ -37,6 +37,7 @@ function CanoPlotNode()
             chartArea : {left: 24, top: 24, width: '100%', height: '80%'},
             height: 300,
             fontName : "Source Sans Pro",
+            backgroundColor: '#f8f6f4',
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
@@ -46,3 +47,4 @@ function CanoPlotNode()
     window.onresize = drawChart;
 }
 
+setTimeout(function(){google.load('visualization', '1', {'callback':'CanoPlotNode()', 'packages':['corechart']})}, 50);
