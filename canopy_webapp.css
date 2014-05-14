@@ -118,7 +118,7 @@ a.cano-sidebar-item {
 .darkest {
     color: #000000;
 }
-input[type=submit] {
+btn, input[type=submit] {
     border:1px solid #4060a0;
     background: #e0e6f0;
     color: #101010;

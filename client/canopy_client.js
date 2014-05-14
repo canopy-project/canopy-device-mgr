@@ -128,5 +128,16 @@ function CanopyClient() {
         ]
     }
 */
+
 function CanopyUtil_GetDeviceControls(deviceObj) {
+    var cls = deviceObj.device_class
+    for (var propname in cls) {
+        if (cls.hasOwnProperty(propname)) {
+            for (var field in cls[propname]) {
+                if (cls[propname].hasOwnProperty(field)) {
+                    alert(field + " -> " + cls[propname][field]);
+                }
+            }
+        }
+    }
 }
