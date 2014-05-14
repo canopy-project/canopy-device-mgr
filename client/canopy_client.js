@@ -79,4 +79,24 @@ function CanopyClient() {
                 onError();
         });
     }
+
+    this.fetchDevices = function(onSuccess, onError) {
+        $.ajax({
+            type: "GET",
+            dataType : "json",
+            url: "http://canopy.link:8080/devices",
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function(data, textStatus, jqXHR) {
+            if (onSuccess != null)
+                onSuccess(data);
+        })
+        .fail(function() {
+            if (onError != null)
+                onError();
+        });
+    }
 }

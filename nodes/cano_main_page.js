@@ -10,13 +10,17 @@ function CanoMainPageNode(canopy, dispatcher) {
 
     this.onLive = function() {
         topbarNode.render($("#topbar"));
+        devicesNode.render($("#main_sidebar"));
     }
 
     topbarNode = new CanoTopbarNode(canopy, dispatcher);
+    devicesNode = new CanoDevicesDialogNode({
+        canopyClient: canopy,
+    });
 
     $me = $("<div>\
         <div id=topbar></div>\
-        main\
+        <div id=main_sidebar></div>\
     </div>");
 
 }
