@@ -16,16 +16,16 @@ function CanoDevicesDialogNode(params) {
 
     this.refresh = function() {
         canopy.fetchDevices(function(device) {
-            $me.html("");
+            $me.html("<div style='font-weight:400; color: #000000; padding:4px; padding-left:16px; font-size:larger; background:#e0e6f0'>Devices</div>");
             var length = device.devices.length;
             for (var i = 0; i < length ; i++) {
-                $me.append("<div>" + device.devices[i].friendly_name + "</div>");
+                $me.append("<div style='padding-left:16px'>" + device.devices[i].friendly_name + "</div>");
             }
         });
     }
 
     $me = $("\
-        <div class='cano-dialog cano-sidebar-layout'>\
+        <div class='cano-dialog2 cano-sidebar-layout'>\
         </div>\
     ");
 }

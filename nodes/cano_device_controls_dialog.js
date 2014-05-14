@@ -16,7 +16,8 @@ function CanoDeviceControlsDialogNode(params) {
 
     this.refresh = function() {
         canopy.fetchDevices(function(devices) {
-            $me.html("");
+            $me.html("<div style='font-weight:400; color: #000000; padding:4px; padding-left:16px; font-size:larger; background:#e0e6f0'>Controls</div>");
+            $inner = $("<div style='padding:16px'></div>");
             var cls = devices.devices[0].device_class
             for (var propname in cls) {
                 var property = cls[propname];
@@ -24,17 +25,18 @@ function CanoDeviceControlsDialogNode(params) {
                     continue;
 
                 if (property.datatype == "boolean") {
-                    $me.append("<input type=submit value='" + propname + "'></input>" + property.description + "<BR>");
+                    $inner.append("<input type=submit value='" + propname + "'></input>" + property.description + "<BR>");
                 }
                 else {
-                    $me.append(propname  + ": <input type=text></input>" + property.description + "<BR>");
+                    $inner.append(propname  + ": <input type=text></input>" + property.description + "<input type=submit value=apply></input><BR>");
                 }
             }
+            $me.append($inner);
         });
     }
 
     $me = $("\
-        <div class='cano-dialog cano-main-top-half-layout'>\
+        <div class='cano-dialog2 cano-main-top-half-layout'>\
         </div>\
     ");
 }

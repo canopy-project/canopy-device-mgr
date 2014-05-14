@@ -11,6 +11,15 @@ body {
     margin-right: auto;
     text-align: center;
 }
+.cano-dialog2 {
+    text-align: left;
+    border-top: 4px solid #b0a6a0;
+    display: inline-block;
+    background: #f8f6f4;
+    vertical-align:top;
+    margin-bottom: 16px;
+    border-radius: 4px;
+}
 .cano-dialog {
     text-align: left;
     border-top: 10px solid #dcdad8;
