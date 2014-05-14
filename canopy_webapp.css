@@ -30,6 +30,15 @@ body {
     overflow: auto;
     margin-bottom: 0px;
 }
+.cano-main-top-half-layout {
+    position: absolute;
+    left: 248px;
+    top: 46px;
+    bottom: 50%;
+    right: 216px;
+    overflow: auto;
+    margin-bottom: 0px;
+}
 
 .cano-topbar-account {
     float: right;

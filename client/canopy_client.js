@@ -100,3 +100,33 @@ function CanopyClient() {
         });
     }
 }
+
+/*
+    {
+        "devices" : [
+            {
+                "device_id" : UUID,
+                "friendly_name" : "mydevice",
+                "device_class" : {
+                    "canopy.tutorial.sample_device_1" : {
+                        "cpu" : {
+                            "category" : "sensor",
+                            "datatype" : "float32",
+                            "min_value" : 0.0,
+                            "max_value" : 1.0,
+                            "description" : "CPU usage percentage"
+                        },
+                        "reboot" : {
+                            "category" : "control",
+                            "control_type" : "trigger",
+                            "datatype" : "boolean",
+                            "description" : "Reboots the device"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+*/
+function CanopyUtil_GetDeviceControls(deviceObj) {
+}
