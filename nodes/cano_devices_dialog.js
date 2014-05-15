@@ -1,10 +1,29 @@
-
-function CanoDevicesDialogNode(params) {
+/*
+ * CanoDevicesDialogNode - Dialog box for listing and selecting devices.
+ *
+ * Required Parameters:
+ *  
+ *      canopy_client: <CanopyClient object>
+ *          Canopy client used for fetching data from the cloud.
+ *
+ * Optional Parameters:
+ *
+ *      layout_css: <object>
+ *          CSS used for laying out the position of this dialog box.  Defaults
+ *          to {}.
+ */
+function CanoDevicesDialogNode(origParams) {
     var self=this,
-        canopy = params.canopyClient,
-        $me;
+        $me,
+        $list,
+        params
+    ;
 
     $.extend(this, new CanoNode());
+
+    params = $.extend({}, {
+        layout_css: {}
+    }, origParams);
 
     this.get$ = function() {
         return $me;
@@ -15,17 +34,20 @@ function CanoDevicesDialogNode(params) {
     }
 
     this.refresh = function() {
-        canopy.fetchDevices(function(device) {
-            $me.html("<div style='font-weight:400; color: #000000; padding:4px; padding-left:16px; font-size:22px; background:#e0e6f0'>Devices</div>");
+        params.canopy_client.fetchDevices(function(device) {
+            $list.html("")
             var length = device.devices.length;
             for (var i = 0; i < length ; i++) {
-                $me.append("<div style='padding-left:16px'>" + device.devices[i].friendly_name + "</div>");
+                $list.append("<div>" + device.devices[i].friendly_name + "</div>");
             }
         });
     }
 
-    $me = $("\
-        <div class='cano-dialog2 cano-sidebar-layout'>\
-        </div>\
-    ");
+    $list = $("<div>");
+
+    $me = new CanoDialogNode({
+        title_html: "Devices",
+        outer_css: params.layout_css,
+        body_html: $list
+    }).get$();
 }

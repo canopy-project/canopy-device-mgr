@@ -2,43 +2,43 @@
 /*
  *  CanoDialogNode - Generic dialog window for Canopy UI.
  *  
- *  All parameters are optional:
+ *  Optional parameters:
  *
- *      "body_class": <string>
+ *      body_class: <string>
  *          CSS classes to apply to the body section of the dialog.  Defaults
  *          to "cano-dialog-body"
  *
- *      "body_css": <object>
+ *      body_css: <object>
  *          Additional CSS styling to apply to the body.  Defaults to {}.  To
  *          eliminate body padding, use: {padding:"0px"}.
  *
- *      "body_html": <string|null>
+ *      body_html: <string|null>
  *          HTML content to show in the body.  If set, "body_node" is ignored.
  *          Defaults to null.
  *
- *      "body_node": <object|null>
+ *      body_node: <object|null>
  *          Canopy node object to render in the body.  Defaults to null.
  *
- *      "outer_class": <string>
+ *      outer_class: <string>
  *          CSS classes to apply to the outer container of the dialog.
  *          Defaults to "cano-dialog-outer".
  *
- *      "outer_css": <object>
+ *      outer_css: <object>
  *          Additional CSS styling to apply to the outer container of the
  *          dialog.  Defaults to {}.
  *
- *      "title_class": <string>
+ *      title_class: <string>
  *          CSS classes to apply to the title section of the dialog.  Defaults
  *          to "cano-dialog-title"
  *
- *      "title_css": <object>
+ *      title_css: <object>
  *          Additional CSS styling to apply to the title.  Defaults to {}.
  *
- *      "title_html": <string|null>
+ *      title_html: <string|null>
  *          HTML content to show in the title bar.  If set, "title_node" is
  *          ignored.  Defaults to null.
  *
- *      "title_node": <object|null>
+ *      title_node: <object|null>
  *          Canopy node object to render in the title.  Defaults to null.
  */
 
