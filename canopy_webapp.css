@@ -31,7 +31,6 @@ body {
 }
 .cano-dialog-body {
     padding: 16px;
-    overflow: auto;
 }
 .cano-dialog2 {
     text-align: left;

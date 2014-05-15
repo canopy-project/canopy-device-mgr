@@ -10,16 +10,16 @@ function CanoTopbarNode(canopy, dispatcher) {
 
     this.onLive = function() {
         this.refresh();
-        $("#topbar_username").off('click').on('click', function() {
-            canopy.logout(function() {
-                dispatcher.showPage("login");
-            });
-        })
     }
 
     this.refresh = function() {
         canopy.getLoggedInUsername(function(username) {
             $("#topbar_username").html(username);
+            $("#topbar_username").off('click').on('click', function() {
+                canopy.logout(function() {
+                    dispatcher.showPage("login");
+                });
+            })
         });
     }
 

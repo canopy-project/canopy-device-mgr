@@ -1,31 +1,42 @@
-
-function CanoDeviceSensorsDialogNode(params) {
+/*
+ * CanoDeviceSensorDialogNode - Dialog box for monitoring device sensors
+ *
+ * Required Parameters:
+ *  
+ *      canopy_client: <CanopyClient object>
+ *          Canopy client used for fetching data from the cloud.
+ *
+ * Optional Parameters:
+ *
+ *      layout_css: <object>
+ *          CSS used for laying out the position of this dialog box.  Defaults
+ *          to {}.
+ */
+function CanoDeviceSensorsDialogNode(origParams) {
     var self=this,
-        canopy = params.canopyClient,
-        optionNode,
-        $me;
+        $me,
+        $list,
+        params
+    ;
 
     $.extend(this, new CanoNode());
+
+    params = $.extend({}, {
+        layout_css: {}
+    }, origParams);
 
     this.get$ = function() {
         return $me;
     }
 
     this.onLive = function() {
-        this.refresh();
     }
 
-    this.refresh = function() {
-        $me.html("<div style='font-weight:400; color: #000000; padding:4px; padding-left:16px; font-size:22px; background:#e0e6f0'>Monitor</div><div id=chart_div></div>");
-        optionNode.appendTo($me);
-        (new CanoPlotNode()).drawChart();
-    }
+    $list = $("<div>");
 
-    optionNode = new CanoOptionNode({
-        options: ["cpu"]
-    });
-    $me = $("\
-        <div class='cano-dialog2 cano-main-bottom-half-layout'>\
-        </div>\
-    ");
+    $me = new CanoDialogNode({
+        title_html: "Monitor",
+        outer_css: params.layout_css,
+        body_html: $list
+    }).get$();
 }

@@ -1,10 +1,28 @@
-
-function CanoDeviceEventsDialogNode(params) {
+/*
+ * CanoDeviceEventDialogNode - Dialog box showing device events
+ *
+ * Required Parameters:
+ *  
+ *      canopy_client: <CanopyClient object>
+ *          Canopy client used for fetching data from the cloud.
+ *
+ * Optional Parameters:
+ *
+ *      layout_css: <object>
+ *          CSS used for laying out the position of this dialog box.  Defaults
+ *          to {}.
+ */
+function CanoDeviceEventsDialogNode(origParams) {
     var self=this,
-        canopy = params.canopyClient,
-        $me;
+        $body,
+        $me,
+        params;
 
     $.extend(this, new CanoNode());
+
+    params = $.extend({}, {
+        layout_css: {}
+    }, origParams);
 
     this.get$ = function() {
         return $me;
@@ -15,7 +33,7 @@ function CanoDeviceEventsDialogNode(params) {
     }
 
     this.refresh = function() {
-        $me.html("<div style='font-weight:400; color: #000000; padding:4px; padding-left:16px; font-size:22px; background:#e0e6f0'>Notices</div>\
+    $body.html("\
 <div class=cano-event-panel>\
     <div class=cano-event-panel-outer>\
         <div class=cano-event-panel-title>Toast Finished</div>\
@@ -58,8 +76,14 @@ function CanoDeviceEventsDialogNode(params) {
         ");
     }
 
-    $me = $("\
-        <div class='cano-dialog2 cano-main-right-side-layout'>\
-        </div>\
-    ");
+    $body = $("<div>");
+
+    $me = new CanoDialogNode({
+        body_css: {
+            padding: "0px"
+        },
+        body_html: $body,
+        outer_css: params.layout_css,
+        title_html: "Events"
+    }).get$();
 }

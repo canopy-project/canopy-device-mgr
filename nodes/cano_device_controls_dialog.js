@@ -1,10 +1,28 @@
-
-function CanoDeviceControlsDialogNode(params) {
+/*
+ * CanoDeviceControlsNode - Dialog box for remote controlling device.
+ *
+ * Required Parameters:
+ *  
+ *      canopy_client: <CanopyClient object>
+ *          Canopy client used for fetching data from the cloud.
+ *
+ * Optional Parameters:
+ *
+ *      layout_css: <object>
+ *          CSS used for laying out the position of this dialog box.  Defaults
+ *          to {}.
+ */
+function CanoDeviceControlsDialogNode(origParams) {
     var self=this,
-        canopy = params.canopyClient,
-        $me;
+        $body,
+        $me,
+        params;
 
     $.extend(this, new CanoNode());
+
+    params = $.extend({}, {
+        layout_css: {}
+    }, origParams);
 
     this.get$ = function() {
         return $me;
@@ -15,28 +33,28 @@ function CanoDeviceControlsDialogNode(params) {
     }
 
     this.refresh = function() {
-        canopy.fetchDevices(function(devices) {
-            $me.html("<div style='font-weight:400; color: #000000; padding:4px; padding-left:16px; font-size:22px; background:#e0e6f0'>Control</div>");
-            $inner = $("<div style='padding:16px'></div>");
+        params.canopy_client.fetchDevices(function(devices) {
             var cls = devices.devices[0].device_class
+            $body.html("");
             for (var propname in cls) {
                 var property = cls[propname];
                 if (property.category != "control")
                     continue;
 
                 if (property.datatype == "boolean") {
-                    $inner.append("<input type=submit value='" + propname + "'></input>" + "<BR>");
+                    $body.append("<input type=submit value='" + propname + "'></input>" + "<BR>");
                 }
                 else {
-                    $inner.append(propname  + ": <input type=text></input>" + property.description + "<input type=submit value=apply></input><BR>");
+                    $boddy.append(propname  + ": <input type=text></input>" + property.description + "<input type=submit value=apply></input><BR>");
                 }
             }
-            $me.append($inner);
         });
     }
+    $body = $("<div>")
 
-    $me = $("\
-        <div class='cano-dialog2 cano-main-top-half-layout'>\
-        </div>\
-    ");
+    $me = new CanoDialogNode({
+        title_html: "Control",
+        outer_css: params.layout_css,
+        body_html: $body
+    }).get$();
 }
