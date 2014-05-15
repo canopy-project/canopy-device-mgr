@@ -9,11 +9,15 @@ function CanoMainPageNode(canopy, dispatcher) {
     }
 
     this.onLive = function() {
-        topbarNode.render($("#topbar"));
+        /*topbarNode.render($("#topbar"));
         deviceEventsNode.render($("#main_right_side"));
         devicesNode.render($("#main_sidebar"));
         deviceControlsNode.render($("#main_top_center"));
-        deviceSensorsNode.render($("#main_bottom_center"));
+        deviceSensorsNode.render($("#main_bottom_center"));*/
+        new CanoDialogNode({
+            title_html: "My Dialog",
+            body_html: "Aint she sweet?"
+        }).render($("#main_sidebar"));
     }
 
     topbarNode = new CanoTopbarNode(canopy, dispatcher);
