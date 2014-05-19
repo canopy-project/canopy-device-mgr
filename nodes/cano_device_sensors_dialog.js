@@ -15,10 +15,11 @@
 function CanoDeviceSensorsDialogNode(origParams) {
     var self=this,
         $me,
+        contentNode,
         params,
+        plotNode,
         sensorListNode
     ;
-    this.deviceId = "nodevice";
 
     $.extend(this, new CanoNode());
 
@@ -39,22 +40,27 @@ function CanoDeviceSensorsDialogNode(origParams) {
         sensorListNode.setOptions(deviceProperties);
     }
 
+    contentNode = $("<div>");
+
     sensorListNode = new CanoMonitorSensorListNode({
         onSelect: function(sensorName) {
             params.canopy_client.fetchSensorData(
                 self.deviceId, 
                 sensorName,
                 function(data) {
-                    console.log("hi");
-                    console.log(data);
+                    plotNode.setTimeseriesData(data.samples)
                 }
             );
         }
     });
+    sensorListNode.appendTo(contentNode);
+
+    plotNode = new CanoPlotNode({});
+    plotNode.appendTo(contentNode);
 
     $me = new CanoDialogNode({
         title_html: "Monitor",
         outer_css: params.layout_css,
-        body_node: sensorListNode
+        body_html: contentNode
     }).get$();
 }
