@@ -1,5 +1,9 @@
 /*
  * CanoMonitorSensorList - Selectable list of available sensors.
+ *
+ * Optional Parameters:
+ *
+ *      onSelect: function(<string>sensorName)
  */
 function CanoMonitorSensorListNode(origParams) {
     var self=this,
@@ -8,6 +12,10 @@ function CanoMonitorSensorListNode(origParams) {
         params;
 
     $.extend(this, new CanoNode());
+
+    params = $.extend({}, {
+        layout_css: {}
+    }, origParams);
 
     this.get$ = function() {
         return $me;
@@ -22,13 +30,21 @@ function CanoMonitorSensorListNode(origParams) {
         items = [];
         for (propName in deviceProperties) {
             if (deviceProperties[propName].category == "sensor") {
-                items.push({html: propName});
+                items.push({html: propName, value: propName});
             }
         }
         console.log(items);
         optionNode.setItems(items);
     }
 
-    optionNode = new CanoOptionNode({items: []});
+    optionNode = new CanoOptionNode({
+        items: [],
+        onSelect: function(idx, item) {
+            console.log("item");
+            console.log(item);
+            if (params.onSelect)
+                params.onSelect(item.value);
+        }
+    });
     $me = optionNode.get$();
 }
