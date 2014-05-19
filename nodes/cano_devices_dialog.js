@@ -11,6 +11,8 @@
  *      layout_css: <object>
  *          CSS used for laying out the position of this dialog box.  Defaults
  *          to {}.
+ *
+ *      onSelect: <function(<object> device)>
  */
 function CanoDevicesDialogNode(origParams) {
     var self=this,
@@ -56,7 +58,8 @@ function CanoDevicesDialogNode(origParams) {
         selectedClass: "cano-device-item-selected",
 
         onSelect: function(idx, item) {
-            console.log(item);
+            if (params.onSelect)
+                params.onSelect(item.value);
         }
     })
 

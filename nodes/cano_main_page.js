@@ -35,6 +35,10 @@ function CanoMainPageNode(canopy, dispatcher) {
             bottom: "0px",
             margin: "16px",
             overflow: "auto"
+        },
+        onSelect: function(device) {
+            console.log(device);
+            deviceSensorsNode.update(device.device_class);
         }
     }).appendTo($me);
 

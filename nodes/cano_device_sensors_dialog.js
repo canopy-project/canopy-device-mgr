@@ -15,8 +15,8 @@
 function CanoDeviceSensorsDialogNode(origParams) {
     var self=this,
         $me,
-        $list,
-        params
+        params,
+        sensorListNode
     ;
 
     $.extend(this, new CanoNode());
@@ -30,13 +30,18 @@ function CanoDeviceSensorsDialogNode(origParams) {
     }
 
     this.onLive = function() {
+        sensorListNode.onLive();
     }
 
-    $list = $("<div>");
+    this.update = function(deviceProperties) {
+        sensorListNode.setOptions(deviceProperties);
+    }
+
+    sensorListNode = new CanoMonitorSensorListNode()
 
     $me = new CanoDialogNode({
         title_html: "Monitor",
         outer_css: params.layout_css,
-        body_html: $list
+        body_node: sensorListNode
     }).get$();
 }
