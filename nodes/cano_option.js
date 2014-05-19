@@ -3,7 +3,7 @@
  *
  *  Required Parameters:
  *
- *      items: <object>
+ *      items: [<object>, ...]
  *          List of items.  See below for details.
  *
  *  Optional Parameters:
@@ -31,8 +31,7 @@ function CanoOptionNode(origParams) {
     var self=this,
         $me,
         i,
-        numItems,
-        $items = [],
+        items = [],
         params;
 
     $.extend(this, new CanoNode());
@@ -50,29 +49,51 @@ function CanoOptionNode(origParams) {
     }
 
     this.onLive = function() {
-        for (i = 0; i < numItems; i++) {
-            $items[i].off('click').on('click', function(idx) {
-                return function() {
-                    select(idx);
-                }(i);
-            }
+        this.refresh();
+        /* TODO: call node.onLive for each child node */
+    }
+
+    this.setItems = function(newItems) {
+        items.length = 0;
+        $me.html("");
+        for (i = 0; i < newItems.length; i++) {
+            var $item = $("<div>");
+            $item.html(newItems[i].html);
+            // TODO: handle node
+            $item.addClass(params.normalClass);
+            $me.append($item);
+
+            items.push({
+                $item: $item,
+                html: newItems[i].html,
+                node: newItems[i].node,
+                value: newItems[i].value
+            });
         }
+        this.refresh();
     }
 
     var select = function(idx) {
-        alert("item " + idx + " selected");
+        for (i = 0; i < items.length; i++) {
+            items[i].$item.toggleClass(params.normalClass, (i != idx))
+            items[i].$item.toggleClass(params.selectedClass, (i == idx))
+        }
+        params.onSelect(idx, items[idx]);
+    }
+
+    this.refresh = function() {
+        for (i = 0; i < items.length; i++) {
+            items[i].$item.off('click').on('click', 
+                (function(idx) {
+                    return function() {
+                        select(idx);
+                    }
+                }(i))
+            );
+        }
     }
 
     $me = $("<div>")
         .addClass(params.outerClass);
-
-    numItems = params.items.length;
-    for (i = 0; i < numItems; i++) {
-        var $item = $("<div>");
-        $item.html(params.items[i].html);
-        // TODO: handle node
-        $item.addClass(params.normalClass);
-        $items.push($item);
-        $me.append($item);
-    }
+    this.setItems(params.items);
 }

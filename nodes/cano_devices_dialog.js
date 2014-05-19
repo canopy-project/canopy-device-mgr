@@ -16,6 +16,7 @@ function CanoDevicesDialogNode(origParams) {
     var self=this,
         $me,
         $list,
+        optionNode,
         params
     ;
 
@@ -35,19 +36,33 @@ function CanoDevicesDialogNode(origParams) {
 
     this.refresh = function() {
         params.canopy_client.fetchDevices(function(device) {
-            $list.html("")
+            items = [];
             var length = device.devices.length;
             for (var i = 0; i < length ; i++) {
-                $list.append("<div>" + device.devices[i].friendly_name + "</div>");
+                items.push({
+                    html: device.devices[i].friendly_name,
+                    value: device.devices[i]
+                });
             }
+            optionNode.setItems(items);
         });
     }
 
     $list = $("<div>");
 
+    optionNode = new CanoOptionNode({
+        items: [],
+        normalClass: "cano-device-item",
+        selectedClass: "cano-device-item-selected",
+
+        onSelect: function(idx, item) {
+            console.log(item);
+        }
+    })
+
     $me = new CanoDialogNode({
         title_html: "Devices",
         outer_css: params.layout_css,
-        body_html: $list
+        body_node: optionNode
     }).get$();
 }

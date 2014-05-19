@@ -138,6 +138,17 @@ td {
     color: #3060a0;
     margin-left: 24px;
 }
+.cano-device-item {
+    cursor: pointer;
+}
+.cano-device-item:hover {
+    color: #3060a0;
+    cursor: pointer;
+}
+.cano-device-item-selected {
+    font-weight: 700;
+    cursor: pointer;
+}
 .cano-sidebar {
     border-top: 10px solid #dcdad8;
     position: fixed;
