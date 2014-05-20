@@ -40,13 +40,15 @@ function CanoPlotNode(origParams)
         var options = {
             title: 'Sensor data',
             legend: { position: 'none' },
-            chartArea : {left: 24, top: 24, width: '100%', height: '80%'},
+            /*chartArea : {left: 24, top: 24, width: '100%', height: '80%'},*/
+            chartArea : {left: 50, top: 25, width: '80%', height: '70%'},
             height: 300,
+            width: "100%",
             fontName : "Source Sans Pro",
             backgroundColor: '#f8f6f4',
         };
 
-        var chart = new google.visualization.LineChart($me[0]);
+        var chart = new google.visualization.AreaChart($me[0]);
         chart.draw(data, options);
     }
 
