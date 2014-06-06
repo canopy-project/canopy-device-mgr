@@ -22,7 +22,8 @@ function CanopyDispatcher(canopy) {
             this.switchTo(new CanoLoginPageNode(canopy, self));
         }
         else if (pageName == "main") {
-            this.switchTo(new CanoMainPageNode(canopy, self));
+            //this.switchTo(new CanoMainPageNode(canopy, self));
+            this.switchTo(new CanoFanDemoPageNode(canopy, self));
         }
     }
 }

@@ -119,6 +119,27 @@ function CanopyClient() {
                 onError();
         });
     }
+
+    this.setControlValue = function(deviceId, controlName, value, onSuccess, onError) {
+        obj = {}
+        obj[controlName] = value
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/device/" + deviceId,
+            data: JSON.stringify(obj),
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function() {
+            onSuccess();
+        })
+        .fail(function() {
+            onError();
+        });
+    }
 }
 
 /*
