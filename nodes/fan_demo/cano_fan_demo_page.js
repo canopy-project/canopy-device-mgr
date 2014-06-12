@@ -22,8 +22,24 @@ function CanoFanDemoPageNode(canopy, dispatcher) {
                 }
             );
         });
-        $("#onbtn").off('click').on('click', function() {
+        $("#slowbtn").off('click').on('click', function() {
             canopy.setControlValue(FAN_DEVICE_ID, "speed", 1, 
+                function() {}, 
+                function() {
+                    alert("Failed to set fan speed!");
+                }
+            );
+        });
+        $("#medbtn").off('click').on('click', function() {
+            canopy.setControlValue(FAN_DEVICE_ID, "speed", 2,
+                function() {}, 
+                function() {
+                    alert("Failed to set fan speed!");
+                }
+            );
+        });
+        $("#fastbtn").off('click').on('click', function() {
+            canopy.setControlValue(FAN_DEVICE_ID, "speed", 3,
                 function() {}, 
                 function() {
                     alert("Failed to set fan speed!");
@@ -35,7 +51,9 @@ function CanoFanDemoPageNode(canopy, dispatcher) {
     $content = $("\
     <img src=http://www.canopy.link/shutterstock_82034455_fan_h175.jpg></img>\
     <div id=offbtn class=btn>OFF</div>\
-    <div id=onbtn class=btn>ON</div>\
+    <div id=slowbtn class=btn>SLOW</div>\
+    <div id=medbtn class=btn>MEDIUM</div>\
+    <div id=fastbtn class=btn>FAST</div>\
     ");
 
     $me = $("<div style'width:100%;'>");
