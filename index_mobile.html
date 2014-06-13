@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 
 <style>
 .ui-slider-input {
@@ -36,6 +38,26 @@ $(document).ready(function() {
             $("#fan_speed_title").html("Fan Speed: Fast");
     });
 });
+
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+            ['Year', 'Sales', 'Expenses'],
+            ['2004',  1000,      400],
+            ['2005',  1170,      460],
+            ['2006',  660,       1120],
+            ['2007',  1030,      540]
+            ]);
+
+    var options = {
+        title: 'Company Performance'
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
+
 </script>
 </head>
 <body>
@@ -133,7 +155,7 @@ $(document).ready(function() {
 
         <ul data-role='listview' data-inset='true'>
             <li> 
-                <a href="#hihi">
+                <a href="#temp_page">
                     Temperature: 26&deg;c
                 </a>
             </li>
@@ -146,13 +168,12 @@ $(document).ready(function() {
 
         <ul data-role='listview' data-inset='true'>
             <li> 
-                <a href="#hihi">
+                <a href="#share_page">
                     Share this device
                 </a>
             </li>
         </ul>
-
-
+        
     </div>
 
     <div data-role="footer">
@@ -160,6 +181,63 @@ $(document).ready(function() {
     </div>
 </div>
 
+
+<div data-role="page" id="temp_page">
+    <div data-role="header">
+        <a href="#" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left" data-rel="back">Back</a>
+        <h1>Smart Fan - Temperature</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <div id="chart_div"></div>
+    </div>
+
+    <div data-role="footer">
+        <h1>Signed in as greg</h1>
+    </div>
+</div>
+
+<div data-role="page" id="share_page">
+    <div data-role="header">
+        <a href="#" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left" data-rel="back">Back</a>
+        <h1>Share Smart Fan</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        By sharing, you allow the recipient to monitor and/or control this device.
+        <form id=form1>
+            <div class="ui-field-contain">
+                <input type="text" name="email" id="email" placeholder="recipient's email">
+
+                <fieldset data-role="collapsible">
+                    <legend>Permission Settings</legend>
+                    <fieldset data-role="controlgroup">
+                    <legend><h3>Access Level</h3></legend>
+                    <label for="monitor_only">Monitor Only</label>
+                    <input type="radio" name="gender" id="monitor_only" value="1">
+                    <label for="monitor_and_control">Monitor and Control</label>
+                    <input type="radio" name="gender" id="monitor_and_control" value="2" checked=checked> 
+                    </fieldset>
+
+                    <fieldset data-role="controlgroup">
+                    <legend><h3>Sharing Rights</h3></legend>
+                    <label for="no_share">Cannot share with others</label>
+                    <input type="radio" name="sharing" id="no_share" value="1">
+                    <label for="share_only">May share with others</label>
+                    <input type="radio" name="sharing" id="share_only" value="2" checked=checked> 
+                    <label for="share_and_revoke">Device owner - can both share and revoke others' access</label>
+                    <input type="radio" name="sharing" id="share_and_revoke" value="3"> 
+                    </fieldset>
+                </fieldset>
+                <input type="submit" id="submit" data-inline=false value="Share">
+            </div>
+        </form>
+    </div>
+
+    <div data-role="footer">
+        <h1>Signed in as greg</h1>
+    </div>
+</div>
 </body>
 </html>
 
