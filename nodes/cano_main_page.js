@@ -28,7 +28,7 @@ function CanoMainPageNode(canopy, dispatcher) {
         if (params["share_device"]) {
             var deviceId = params["share_device"];
             canopy.finishShareTransaction(deviceId, function(data) {
-                messageBarNode.setHTML("You have been given access to " + data['device_friendly_name']);
+                messageBarNode.setHTML("You have been given access to <b>" + data['device_friendly_name'] + "</b>");
                 messageBarNode.show();
 
                 // remove query string

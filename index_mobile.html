@@ -1,26 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+<style>
+.ui-slider-input {
+    display : none !important;
+}
+.ui-slider-track {
+    margin: 0 35px 0 35px;
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    $("#form1").submit(function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        alert('hi');
+    });
+
+    $("#fan_speed").change(function() {
+        var val = $("#fan_speed_val").val();
+        if (val == 0)
+            $("#fan_speed_title").html("Fan Speed: Off");
+        if (val == 1)
+            $("#fan_speed_title").html("Fan Speed: Slow");
+        if (val == 2)
+            $("#fan_speed_title").html("Fan Speed: Medium");
+        if (val == 3)
+            $("#fan_speed_title").html("Fan Speed: Fast");
+    });
+});
+</script>
 </head>
 <body>
 
-<div data-role="page">
-<div data-role="header">
-<h1>Welcome To My Homepage</h1>
+<div data-role="page" id="login_page">
+    <div data-role="header">
+    </div>
+    <div style='background:#ffffff; text-align:center; border-bottom:1px solid #808080;'>
+        <img src='http://canopy.link/canopy_logo.jpg'></img>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <b>Canopy</b> is a secure platform for monitoring, controlling, and sharing physical devices.
+        <a href="#devices_page">Devices</a>
+
+        <form id=form1>
+            <div class="ui-field-contain">
+                <input type="text" name="username" id="username" placeholder="username">
+                <input type="password" name="password" id="password" placeholder="password">
+                <input type="submit" id="submit" data-inline=false value="Login">
+            </div>
+        </form>
+
+        <h2>New to Canopy?</h2>
+        Sign up for free:
+        <form method="post" action="join">
+            <div class="ui-field-contain">
+                <input type="text" name="username" id="username2" placeholder="username">
+                <input type="text" name="email" id="email2" placeholder="email">
+                <input type="password" name="password" id="password2" placeholder="password">
+                <div id=foobar>
+                    <input type="password" name="confirmpassword" id="confirmpassword2" placeholder="confirm password">
+                </div>
+                <input type="submit" data-inline=false value="Sign Up">
+            </div>
+        </form>
+    </div>
+
+    <div data-role="footer">
+    <h1>Learn more at <a target=_blank href=http://canopy.link>http://canopy.link</a></h1>
+    </div>
 </div>
 
-<div data-role="main" class="ui-content">
-<p>I Am Now A Mobile Developer!!</p>
+<div data-role="page" id="devices_page">
+    <div data-role="header">
+        <h1>My Devices</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#devices_page" class=ui-btn-active>All (1)</a></li>
+                <li><a href="#devices_page">Online (1)</a></li>
+                <li><a href="#devices_page">Offline (0)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div data-role="main" class='ui-content'>
+        <ul data-role="listview" data-inset="true">
+            <li>
+                <a href="#fan_page">
+                    <img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" style='border-right:1px solid #d8d8d8'></img>
+                    <br>SmartFan
+                </a>
+            </li>
+            <li>
+                <a href="#fan_page">
+                    <img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" style='border-right:1px solid #d8d8d8'></img>
+                    <br><span style="color:#b8b8b8">Greg's Computer</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div data-role="footer">
+    <h1>Signed in as greg</h1>
+    </div>
 </div>
 
-<div data-role="footer">
-<h1>Footer Text</h1>
+<div data-role="page" id="fan_page">
+    <div data-role="header">
+        <a href="#" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left" data-rel="back">Back</a>
+        <h1>SmartFan</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <center><img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" height=100 style='box-shadow:4px 4px 10px #808080'></img></center>
+
+        <div data-role="controlgroup" data-type="vertical">
+            <h3 id=fan_speed_title>Fan Speed: </h3>
+            <form method="post" action="demoform.asp">
+                <div id="fan_speed">
+                    <input type="range" name="fan_speed_val" id="fan_speed_val" value="0" min="0" max="3" data-highlight=true>
+                </div>
+            </form>
+        </div>
+
+        <ul data-role='listview' data-inset='true'>
+            <li> 
+                <a href="#hihi">
+                    Temperature: 26&deg;c
+                </a>
+            </li>
+            <li> 
+                <a href="#hihi">
+                    Humidity: 54%
+                </a>
+            </li>
+        </ul>
+
+        <ul data-role='listview' data-inset='true'>
+            <li> 
+                <a href="#hihi">
+                    Share this device
+                </a>
+            </li>
+        </ul>
+
+
+    </div>
+
+    <div data-role="footer">
+        <h1>Signed in as greg</h1>
+    </div>
 </div>
-</div> 
 
 </body>
 </html>

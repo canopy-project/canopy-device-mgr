@@ -12,6 +12,9 @@ function CanoMessageBarNode(origParams) {
     }
 
     this.onLive = function() {
+        $x.off('click').on('click', function() {
+            self.hide();
+        });
     }
 
     this.show = function() {
@@ -26,9 +29,11 @@ function CanoMessageBarNode(origParams) {
 
     this.setHTML = function(msg) {
         $msg.html(msg);
+        $msg.append($x);
         return self;
     }
 
+    $x = $("<div class=cano-message-bar-close-button>X</div>");
     $msg = $("<div class=center_channel></div>");
     $me = $("<div class=cano-message-bar style='display:none'></div>");
     $me.append($msg);

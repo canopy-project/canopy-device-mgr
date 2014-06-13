@@ -92,7 +92,7 @@ function CanopyClient() {
         })
         .done(function(data, textStatus, jqXHR) {
             if (onSuccess != null)
-                onSuccess(data);
+                onSuccess(data.devices);
         })
         .fail(function() {
             if (onError != null)
@@ -214,6 +214,23 @@ function CanopyClient() {
         ]
     }
 */
+
+/* 
+ * returns list: [#TOTAL, #CONNECTED, #OFFLINE]
+ */
+function CanopyUtil_DeviceCounts(deviceObjs) {
+    var numDevices = deviceObjs.length;
+    var out = [numDevices, 0, 0];
+    for (var i = 0; i < numDevices; i++) {
+        if (deviceObjs[i].connected) {
+            out[1]++;
+        }
+        else {
+            out[2]++;
+        }
+    }
+    return out;
+}
 
 function CanopyUtil_GetDeviceControls(deviceObj) {
     var cls = deviceObj.device_class

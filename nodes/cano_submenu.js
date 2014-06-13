@@ -1,6 +1,7 @@
 
 function CanoSubmenuNode(canopy, dispatcher) {
-    var $me;
+    var $me,
+        self=this;
 
     $.extend(this, new CanoNode());
 
@@ -15,18 +16,27 @@ function CanoSubmenuNode(canopy, dispatcher) {
         $("#app_temp").off("click").on("click", function() {
             dispatcher.showPage("temp");
         });
-        this.refresh();
+        this.refresh(false);
     }
 
-    this.refresh = function() {
-        canopy.getLoggedInUsername(function(username) {
-            $("#topbar_username").html("<b>" + username + "</b>");
-            $("#topbar_username").off('click').on('click', function() {
-                canopy.logout(function() {
-                    dispatcher.showPage("login");
-                });
-            })
+    this.refresh = function(devicesOnly) {
+        canopy.fetchDevices(function(devices) {
+            var counts = CanopyUtil_DeviceCounts(devices);
+            $("#total_count").html(counts[0]);
+            $("#online_count").html(counts[1]);
+            $("#offline_count").html(counts[2]);
+            setTimeout(function(){self.refresh(true);}, 5000);
         });
+        if (!devicesOnly) {
+            canopy.getLoggedInUsername(function(username) {
+                $("#topbar_username").html("<b>" + username + "</b>");
+                $("#topbar_username").off('click').on('click', function() {
+                    canopy.logout(function() {
+                        dispatcher.showPage("login");
+                    });
+                })
+            });
+        }
     }
 
 
@@ -36,9 +46,9 @@ function CanoSubmenuNode(canopy, dispatcher) {
         <div class='cano-topbar-account big'>\
             <div class=cano-submenu-item2>Dashboard</div>\
         </div>\
-        <div class=cano-submenu-item style='margin-right:30px'><div class=big><b>1</b></div><div class=s>devices</div></div>\
-        <div class=cano-submenu-item style='margin-right:30px'><div class=big><b>1</b></div><div class=s><div class=green_bullet>&#9899;</div>connected</div></div>\
-        <div class=cano-submenu-item><div class=big><b>0</b></div><div class=s><div class=red_bullet>&#9899;</div>offline</div></div>\
+        <div class=cano-submenu-item style='margin-right:30px'><div class=big id=total_count><b>-</b></div><div class=s>devices</div></div>\
+        <div class=cano-submenu-item style='margin-right:30px'><div class=big id=online_count><b>-</b></div><div class=s><div class=green_bullet>&#9899;</div>connected</div></div>\
+        <div class=cano-submenu-item><div class=big id=offline_count><b>-</b></div><div class=s><div class=red_bullet>&#9899;</div>offline</div></div>\
     </div>\
 </div>\
 <br>\

@@ -93,7 +93,6 @@ body {
 .cano-topbar-account {
     float: right;
     margin-top: 3px;
-    margin-right: 32px;
     font-size: 16px;
 }
 .code {
@@ -399,6 +398,14 @@ a.logo:hover
     padding: 16px;
     border-radius: 5px;
     color: #000000;
+}
+.cano-message-bar-close-button
+{
+    float: right;
+    display: inline-block;
+    font-family: monospace;
+    font-weight: 700;
+    cursor: pointer;
 }
 .warning_bar
 {
