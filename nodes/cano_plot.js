@@ -2,6 +2,7 @@ function CanoPlotNode(origParams)
 {
     var self=this,
         $me,
+        params,
         dataArray = []
     ;
 
@@ -24,28 +25,40 @@ function CanoPlotNode(origParams)
             "Time",
             "Value"
         ])
-        for (i = 0; i < samples.length; i++) {
-            dataArray.push([
-                samples[i].t,
-                samples[i].v
-            ])
+        for (i = 1; i < samples.length; i++) {
+            t0 = Date.parse(samples[i-1].t);
+            t1 = Date.parse(samples[i].t);
+            if (t1 - t0 > 200000)
+            {
+                dataArray.push([
+                    new Date(t0),
+                    null
+                ]);
+                dataArray.push([
+                    new Date(t1),
+                    null
+                ]);
+            }
+            else
+            {
+                dataArray.push([
+                    new Date(t1),
+                    samples[i].v
+                ]);
+            }
         }
-        drawChart();
-        window.onresize = drawChart;
+        this.drawChart();
     }
 
-    drawChart = function() {
+    this.drawChart = function() {
         var data = google.visualization.arrayToDataTable(dataArray);
 
         var options = {
-            title: 'Sensor data',
+            title: params.title,
             legend: { position: 'none' },
-            /*chartArea : {left: 24, top: 24, width: '100%', height: '80%'},*/
-            chartArea : {left: 50, top: 25, width: '80%', height: '70%'},
-            height: 300,
-            width: "100%",
             fontName : "Source Sans Pro",
             backgroundColor: '#f8f6f4',
+            hAxis: {format: "h:mm a"}
         };
 
         var chart = new google.visualization.AreaChart($me[0]);
@@ -54,5 +67,6 @@ function CanoPlotNode(origParams)
 
     $me = $("<div>");
 }
+
 
 google.load("visualization", "1", {packages:["corechart"]});

@@ -45,7 +45,7 @@ function CanoDeviceControlsDialogNode(origParams) {
                     $body.append("<input type=submit value='" + propname + "'></input>" + "<BR>");
                 }
                 else {
-                    $boddy.append(propname  + ": <input type=text></input>" + property.description + "<input type=submit value=apply></input><BR>");
+                    $body.append(propname  + ": <input type=text></input>" + property.description + "<input type=submit value=apply></input><BR>");
                 }
             }
         });

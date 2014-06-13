@@ -1,6 +1,8 @@
 function CanoMainPageNode(canopy, dispatcher) {
     var $me,
         topbarNode,
+        submenuNode,
+        messageBarNode,
         devicesNode,
         deviceEventsNode,
         deviceSensorsNode,
@@ -15,76 +17,40 @@ function CanoMainPageNode(canopy, dispatcher) {
 
     this.onLive = function() {
         topbarNode.onLive();
-        devicesNode.onLive();
-        deviceEventsNode.onLive();
-        deviceSensorsNode.onLive();
-        deviceControlsNode.onLive();
+        submenuNode.onLive();
+        //devicesNode.onLive();
+        //deviceEventsNode.onLive();
+        //deviceSensorsNode.onLive();
+        //deviceControlsNode.onLive();
+
+        /* Finish any pending share transactions */
+        var params = CanopyUtil_GetURLParams();
+        if (params["share_device"]) {
+            var deviceId = params["share_device"];
+            canopy.finishShareTransaction(deviceId, function(data) {
+                messageBarNode.setHTML("You have been given access to " + data['device_friendly_name']);
+                messageBarNode.show();
+
+                // remove query string
+                if (window.history.replaceState) {
+                    var uri = window.location.toString();
+                    if (uri.indexOf("?") > 0) {
+                        var clean_uri = uri.substring(0, uri.indexOf("?"));
+                        window.history.replaceState({}, document.title, clean_uri);
+                    }
+                }
+                // success
+            }, function() {
+                messageBarNode.setHTML("Oops!  We can't give you access to " + deviceId);
+                messageBarNode.show();
+            });
+        }
     }
 
     $me = $("<div style'width:100%;'>");
 
     topbarNode = new CanoTopbarNode(canopy, dispatcher).appendTo($me);
-
-    devicesNode = new CanoDevicesDialogNode({
-        canopy_client: canopy,
-        layout_css: {
-            position: "absolute", 
-            left: "0px",
-            top: "40px",
-            width: "216px",
-            bottom: "0px",
-            margin: "16px",
-            overflow: "auto"
-        },
-        onSelect: function(device) {
-            console.log("device");
-            console.log(device);
-            console.log(device.device_id);
-
-            deviceSensorsNode.update(device.device_id, device.device_class);
-        }
-    }).appendTo($me);
-
-    deviceControlsNode = new CanoDeviceControlsDialogNode({
-        canopy_client: canopy,
-        layout_css: {
-            position: "absolute", 
-            left: "248px",
-            top: "40px",
-            right: "328px",
-            bottom: "60%",
-            margin: "16px",
-            marginLeft: "0px",
-            marginBottom: "0px",
-            overflow: "auto"
-        }
-    }).appendTo($me);
-
-    deviceSensorsNode = new CanoDeviceSensorsDialogNode({
-        canopy_client: canopy,
-        layout_css: {
-            position: "absolute", 
-            left: "248px",
-            top: "40%",
-            right: "328px",
-            bottom: "0px",
-            margin: "16px",
-            marginLeft: "0px",
-            overflow: "auto"
-        }
-    }).appendTo($me);
-
-    deviceEventsNode = new CanoDeviceEventsDialogNode({
-        canopy_client: canopy,
-        layout_css: {
-            position: "absolute", 
-            right: "0px",
-            bottom: "0px",
-            top: "40px",
-            width: "312px",
-            margin: "16px",
-            overflow: "auto"
-        }
-    }).appendTo($me);
+    messageBarNode = new CanoMessageBarNode({}).appendTo($me);
+    submenuNode = new CanoSubmenuNode(canopy, dispatcher).appendTo($me);
 
 }

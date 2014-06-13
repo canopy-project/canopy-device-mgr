@@ -104,7 +104,7 @@ function CanopyClient() {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://canopy.link:8080/devices/" + deviceId + "/" + sensorName + "/data",
+            url: "http://canopy.link:8080/device/" + deviceId + "/" + sensorName,
             xhrFields: {
                  withCredentials: true
             },
@@ -135,6 +135,51 @@ function CanopyClient() {
         })
         .done(function() {
             onSuccess();
+        })
+        .fail(function() {
+            onError();
+        });
+    }
+
+    this.share = function(deviceId, recipientEmail, accessLevel, shareLevel, onSuccess, onError) {
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/share",
+            data: JSON.stringify( {
+                device_id : deviceId, 
+                email: recipientEmail,
+                access_level: accessLevel,
+                sharing_level: shareLevel}),
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function() {
+            onSuccess();
+        })
+        .fail(function() {
+            onError();
+        });
+    }
+
+    this.finishShareTransaction = function(deviceId, onSuccess, onError) {
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/finish_share_transaction",
+            data: JSON.stringify( {
+                device_id : deviceId
+            }),
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function(data, textStatus, jqXHR) {
+            if (onSuccess != null)
+                onSuccess(data);
         })
         .fail(function() {
             onError();
@@ -181,6 +226,16 @@ function CanopyUtil_GetDeviceControls(deviceObj) {
             }
         }
     }
+}
+
+function CanopyUtil_GetURLParams() {
+    var params = [];
+    var query = location.search.slice(1).split('&');
+    $.each(query, function(i, value) {
+        var token = value.split('=');
+        params[decodeURIComponent(token[0])] = decodeURIComponent(token[1]);
+    });
+    return params;
 }
 
 function CanopyUtil_Compose(segments) {

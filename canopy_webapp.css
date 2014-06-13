@@ -136,7 +136,6 @@ td {
     font-family: "ABeeZee";
     font-size: 25px;
     color: #3060a0;
-    margin-left: 24px;
 }
 .cano-device-item {
     cursor: pointer;
@@ -166,10 +165,68 @@ a.cano-sidebar-item {
 .cano-topbar {
     padding-top: 4px;
     padding-bottom: 4px;
+    border-bottom: 1px solid #dcdad8;
     width: 100%;
-    height: 30px;
     z-index: 100;
     background: #f0eeec;
+}
+.cano-submenu {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #dcdad8;
+    width: 100%;
+    z-index: 100;
+    background: #ffffff;
+}
+.cano-submenu-item {
+    display: inline-block;
+    font-size: 24px;
+    text-align: center;
+}
+.appouter{
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin-right:40px;
+}
+.appname{
+    padding-top:8px;
+    font-weight: bold;
+}
+.appbox{
+    width:150px;
+    height:150px;
+    box-shadow: 5px 5px 10px #888888;
+    border-radius:8px;
+    padding:8px;
+    cursor: pointer;
+}
+.cano-submenu-item1 {
+    display: inline-block;
+    font-size: 35px;
+    margin-right:40px;
+    text-align: center;
+    padding-bottom:30px;
+}
+.cano-submenu-item2 {
+    display: inline-block;
+    font-size: 35px;
+    margin-right:40px;
+    text-align: center;
+    border-bottom: 4px solid #c00000;
+    padding-bottom:30px;
+}
+.green_bullet {
+    display: inline-block;
+    color: #00c000;
+    position: relative;
+    top:1px;
+}
+.red_bullet {
+    display: inline-block;
+    color: #c00000;
+    position: relative;
+    top:1px;
 }
 .main-section {
     width: 100%;
@@ -335,6 +392,13 @@ a.logo:hover
     background: #f8f6f4;
     padding: 16px;
     padding-top: 8px;
+}
+.cano-message-bar
+{
+    background: #ffff80;
+    padding: 16px;
+    border-radius: 5px;
+    color: #000000;
 }
 .warning_bar
 {
