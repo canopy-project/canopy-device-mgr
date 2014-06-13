@@ -81,6 +81,19 @@ $(document).ready(function() {
         $.mobile.changePage("#login_page");
     });
     
+    $("#devices_page").on("pagebeforeshow", function() {
+        // load device data
+        gCanopy.fetchDevices(function(deviceObjs) {
+            var counts = CanopyUtil_DeviceCounts(deviceObjs);
+            $(".placeholder_all_devices_count").html("All (" + counts[0] + ")");
+            $(".placeholder_online_devices_count").html("Online (" + counts[1] + ")");
+            $(".placeholder_offline_devices_count").html("Offline (" + counts[2] + ")");
+        },
+        function() {
+            // on error
+            alert("oops.. couldn't get device list!")
+        });
+    });
 
     $("#login_form").submit(function(event) {
         event.stopPropagation();
@@ -174,9 +187,9 @@ function drawChart() {
         <h1>My Devices</h1>
         <div data-role="navbar">
             <ul>
-                <li><a href="#devices_page" class=ui-btn-active>All (1)</a></li>
-                <li><a href="#devices_page">Online (1)</a></li>
-                <li><a href="#devices_page">Offline (0)</a></li>
+                <li><a href="#devices_page" class="placeholder_all_devices_count ui-btn-active">All</a></li>
+                <li><a href="#devices_page" class=placeholder_online_devices_count >Online</a></li>
+                <li><a href="#devices_page" class=placeholder_offline_devices_count>Offline</a></li>
             </ul>
         </div>
     </div>
