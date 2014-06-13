@@ -6,6 +6,7 @@
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="client/canopy_client.js"></script>
 
 
 <style>
@@ -18,14 +19,82 @@
 </style>
 
 <script>
+var gCanopy = new CanopyClient();
+
+
+function logout() {
+    gCanopy.logout();
+    $(".placeholder_username").html("-");
+    $.mobile.changePage("#login_page");
+}
+
+function login() {
+    var username = $("#login_username").val();
+    var password = $("#login_password").val();
+    gCanopy.login(username, password, function() {
+        // on success
+        $(".placeholder_username").html(username);
+        $.mobile.changePage("#devices_page");
+    },
+    function() {
+        // on error
+        alert("Could not log in");
+        $(".placeholder_username").html("-");
+        $.mobile.changePage("#login_page");
+    });
+}
+
+function createAccount() {
+    var username = $("#create_account_username").val();
+    var email = $("#create_account_email").val();
+    var password = $("#create_account_password").val();
+    var passwordConfirm = $("#create_account_password_confirm").val();
+    gCanopy.createAccount(username, email, password, passwordConfirm, function() {
+        // on success
+        gCanopy.login(username, password, function() {
+            // on success
+            $(".placeholder_username").html(username);
+            $.mobile.changePage("#devices_page");
+        },
+        function() {
+            // on error
+            alert("Could not log in");
+            $(".placeholder_username").html("-");
+            $.mobile.changePage("#login_page");
+        });
+    },
+    function() {
+        // on error
+        alert("Could not create account");
+        $(".placeholder_username").html("-");
+        $.mobile.changePage("#login_page");
+    });
+}
+
 $(document).ready(function() {
-    $("#form1").submit(function(event) {
+    gCanopy.getLoggedInUsername(function(username) {
+        $.mobile.changePage("#devices_page");
+        $(".placeholder_username").html(username);
+    },
+    function() {
+        // not logged in
+        $.mobile.changePage("#login_page");
+    });
+    
+
+    $("#login_form").submit(function(event) {
         event.stopPropagation();
         event.preventDefault();
 
-        alert('hi');
+        login();
     });
 
+    $("#create_account_form").submit(function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        createAccount();
+    });
     $("#fan_speed").change(function() {
         var val = $("#fan_speed_val").val();
         if (val == 0)
@@ -71,25 +140,24 @@ function drawChart() {
 
     <div data-role="main" class="ui-content">
         <b>Canopy</b> is a secure platform for monitoring, controlling, and sharing physical devices.
-        <a href="#devices_page">Devices</a>
 
-        <form id=form1>
+        <form id=login_form>
             <div class="ui-field-contain">
-                <input type="text" name="username" id="username" placeholder="username">
-                <input type="password" name="password" id="password" placeholder="password">
+                <input type="text" id="login_username" placeholder="username">
+                <input type="password" id="login_password" placeholder="password">
                 <input type="submit" id="submit" data-inline=false value="Login">
             </div>
         </form>
 
         <h2>New to Canopy?</h2>
         Sign up for free:
-        <form method="post" action="join">
+        <form id=create_account_form>
             <div class="ui-field-contain">
-                <input type="text" name="username" id="username2" placeholder="username">
-                <input type="text" name="email" id="email2" placeholder="email">
-                <input type="password" name="password" id="password2" placeholder="password">
+                <input type="text" id="create_account_username" placeholder="username">
+                <input type="text" id="create_account_email" placeholder="email">
+                <input type="password" id="create_account_password" placeholder="password">
                 <div id=foobar>
-                    <input type="password" name="confirmpassword" id="confirmpassword2" placeholder="confirm password">
+                    <input type="password" id="create_account_password_confirm" placeholder="confirm password">
                 </div>
                 <input type="submit" data-inline=false value="Sign Up">
             </div>
@@ -131,7 +199,11 @@ function drawChart() {
     </div>
 
     <div data-role="footer">
-    <h1>Signed in as greg</h1>
+    <h1>
+        Signed in as <span class=placeholder_username></span>
+        <br>
+        <a href="javascript:logout();" class="ui-btn ui-corner-all ui-shadow" style="top:-2px;" data-rel="logout">Logout</a>
+    </h1>
     </div>
 </div>
 

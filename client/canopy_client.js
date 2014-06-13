@@ -31,8 +31,13 @@ function CanopyClient() {
             },
             crossDomain: true
         })
-        .done(function() {
-            onSuccess();
+        .done(function(data, textStatus, jqXHR) {
+            if (data['success'] === true) {
+                onSuccess();
+            }
+            else {
+                onError();
+            }
         })
         .fail(function() {
             onError();
