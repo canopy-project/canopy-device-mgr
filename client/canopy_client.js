@@ -237,17 +237,34 @@ function CanopyUtil_DeviceCounts(deviceObjs) {
     return out;
 }
 
+/*
+ * Returns object: {<control_name> : <definition>}
+ */
 function CanopyUtil_GetDeviceControls(deviceObj) {
-    var cls = deviceObj.device_class
-    for (var propname in cls) {
-        if (cls.hasOwnProperty(propname)) {
-            for (var field in cls[propname]) {
-                if (cls[propname].hasOwnProperty(field)) {
-                    alert(field + " -> " + cls[propname][field]);
-                }
-            }
+    var cls = deviceObj.sddl_class;
+    var out = {};
+    for (var propDef in cls) {
+        if (propDef.substring(0, 8) == "control ") {
+            var controlName = propDef.substring(8);
+            out[controlName] = propDef;
         }
     }
+    return out;
+}
+
+/*
+ * Returns object: {<sensor_name> : <definition>}
+ */
+function CanopyUtil_GetDeviceSensors(deviceObj) {
+    var cls = deviceObj.sddl_class;
+    var out = {};
+    for (var propDef in cls) {
+        if (propDef.substring(0, 7) == "sensor ") {
+            var sensorName = propDef.substring(7);
+            out[sensorName] = propDef;
+        }
+    }
+    return out;
 }
 
 function CanopyUtil_GetURLParams() {

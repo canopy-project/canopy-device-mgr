@@ -23,6 +23,7 @@ var gCanopy = new CanopyClient();
 var gDeviceObjs = {};
 var gDevicesByID = {};
 var gDevicePageID = null;
+var gUsername = null;
 
 
 function logout() {
@@ -111,6 +112,9 @@ function showDeviceList(deviceObjs, connectedness) {
 
 function showDevicePage(deviceId) {
     var device = gDevicesByID[deviceId];
+    var controls = CanopyUtil_GetDeviceControls(device);
+    var sensors = CanopyUtil_GetDeviceSensors(device);
+
     var $page = $("<div data-role=page data-url='device_" + deviceId + "'></div>");
 
     var $header = $("\
@@ -124,40 +128,59 @@ function showDevicePage(deviceId) {
 
     var $img = $("<center><img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' height=100 style='box-shadow:4px 4px 10px #808080'></img></center>").appendTo($body);
 
-    var $controlGroup = $("<div data-role='controlgroup'></div>").appendTo($body);
+    var $controlDiv; // hack
 
-    var $controlTitle = $("<h3>Fan Speed:</h3>").appendTo($controlGroup);
-    var $controlDiv = $("<form>").appendTo($controlGroup);
-    var $controlz = $("<input type='range' name=controlslider value='0' min='0' max='3' data-highlight=true></input>").appendTo($controlDiv);
+    for (var controlName in controls) {
+        if (controlName == "speed") {
+            var $controlGroup = $("<div data-role='controlgroup'></div>").appendTo($body);
+            var $controlTitle = $("<h3>Fan Speed:</h3>").appendTo($controlGroup);
+            $controlDiv = $("<form>").appendTo($controlGroup);
+            var $controlz = $("<input type='range' name=controlslider value='0' min='0' max='3' data-highlight=true></input>").appendTo($controlDiv);
+        }
+        else {
+            $("<b>" + controlName + "</b>").appendTo($body);
+        }
+    }
 
-    var $sensors = $("<div>\
-            <ul data-role='listview' data-inset='true'>\
+    var $sensors = $("<ul data-role='listview' data-inset='true'></ul>");
+    for (var sensorName in sensors) {
+        var sensorEnglish = sensorName;
+        if (sensorName == "temperature")
+            sensorEnglish = "Temperature";
+        if (sensorName == "humidity")
+            sensorEnglish = "Humidity";
+            
+        var $sensor = $("\
                 <li> \
                     <a href='#temp_page'>\
-                        Temperature: 26&deg;c\
+                        " + sensorEnglish + "\
                     </a>\
                 </li>\
-                <li> \
-                    <a href='#hihi'>\
-                        Humidity: 54%\
-                    </a>\
-                </li>\
-            </ul>\
-    \
-            <ul data-role='listview' data-inset='true'>\
-                <li> \
-                    <a href='#share_page'>\
-                        Share this device\
-                    </a>\
-                </li>\
-            </ul>\
+            ").appendTo($sensors);
+    }
+    $sensors.appendTo($body);
+
+    var $share = $("\
+        <ul data-role='listview' data-inset='true'>\
+            <li> \
+                <a href='#share_page'>\
+                    Share this device\
+                </a>\
+            </li>\
+        </ul>\
+    ").appendTo($body);
+
+    var $advanced = $("\
+        <div data-role='collapsible'>\
+            <legend>Advanced</legend>\
+            Device UUID: <code>" + device.device_id + "</code>\
         </div>\
     ").appendTo($body);
 
     var $footer = $("\
         <div data-role=footer>\
             <h1>\
-                Signed in as <span class=placeholder_username></span>\
+                Signed in as <span class=placeholder_username>" + gUsername + "</span>\
                 <br>\
                 <a href='javascript:logout();' class='ui-btn ui-corner-all ui-shadow' style='top:-2px;' data-rel='logout'>Logout</a>\
             </h1>\
@@ -191,6 +214,7 @@ $(document).ready(function() {
     gCanopy.getLoggedInUsername(function(username) {
         $.mobile.changePage('#devices_page');
         $('.placeholder_username').html(username);
+        gUsername = username;
     },
     function() {
         // not logged in
@@ -226,18 +250,6 @@ $(document).ready(function() {
             // on error
             alert("oops.. couldn't get device list!")
         });
-    });
-
-    $("#device_page").on("pagebeforeshow", function() {
-        var device = gDevicesByID[gDevicePageID]; // hacky way to pass data!
-        var x = "\
-        <div data-role=header>\
-            <a href='#' class='ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left' data-rel='back'>Back</a>\
-            <h1>" + device.friendly_name + "</h1>\
-        </div>\
-        ";
-        $("#device_page_content").html(x);
-        $("#device_page").page();
     });
 
     $("#login_form").submit(function(event) {
