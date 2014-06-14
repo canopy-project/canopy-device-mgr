@@ -71,6 +71,41 @@ function createAccount() {
     });
 }
 
+function showDeviceList(deviceObjs, connectedness) {
+    var numDevices = deviceObjs.length;
+    var x = "";
+
+    // connected devices
+    for (var i = 0; i < numDevices; i++) {
+        if (!deviceObjs[i].connected || connectedness == "offline")
+            continue;
+        x += "\
+        <li>\
+            <a href=#fan_page?id=" + deviceObjs[i].device_id + ">\
+                <img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' style='border-right:1px solid #d8d8d8'></img>\
+                <br>" + deviceObjs[i].friendly_name + "\
+            </a>\
+        </li>\
+        ";
+    }
+
+    // offline devices
+    for (var i = 0; i < numDevices; i++) {
+        if (deviceObjs[i].connected || connectedness == "online")
+            continue;
+        x += "\
+        <li>\
+            <a href=#fan_page?id=" + deviceObjs[i].device_id + ">\
+                <img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' style='border-right:1px solid #d8d8d8'></img>\
+                <br><span style='color:#d0d0d0'>" + deviceObjs[i].friendly_name + "</span>\
+            </a>\
+        </li>\
+        ";
+    }
+    $('#devices_list').html(x);
+    $('#devices_list').listview('refresh');
+}
+
 $(document).ready(function() {
     gCanopy.getLoggedInUsername(function(username) {
         $.mobile.changePage("#devices_page");
@@ -80,7 +115,19 @@ $(document).ready(function() {
         // not logged in
         $.mobile.changePage("#login_page");
     });
+
+    $("#submenu_all_devices").on("click", function() {
+        showDeviceList(gDeviceObjs, "all");
+    });
     
+    $("#submenu_online_devices").on("click", function() {
+        showDeviceList(gDeviceObjs, "online");
+    });
+
+    $("#submenu_offline_devices").on("click", function() {
+        showDeviceList(gDeviceObjs, "offline");
+    });
+
     $("#devices_page").on("pagebeforeshow", function() {
         // load device data
         gCanopy.fetchDevices(function(deviceObjs) {
@@ -88,6 +135,8 @@ $(document).ready(function() {
             $(".placeholder_all_devices_count").html("All (" + counts[0] + ")");
             $(".placeholder_online_devices_count").html("Online (" + counts[1] + ")");
             $(".placeholder_offline_devices_count").html("Offline (" + counts[2] + ")");
+            gDeviceObjs = deviceObjs;
+            showDeviceList(deviceObjs, "all");
         },
         function() {
             // on error
@@ -187,15 +236,15 @@ function drawChart() {
         <h1>My Devices</h1>
         <div data-role="navbar">
             <ul>
-                <li><a href="#devices_page" class="placeholder_all_devices_count ui-btn-active">All</a></li>
-                <li><a href="#devices_page" class=placeholder_online_devices_count >Online</a></li>
-                <li><a href="#devices_page" class=placeholder_offline_devices_count>Offline</a></li>
+                <li><a id=submenu_all_devices href="#devices_page" class="placeholder_all_devices_count ui-btn-active">All</a></li>
+                <li><a id=submenu_online_devices href="#devices_page" class=placeholder_online_devices_count >Online</a></li>
+                <li><a id=submenu_offline_devices href="#devices_page" class=placeholder_offline_devices_count>Offline</a></li>
             </ul>
         </div>
     </div>
 
     <div data-role="main" class='ui-content'>
-        <ul data-role="listview" data-inset="true">
+        <ul id=devices_list data-role="listview" data-inset="true">
             <li>
                 <a href="#fan_page">
                     <img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" style='border-right:1px solid #d8d8d8'></img>
@@ -289,13 +338,14 @@ function drawChart() {
     </div>
 
     <div data-role="main" class="ui-content">
-        By sharing, you allow the recipient to monitor and/or control this device.
+        By sharing, you allow the recipient to monitor, control and further share this device.
         <form id=form1>
             <div class="ui-field-contain">
                 <input type="text" name="email" id="email" placeholder="recipient's email">
 
                 <fieldset data-role="collapsible">
                     <legend>Permission Settings</legend>
+                    What should the recipient be allowed to do with the device?
                     <fieldset data-role="controlgroup">
                     <legend><h3>Access Level</h3></legend>
                     <label for="monitor_only">Monitor Only</label>
