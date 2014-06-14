@@ -20,6 +20,9 @@
 
 <script>
 var gCanopy = new CanopyClient();
+var gDeviceObjs = {};
+var gDevicesByID = {};
+var gDevicePageID = null;
 
 
 function logout() {
@@ -81,7 +84,7 @@ function showDeviceList(deviceObjs, connectedness) {
             continue;
         x += "\
         <li>\
-            <a href=#fan_page?id=" + deviceObjs[i].device_id + ">\
+            <a href='javascript:showDevicePage(\"" + deviceObjs[i].device_id + "\")'>\
                 <img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' style='border-right:1px solid #d8d8d8'></img>\
                 <br>" + deviceObjs[i].friendly_name + "\
             </a>\
@@ -95,7 +98,7 @@ function showDeviceList(deviceObjs, connectedness) {
             continue;
         x += "\
         <li>\
-            <a href=#fan_page?id=" + deviceObjs[i].device_id + ">\
+            <a href='javascript:showDevicePage(\"" + deviceObjs[i].device_id + "\")'>\
                 <img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' style='border-right:1px solid #d8d8d8'></img>\
                 <br><span style='color:#d0d0d0'>" + deviceObjs[i].friendly_name + "</span>\
             </a>\
@@ -106,17 +109,95 @@ function showDeviceList(deviceObjs, connectedness) {
     $('#devices_list').listview('refresh');
 }
 
+function showDevicePage(deviceId) {
+    var device = gDevicesByID[deviceId];
+    var $page = $("<div data-role=page data-url='device_" + deviceId + "'></div>");
+
+    var $header = $("\
+        <div data-role=header>\
+            <a href='#' class='ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left' data-rel='back'>Back</a>\
+            <h1>" + device.friendly_name + "</h1>\
+        </div>\
+    ").appendTo($page);
+
+    var $body = $("<div data-role='main' class='ui-content'></div>").appendTo($page);
+
+    var $img = $("<center><img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' height=100 style='box-shadow:4px 4px 10px #808080'></img></center>").appendTo($body);
+
+    var $controlGroup = $("<div data-role='controlgroup'></div>").appendTo($body);
+
+    var $controlTitle = $("<h3>Fan Speed:</h3>").appendTo($controlGroup);
+    var $controlDiv = $("<form>").appendTo($controlGroup);
+    var $controlz = $("<input type='range' name=controlslider value='0' min='0' max='3' data-highlight=true></input>").appendTo($controlDiv);
+
+    var $sensors = $("<div>\
+            <ul data-role='listview' data-inset='true'>\
+                <li> \
+                    <a href='#temp_page'>\
+                        Temperature: 26&deg;c\
+                    </a>\
+                </li>\
+                <li> \
+                    <a href='#hihi'>\
+                        Humidity: 54%\
+                    </a>\
+                </li>\
+            </ul>\
+    \
+            <ul data-role='listview' data-inset='true'>\
+                <li> \
+                    <a href='#share_page'>\
+                        Share this device\
+                    </a>\
+                </li>\
+            </ul>\
+        </div>\
+    ").appendTo($body);
+
+    var $footer = $("\
+        <div data-role=footer>\
+            <h1>\
+                Signed in as <span class=placeholder_username></span>\
+                <br>\
+                <a href='javascript:logout();' class='ui-btn ui-corner-all ui-shadow' style='top:-2px;' data-rel='logout'>Logout</a>\
+            </h1>\
+        </div>\
+    ").appendTo($page);
+    
+    $page.appendTo($.mobile.pageContainer);
+    $page.on("pageshow", function() {
+        $controlDiv.on("change", function() {
+            var val = $controlDiv.find("input").val();
+            console.log(val);
+            if (val == 0)
+                $controlTitle.html("Fan Speed: Off");
+            if (val == 1)
+                $controlTitle.html("Fan Speed: Slow");
+            if (val == 2)
+                $controlTitle.html("Fan Speed: Medium");
+            if (val == 3)
+                $controlTitle.html("Fan Speed: Fast");
+        });
+        $controlDiv.on('slidestop', function() {
+            var val = $controlDiv.find("input").val();
+            gCanopy.setControlValue(deviceId, "speed", parseInt(val), function() {}, function() {});
+        });
+    });
+    $.mobile.changePage($page);
+
+}
+
 $(document).ready(function() {
     gCanopy.getLoggedInUsername(function(username) {
-        $.mobile.changePage("#devices_page");
-        $(".placeholder_username").html(username);
+        $.mobile.changePage('#devices_page');
+        $('.placeholder_username').html(username);
     },
     function() {
         // not logged in
-        $.mobile.changePage("#login_page");
+        $.mobile.changePage('#login_page');
     });
 
-    $("#submenu_all_devices").on("click", function() {
+    $('#submenu_all_devices').on('click', function() {
         showDeviceList(gDeviceObjs, "all");
     });
     
@@ -136,12 +217,27 @@ $(document).ready(function() {
             $(".placeholder_online_devices_count").html("Online (" + counts[1] + ")");
             $(".placeholder_offline_devices_count").html("Offline (" + counts[2] + ")");
             gDeviceObjs = deviceObjs;
+            for (var i = 0; i < gDeviceObjs.length; i++) {
+                gDevicesByID[deviceObjs[i].device_id] = deviceObjs[i];
+            }
             showDeviceList(deviceObjs, "all");
         },
         function() {
             // on error
             alert("oops.. couldn't get device list!")
         });
+    });
+
+    $("#device_page").on("pagebeforeshow", function() {
+        var device = gDevicesByID[gDevicePageID]; // hacky way to pass data!
+        var x = "\
+        <div data-role=header>\
+            <a href='#' class='ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left' data-rel='back'>Back</a>\
+            <h1>" + device.friendly_name + "</h1>\
+        </div>\
+        ";
+        $("#device_page_content").html(x);
+        $("#device_page").page();
     });
 
     $("#login_form").submit(function(event) {
@@ -156,17 +252,6 @@ $(document).ready(function() {
         event.preventDefault();
 
         createAccount();
-    });
-    $("#fan_speed").change(function() {
-        var val = $("#fan_speed_val").val();
-        if (val == 0)
-            $("#fan_speed_title").html("Fan Speed: Off");
-        if (val == 1)
-            $("#fan_speed_title").html("Fan Speed: Slow");
-        if (val == 2)
-            $("#fan_speed_title").html("Fan Speed: Medium");
-        if (val == 3)
-            $("#fan_speed_title").html("Fan Speed: Fast");
     });
 });
 
@@ -245,76 +330,22 @@ function drawChart() {
 
     <div data-role="main" class='ui-content'>
         <ul id=devices_list data-role="listview" data-inset="true">
-            <li>
-                <a href="#fan_page">
-                    <img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" style='border-right:1px solid #d8d8d8'></img>
-                    <br>SmartFan
-                </a>
-            </li>
-            <li>
-                <a href="#fan_page">
-                    <img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" style='border-right:1px solid #d8d8d8'></img>
-                    <br><span style="color:#b8b8b8">Greg's Computer</span>
-                </a>
-            </li>
         </ul>
     </div>
 
     <div data-role="footer">
-    <h1>
-        Signed in as <span class=placeholder_username></span>
-        <br>
-        <a href="javascript:logout();" class="ui-btn ui-corner-all ui-shadow" style="top:-2px;" data-rel="logout">Logout</a>
-    </h1>
+        <h1>
+            Signed in as <span class=placeholder_username></span>
+            <br>
+            <a href="javascript:logout();" class="ui-btn ui-corner-all ui-shadow" style="top:-2px;" data-rel="logout">Logout</a>
+        </h1>
     </div>
 </div>
 
-<div data-role="page" id="fan_page">
-    <div data-role="header">
-        <a href="#" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left" data-rel="back">Back</a>
-        <h1>SmartFan</h1>
-    </div>
-
-    <div data-role="main" class="ui-content">
-        <center><img src="http://canopy.link/shutterstock_82034455_fan_h175.jpg" height=100 style='box-shadow:4px 4px 10px #808080'></img></center>
-
-        <div data-role="controlgroup" data-type="vertical">
-            <h3 id=fan_speed_title>Fan Speed: </h3>
-            <form method="post" action="demoform.asp">
-                <div id="fan_speed">
-                    <input type="range" name="fan_speed_val" id="fan_speed_val" value="0" min="0" max="3" data-highlight=true>
-                </div>
-            </form>
-        </div>
-
-        <ul data-role='listview' data-inset='true'>
-            <li> 
-                <a href="#temp_page">
-                    Temperature: 26&deg;c
-                </a>
-            </li>
-            <li> 
-                <a href="#hihi">
-                    Humidity: 54%
-                </a>
-            </li>
-        </ul>
-
-        <ul data-role='listview' data-inset='true'>
-            <li> 
-                <a href="#share_page">
-                    Share this device
-                </a>
-            </li>
-        </ul>
-        
-    </div>
-
-    <div data-role="footer">
-        <h1>Signed in as greg</h1>
+<div data-role="page" id="device_page">
+    <div id=device_page_content>
     </div>
 </div>
-
 
 <div data-role="page" id="temp_page">
     <div data-role="header">
@@ -327,7 +358,11 @@ function drawChart() {
     </div>
 
     <div data-role="footer">
-        <h1>Signed in as greg</h1>
+        <h1>
+            Signed in as <span class=placeholder_username></span>
+            <br>
+            <a href="javascript:logout();" class="ui-btn ui-corner-all ui-shadow" style="top:-2px;" data-rel="logout">Logout</a>
+        </h1>
     </div>
 </div>
 
@@ -370,7 +405,11 @@ function drawChart() {
     </div>
 
     <div data-role="footer">
-        <h1>Signed in as greg</h1>
+        <h1>
+            Signed in as <span class=placeholder_username></span>
+            <br>
+            <a href="javascript:logout();" class="ui-btn ui-corner-all ui-shadow" style="top:-2px;" data-rel="logout">Logout</a>
+        </h1>
     </div>
 </div>
 </body>
