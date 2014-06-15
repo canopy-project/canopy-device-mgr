@@ -48,6 +48,22 @@ function login() {
     });
 }
 
+function share() {
+    var deviceId = gDevicePageID; // hack
+    var email = $("#share_email").val();
+    var accessLevel = $('input[name=share_access_level]:checked', '#share_form').val();
+    var shareLevel = $('input[name=share_share_level]:checked', '#share_form').val();
+
+    gCanopy.share(deviceId, email, accessLevel, shareLevel, function() {
+        alert("Invitation sent!");
+        history.back();
+    },
+    function() {
+        // on error
+        alert("Could not share device");
+    });
+}
+
 function createAccount() {
     var username = $("#create_account_username").val();
     var email = $("#create_account_email").val();
@@ -111,6 +127,7 @@ function showDeviceList(deviceObjs, connectedness) {
 }
 
 function showDevicePage(deviceId) {
+    gDevicePageID = deviceId; // hack!
     var device = gDevicesByID[deviceId];
     var controls = CanopyUtil_GetDeviceControls(device);
     var sensors = CanopyUtil_GetDeviceSensors(device);
@@ -265,6 +282,13 @@ $(document).ready(function() {
 
         createAccount();
     });
+
+    $("#share_form").submit(function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        share();
+    });
 });
 
 google.load("visualization", "1", {packages:["corechart"]});
@@ -386,29 +410,29 @@ function drawChart() {
 
     <div data-role="main" class="ui-content">
         By sharing, you allow the recipient to monitor, control and further share this device.
-        <form id=form1>
+        <form id=share_form>
             <div class="ui-field-contain">
-                <input type="text" name="email" id="email" placeholder="recipient's email">
+                <input type="text" name="email" id="share_email" placeholder="recipient's email">
 
                 <fieldset data-role="collapsible">
                     <legend>Permission Settings</legend>
                     What should the recipient be allowed to do with the device?
                     <fieldset data-role="controlgroup">
-                    <legend><h3>Access Level</h3></legend>
-                    <label for="monitor_only">Monitor Only</label>
-                    <input type="radio" name="gender" id="monitor_only" value="1">
-                    <label for="monitor_and_control">Monitor and Control</label>
-                    <input type="radio" name="gender" id="monitor_and_control" value="2" checked=checked> 
+                        <legend><h3>Access Level</h3></legend>
+                        <label for="monitor_only">Monitor Only</label>
+                        <input type="radio" name="share_access_level" id="monitor_only" value="1">
+                        <label for="monitor_and_control">Monitor and Control</label>
+                        <input type="radio" name="share_access_level" id="monitor_and_control" value="2" checked=checked> 
                     </fieldset>
 
                     <fieldset data-role="controlgroup">
-                    <legend><h3>Sharing Rights</h3></legend>
-                    <label for="no_share">Cannot share with others</label>
-                    <input type="radio" name="sharing" id="no_share" value="1">
-                    <label for="share_only">May share with others</label>
-                    <input type="radio" name="sharing" id="share_only" value="2" checked=checked> 
-                    <label for="share_and_revoke">Device owner - can both share and revoke others' access</label>
-                    <input type="radio" name="sharing" id="share_and_revoke" value="3"> 
+                        <legend><h3>Sharing Rights</h3></legend>
+                        <label for="no_share">Cannot share with others</label>
+                        <input type="radio" name="share_share_level" id="no_share" value="0">
+                        <label for="share_only">May share with others</label>
+                        <input type="radio" name="share_share_level" id="share_only" value="1" checked=checked> 
+                        <label for="share_and_revoke">Device owner - can both share and revoke others' access</label>
+                        <input type="radio" name="share_share_level" id="share_and_revoke" value="2"> 
                     </fieldset>
                 </fieldset>
                 <input type="submit" id="submit" data-inline=false value="Share">
