@@ -101,7 +101,7 @@ function showDeviceList(deviceObjs, connectedness) {
             continue;
         x += "\
         <li>\
-            <a href='javascript:showDevicePage(\"" + deviceObjs[i].device_id + "\")'>\
+            <a href='#device_page?device_id=" + deviceObjs[i].device_id + "'>\
                 <img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' style='border-right:1px solid #d8d8d8'></img>\
                 <br>" + deviceObjs[i].friendly_name + "\
             </a>\
@@ -115,7 +115,7 @@ function showDeviceList(deviceObjs, connectedness) {
             continue;
         x += "\
         <li>\
-            <a href='javascript:showDevicePage(\"" + deviceObjs[i].device_id + "\")'>\
+            <a href='#device_page?device_id=" + deviceObjs[i].device_id + "'>\
                 <img src='http://canopy.link/shutterstock_82034455_fan_h175.jpg' style='border-right:1px solid #d8d8d8'></img>\
                 <br><span style='color:#d0d0d0'>" + deviceObjs[i].friendly_name + "</span>\
             </a>\
@@ -126,13 +126,15 @@ function showDeviceList(deviceObjs, connectedness) {
     $('#devices_list').listview('refresh');
 }
 
-function showDevicePage(deviceId) {
+function showDevicePage(urlObj, options) {
+
+    var deviceId = urlObj.hash.replace(/.*device_id=/, "");
     gDevicePageID = deviceId; // hack!
     var device = gDevicesByID[deviceId];
     var controls = CanopyUtil_GetDeviceControls(device);
     var sensors = CanopyUtil_GetDeviceSensors(device);
 
-    var $page = $("<div data-role=page data-url='device_" + deviceId + "'></div>");
+    var $page = $("<div data-role=page data-url='#device_page?device_id=" + deviceId + "'></div>");
 
     var $header = $("\
         <div data-role=header>\
@@ -229,8 +231,7 @@ function showDevicePage(deviceId) {
             gCanopy.setControlValue(deviceId, "speed", parseInt(val), function() {}, function() {});
         });
     });
-    $.mobile.changePage($page);
-
+    $.mobile.changePage($page, options);
 }
 
 $(document).ready(function() {
@@ -294,6 +295,19 @@ $(document).ready(function() {
         event.preventDefault();
 
         share();
+    });
+
+    // Listen for any attempts to call changePage().
+    $(document).bind("pagebeforechange", function(e, data) {
+        if (typeof data.toPage === "string") {
+            var u = $.mobile.path.parseUrl(data.toPage),
+            re = /^#device_page/;
+            // hijack #device_page requests
+            if (u.hash.search(re) !== -1) {
+                showDevicePage(u, data.options);
+                e.preventDefault();
+            }
+        }
     });
 });
 
