@@ -258,10 +258,15 @@ function CanopyUtil_GetDeviceControls(deviceObj) {
 function CanopyUtil_GetDeviceSensors(deviceObj) {
     var cls = deviceObj.sddl_class;
     var out = {};
-    for (var propDef in cls) {
-        if (propDef.substring(0, 7) == "sensor ") {
-            var sensorName = propDef.substring(7);
-            out[sensorName] = propDef;
+    for (var propDecl in cls) {
+        if (propDecl.substring(0, 7) == "sensor ") {
+            var sensorName = propDecl.substring(7);
+            out[sensorName] = cls[propDecl];
+            /*console.log(deviceObj);
+            console.log(deviceObj.property_values);
+            console.log(deviceObj.property_values["sensor " + sensorName]);
+            console.log(deviceObj.property_values["sensor " + sensorName].v);*/
+            out[sensorName]._value = deviceObj.property_values["sensor " + sensorName].v;
         }
     }
     return out;

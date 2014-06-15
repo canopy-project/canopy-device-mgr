@@ -162,10 +162,16 @@ function showDevicePage(deviceId) {
     var $sensors = $("<ul data-role='listview' data-inset='true'></ul>");
     for (var sensorName in sensors) {
         var sensorEnglish = sensorName;
-        if (sensorName == "temperature")
-            sensorEnglish = "Temperature";
-        if (sensorName == "humidity")
-            sensorEnglish = "Humidity";
+        if (sensorName == "temperature") {
+            var temp = sensors[sensorName]._value*1.8 + 32.0;
+            temp = Math.round(temp*100)/100;
+            sensorEnglish = "Temperature: " + temp + "&deg;F";
+        }
+        if (sensorName == "humidity") {
+            var hum = sensors[sensorName]._value;
+            hum = Math.round(hum*100)/100;
+            sensorEnglish = "Humidity: " + hum + "%";
+        }
             
         var $sensor = $("\
                 <li> \
