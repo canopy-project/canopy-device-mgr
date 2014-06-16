@@ -39,6 +39,7 @@ function login() {
     gCanopy.login(username, password, function() {
         // on success
         $(".placeholder_username").html(username);
+        gUsername = username;
         $.mobile.changePage("#devices_page");
     },
     function() {
@@ -127,6 +128,17 @@ function showDeviceList(deviceObjs, connectedness) {
     $('#devices_list').listview('refresh');
 }
 
+function fanSpeedTitle(speed) {
+    if (speed == 0)
+        return "Fan Speed: Off";
+    if (speed == 1)
+        return "Fan Speed: Slow";
+    if (speed == 2)
+        return "Fan Speed: Medium";
+    if (speed == 3)
+        return "Fan Speed: Fast";
+}
+
 function showDevicePage(urlObj, options) {
 
     var deviceId = urlObj.hash.replace(/.*device_id=/, "");
@@ -155,7 +167,7 @@ function showDevicePage(urlObj, options) {
             var $controlGroup = $("<div data-role='controlgroup'></div>").appendTo($body);
             var $controlTitle = $("<h3>Fan Speed:</h3>").appendTo($controlGroup);
             $controlDiv = $("<form>").appendTo($controlGroup);
-            var $controlz = $("<input type='range' name=controlslider value='0' min='0' max='3' data-highlight=true></input>").appendTo($controlDiv);
+            var $controlz = $("<input type='range' name=controlslider value='" + controls["speed"]._value + "' min='0' max='3' data-highlight=true></input>").appendTo($controlDiv);
         }
         else {
             $("<b>" + controlName + "</b>").appendTo($body);
@@ -212,20 +224,17 @@ function showDevicePage(urlObj, options) {
             </h1>\
         </div>\
     ").appendTo($page);
-    
+   
     $page.appendTo($.mobile.pageContainer);
     $page.on("pageshow", function() {
+        var val = controls["speed"]._value;
+        var title = fanSpeedTitle(val);
+        $controlTitle.html(title);
+
         $controlDiv.on("change", function() {
             var val = $controlDiv.find("input").val();
-            console.log(val);
-            if (val == 0)
-                $controlTitle.html("Fan Speed: Off");
-            if (val == 1)
-                $controlTitle.html("Fan Speed: Slow");
-            if (val == 2)
-                $controlTitle.html("Fan Speed: Medium");
-            if (val == 3)
-                $controlTitle.html("Fan Speed: Fast");
+            var title = fanSpeedTitle(val);
+            $controlTitle.html(title);
         });
         $controlDiv.on('slidestop', function() {
             var val = $controlDiv.find("input").val();
@@ -235,7 +244,10 @@ function showDevicePage(urlObj, options) {
     $.mobile.changePage($page, options);
 }
 
+var gUrlParams = {};
+
 $(document).ready(function() {
+    gUrlParams = CanopyUtil_GetURLParams();
     gCanopy.getLoggedInUsername(function(username) {
         $.mobile.changePage('#devices_page');
         $('.placeholder_username').html(username);
@@ -259,6 +271,8 @@ $(document).ready(function() {
     });
 
     $("#devices_page").on("pagebeforeshow", function() {
+
+
         // load device data
         gCanopy.fetchDevices(function(deviceObjs) {
             var counts = CanopyUtil_DeviceCounts(deviceObjs);
@@ -318,6 +332,21 @@ $(document).ready(function() {
                 /* load chart data */
                 showPlotPage(u, data.options);
             }
+            // hijack devices_page
+            re = /^#devices_page/;
+            if (u.hash.search(re) !== -1) {
+                // if there is an outstanding share request, fullfill it.
+                if (gUrlParams["share_device"] !== undefined) {
+                    gCanopy.finishShareTransaction(gUrlParams["share_device"], function(data) {
+                        alert("Hooray!  You have been given access to " + data["device_friendly_name"]);
+                        window.location = "index_mobile.html#devices_page";
+                    }, function() {
+                        alert("Could not access " + gUrlParams["share_device"]);
+                        delete gUrlParams["share_device"];
+                        $.mobile.changePage("#devices_page");
+                    });
+                }
+            }
         }
     });
 
@@ -325,6 +354,8 @@ $(document).ready(function() {
         /* update chart, if necessary */
         redrawChart();
     });
+
+    $.mobile.loading("show");
 });
 
 function showPlotPage(urlObj, options) {
@@ -387,7 +418,7 @@ function drawPlot(samples, title) {
     };
 
     var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
+    //chart.draw(data, options);
 
     /* hack for orientation change */
     gChart = chart;
@@ -417,6 +448,9 @@ function drawChart() {
 </script>
 </head>
 <body>
+
+<div data-role="page" id="initial_spinner">
+</div>
 
 <div data-role="page" id="login_page">
     <div data-role="header">
