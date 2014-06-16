@@ -235,6 +235,49 @@ a.cano-sidebar-item {
 .darkest {
     color: #000000;
 }
+
+.sensor_box {
+    display:inline-block;
+    width:100px;
+    height:100px;
+    padding:8px;
+    text-align: center;
+}
+
+.bigbtn_selected {
+    display: inline-block;
+    border:1px solid #000000;
+    background: #3060a0;
+    color: #f8f8f8;
+    font-size:34px;
+    font-weight: 700;
+    border-radius: 2px;
+    border-radius:4px;
+    text-align: center;
+    padding: 16px;
+    margin-right: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px #888888;
+}
+.bigbtn:hover {
+    color: #4080d0;
+    background: #d8d8d8;
+}
+.bigbtn {
+    display: inline-block;
+    background: #d0d0d0;
+    color: #3060a0;
+    font-size:34px;
+    font-weight: 700;
+    border-radius: 2px;
+    border-radius:4px;
+    text-align: center;
+    padding: 17px;
+    margin-right: 16px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #888888;
+}
+
 .btn, input[type=submit] {
     display: inline-block; 
     border:1px solid #4060a0;

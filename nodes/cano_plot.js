@@ -41,10 +41,18 @@ function CanoPlotNode(origParams)
             }
             else
             {
-                dataArray.push([
-                    new Date(t1),
-                    samples[i].v
-                ]);
+                if (params.vAxisFormat == "#%") {
+                    dataArray.push([
+                        new Date(t1),
+                        samples[i].v / 100.0
+                    ]);
+                }
+                else {
+                    dataArray.push([
+                        new Date(t1),
+                        samples[i].v*1.8 + 32
+                    ]);
+                }
             }
         }
         this.drawChart();
@@ -57,15 +65,18 @@ function CanoPlotNode(origParams)
             title: params.title,
             legend: { position: 'none' },
             fontName : "Source Sans Pro",
-            backgroundColor: '#f8f6f4',
-            hAxis: {format: "h:mm a"}
+            fontSize : 12,
+            hAxis: {textStyle:{color:"black"}, format: "h:mm a", gridlines: {color: 'transparent'}},
+            vAxis: {textStyle:{color:"black"}, format: params.vAxisFormat, gridlines: {color: 'transparent'}},
+            chartArea:{left:50,top:10,width:"80%",height:"80%"},
+            height: 150,
         };
 
         var chart = new google.visualization.AreaChart($me[0]);
         chart.draw(data, options);
     }
 
-    $me = $("<div>");
+    $me = $("<div style='color:#000000'>");
 }
 
 

@@ -44,7 +44,8 @@ function CanoSubmenuNode(canopy, dispatcher) {
 <div class=cano-submenu>\
     <div class=center_channel>\
         <div class='cano-topbar-account big'>\
-            <div class=cano-submenu-item2>Dashboard</div>\
+            <div class=cano-submenu-item2>My Devices</div>\
+            <div class=cano-submenu-item1>Settings</div>\
         </div>\
         <div class=cano-submenu-item style='margin-right:30px'><div class=big id=total_count><b>-</b></div><div class=s>devices</div></div>\
         <div class=cano-submenu-item style='margin-right:30px'><div class=big id=online_count><b>-</b></div><div class=s><div class=green_bullet>&#9899;</div>connected</div></div>\
@@ -75,7 +76,7 @@ function CanoSubmenuNode(canopy, dispatcher) {
     </div>\
     </div>\
     </div-->\
-    <div class=appouter>\
+    <!--div class=appouter>\
         <div class=appbox>\
             <div class=logo style='position:relative; top:20%'>Canopy<br>Manager</div>\
         </div>\
@@ -85,19 +86,16 @@ function CanoSubmenuNode(canopy, dispatcher) {
         <div class=s>\
             1 compatible device\
         </div>\
-    </div>\
+    </div-->\
     <div class=appouter>\
         <div id=app_fan class=appbox>\
             <img height=150 src=http://www.canopy.link/shutterstock_82034455_fan_h175.jpg>\
         </div>\
         <div class=appname>\
-            Fan Control\
-        </div>\
-        <div class=s>\
-            1 compatible device\
+            SmartFan\
         </div>\
     </div>\
-    <div class=appouter>\
+    <!--div class=appouter>\
         <div id=app_temp class=appbox>\
             <img height=150 src=http://t1.gstatic.com/images?q=tbn:ANd9GcTEaSSfG8bm8ryaX9kjOLxWlzqyf19c0h4dF8vvHm8ip_nsJIWQ>\
         </div>\
@@ -107,7 +105,7 @@ function CanoSubmenuNode(canopy, dispatcher) {
         <div class=s>\
             1 compatible device\
         </div>\
-    </div>\
+    </div-->\
 </div>\
     ");
 }
