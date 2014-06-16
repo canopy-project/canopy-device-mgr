@@ -7,6 +7,7 @@
 <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="client/canopy_client.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
 
 
 <style>
@@ -177,7 +178,7 @@ function showDevicePage(urlObj, options) {
             
         var $sensor = $("\
                 <li> \
-                    <a href='#temp_page'>\
+                    <a href='#temp_page?sensor=" + sensorName + "'>\
                         " + sensorEnglish + "\
                     </a>\
                 </li>\
@@ -276,6 +277,10 @@ $(document).ready(function() {
         });
     });
 
+    $("#temp_page").on("pageshow", function() {
+        redrawChart();
+    });
+
     $("#login_form").submit(function(event) {
         event.stopPropagation();
         event.preventDefault();
@@ -307,12 +312,91 @@ $(document).ready(function() {
                 showDevicePage(u, data.options);
                 e.preventDefault();
             }
+            // hijack #temp_page requests
+            re = /^#temp_page/;
+            if (u.hash.search(re) !== -1) {
+                /* load chart data */
+                showPlotPage(u, data.options);
+            }
         }
+    });
+
+    $(window).on("orientationchange", function(event)  {
+        /* update chart, if necessary */
+        redrawChart();
     });
 });
 
+function showPlotPage(urlObj, options) {
+    var sensorName = urlObj.hash.replace(/.*sensor=/, "");
+    gCanopy.fetchSensorData(gDevicePageID /* hack */, sensorName, function(data) {
+        drawPlot(data.samples, sensorName);
+    },
+    function() {
+    });
+    $("#plotPageTitle").html(sensorName);
+}
+
+var gChart = null;
+var gChartData = null;
+var gChartOptions = null;
+function redrawChart() {
+    if (gChartData !== null) {
+        gChart.draw(gChartData, gChartOptions);
+    }
+}
+
+/* Expects array of objects [t: <RFC3339 Time>, v: <float>] */
+function drawPlot(samples, title) {
+    var dataArray = [];
+    dataArray.push([
+        "Time",
+        "Value"
+    ])
+    for (i = 1; i < samples.length; i++) {
+        t0 = Date.parse(samples[i-1].t);
+        t1 = Date.parse(samples[i].t);
+        if (t1 - t0 > 200000)
+        {
+            dataArray.push([
+                new Date(t0),
+                null
+            ]);
+            dataArray.push([
+                new Date(t1),
+                null
+            ]);
+        }
+        else
+        {
+            dataArray.push([
+                new Date(t1),
+                samples[i].v
+            ]);
+        }
+    }
+    var data = google.visualization.arrayToDataTable(dataArray);
+
+    var options = {
+        title: title,
+        legend: { position: 'none' },
+        fontName : "Source Sans Pro",
+        backgroundColor: '#f8f6f4',
+        hAxis: {format: "h:mm a"},
+        chartArea:{left:30,top:10,width:"90%",height:"80%"}
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+
+    /* hack for orientation change */
+    gChart = chart;
+    gChartData = data;
+    gChartOptions = options;
+}
+
 google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(drawChart);
+/*google.setOnLoadCallback(drawChart);
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
             ['Year', 'Sales', 'Expenses'],
@@ -328,7 +412,7 @@ function drawChart() {
 
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
-}
+}*/
 
 </script>
 </head>
@@ -406,11 +490,11 @@ function drawChart() {
 <div data-role="page" id="temp_page">
     <div data-role="header">
         <a href="#" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left" data-rel="back">Back</a>
-        <h1>Smart Fan - Temperature</h1>
+        <h1 id=plotPageTitle></h1>
     </div>
 
     <div data-role="main" class="ui-content">
-        <div id="chart_div"></div>
+        <div id="chart_div" width=100%></div>
     </div>
 
     <div data-role="footer">
