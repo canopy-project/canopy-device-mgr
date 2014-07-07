@@ -31,8 +31,13 @@ function CanopyClient() {
             },
             crossDomain: true
         })
-        .done(function() {
-            onSuccess();
+        .done(function(data, textStatus, jqXHR) {
+            if (data['success'] === true) {
+                onSuccess();
+            }
+            else {
+                onError();
+            }
         })
         .fail(function() {
             onError();
@@ -92,7 +97,7 @@ function CanopyClient() {
         })
         .done(function(data, textStatus, jqXHR) {
             if (onSuccess != null)
-                onSuccess(data);
+                onSuccess(data.devices);
         })
         .fail(function() {
             if (onError != null)
@@ -104,7 +109,7 @@ function CanopyClient() {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://canopy.link:8080/devices/" + deviceId + "/" + sensorName + "/data",
+            url: "http://canopy.link:8080/device/" + deviceId + "/" + sensorName,
             xhrFields: {
                  withCredentials: true
             },
@@ -140,6 +145,51 @@ function CanopyClient() {
             onError();
         });
     }
+
+    this.share = function(deviceId, recipientEmail, accessLevel, shareLevel, onSuccess, onError) {
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/share",
+            data: JSON.stringify( {
+                device_id : deviceId, 
+                email: recipientEmail,
+                access_level: accessLevel,
+                sharing_level: shareLevel}),
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function() {
+            onSuccess();
+        })
+        .fail(function() {
+            onError();
+        });
+    }
+
+    this.finishShareTransaction = function(deviceId, onSuccess, onError) {
+        $.ajax({
+            type: "POST",
+            dataType : "json",
+            url: "http://canopy.link:8080/finish_share_transaction",
+            data: JSON.stringify( {
+                device_id : deviceId
+            }),
+            xhrFields: {
+                 withCredentials: true
+            },
+            crossDomain: true
+        })
+        .done(function(data, textStatus, jqXHR) {
+            if (onSuccess != null)
+                onSuccess(data);
+        })
+        .fail(function() {
+            onError();
+        });
+    }
 }
 
 /*
@@ -170,17 +220,63 @@ function CanopyClient() {
     }
 */
 
-function CanopyUtil_GetDeviceControls(deviceObj) {
-    var cls = deviceObj.device_class
-    for (var propname in cls) {
-        if (cls.hasOwnProperty(propname)) {
-            for (var field in cls[propname]) {
-                if (cls[propname].hasOwnProperty(field)) {
-                    alert(field + " -> " + cls[propname][field]);
-                }
-            }
+/* 
+ * returns list: [#TOTAL, #CONNECTED, #OFFLINE]
+ */
+function CanopyUtil_DeviceCounts(deviceObjs) {
+    var numDevices = deviceObjs.length;
+    var out = [numDevices, 0, 0];
+    for (var i = 0; i < numDevices; i++) {
+        if (deviceObjs[i].connected) {
+            out[1]++;
+        }
+        else {
+            out[2]++;
         }
     }
+    return out;
+}
+
+/*
+ * Returns object: {<control_name> : <definition>}
+ */
+function CanopyUtil_GetDeviceControls(deviceObj) {
+    var cls = deviceObj.sddl_class;
+    var out = {};
+    for (var propDecl in cls) {
+        if (propDecl.substring(0, 8) == "control ") {
+            var controlName = propDecl.substring(8);
+            out[controlName] = cls[propDecl];
+            out[controlName]._value = deviceObj.property_values["control " + controlName].v;
+        }
+    }
+    return out;
+}
+
+/*
+ * Returns object: {<sensor_name> : <definition>}
+ */
+function CanopyUtil_GetDeviceSensors(deviceObj) {
+    var cls = deviceObj.sddl_class;
+    var out = {};
+    for (var propDecl in cls) {
+        if (propDecl.substring(0, 7) == "sensor ") {
+            var sensorName = propDecl.substring(7);
+            out[sensorName] = cls[propDecl];
+            out[sensorName]._value = deviceObj.property_values["sensor " + sensorName].v;
+        }
+    }
+    return out;
+}
+
+function CanopyUtil_GetURLParams() {
+    var params = [];
+    var query = location.search.slice(1).split('&');
+    $.each(query, function(i, value) {
+        var token = value.split('=');
+        params[decodeURIComponent(token[0])] = decodeURIComponent(token[1]);
+    });
+    return params;
 }
 
 function CanopyUtil_Compose(segments) {
