@@ -1,4 +1,6 @@
 
+var gDevices; /* hack */
+
 function CanoSubmenuNode(canopy, dispatcher) {
     var $me,
         self=this;
@@ -21,6 +23,7 @@ function CanoSubmenuNode(canopy, dispatcher) {
 
     this.refresh = function(devicesOnly) {
         canopy.fetchDevices(function(devices) {
+            gDevices = devices;
             var counts = CanopyUtil_DeviceCounts(devices);
             $("#total_count").html(counts[0]);
             $("#online_count").html(counts[1]);

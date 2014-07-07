@@ -1,14 +1,18 @@
 FAN_DEVICE_ID = "d59e4703-ed10-11e3-a241-74d02b36a289";
 
 function CanoFanDemoPageNode(canopy, dispatcher) {
-    var $me,
+    var self=this,
+        $me,
         topbarNode,
         $content,
         chart1,
         chart2,
         optionNode,
         $topp,
-        $bottom
+        $bottom,
+        $temp,
+        $hum,
+        skipRefresh=0
     ;
 
     $.extend(this, new CanoNode());
@@ -20,28 +24,39 @@ function CanoFanDemoPageNode(canopy, dispatcher) {
     this.onLive = function() {
         topbarNode.onLive();
         optionNode.onLive();
-        $("#offbtn").off('click').on('click', function() {
-            canopy.setControlValue(FAN_DEVICE_ID, "speed", 0, 
-                function() {}, 
-                function() {
-                    alert("Failed to set fan speed!");
-                }
-            );
-        });
-        $("#onbtn").off('click').on('click', function() {
-            canopy.setControlValue(FAN_DEVICE_ID, "speed", 1, 
-                function() {}, 
-                function() {
-                    alert("Failed to set fan speed!");
-                }
-            );
-        });
         canopy.fetchSensorData(FAN_DEVICE_ID, "temperature", function(data) {
             chart1.setTimeseriesData(data.samples);
         })
         canopy.fetchSensorData(FAN_DEVICE_ID, "humidity", function(data) {
             chart2.setTimeseriesData(data.samples);
         })
+
+        self.refresh();
+    }
+
+    this.refresh = function() {
+        if (skipRefresh > 0) {
+            skipRefresh--;
+            console.log(skipRefresh);
+            setTimeout(function(){self.refresh(true);}, 3000);
+            return;
+        }
+        var i = gDevices.length;
+        for (i = 0; i < gDevices.length; i++) {
+            if (gDevices[i].device_id == FAN_DEVICE_ID) {
+                var sensors = CanopyUtil_GetDeviceSensors(gDevices[i]);
+
+                var temp = Math.round(100*(1.8*sensors["temperature"]._value + 32))/100;
+                var hum = Math.round(100*sensors["humidity"]._value)/100;
+                $temp.html("<div class=l>" + temp + "&deg;F</div>Temperature");
+                $hum.html("<div class=l>" + hum + "%</div>Humidity");
+
+                var controls = CanopyUtil_GetDeviceControls(gDevices[i]);
+                var speed = controls["speed"]._value;
+                optionNode.select(speed, true);
+            }
+        }
+        setTimeout(function(){self.refresh(true);}, 3000);
     }
 
     optionNode = new CanoOptionNode({
@@ -62,7 +77,7 @@ function CanoFanDemoPageNode(canopy, dispatcher) {
         } ],
         onSelect: function(idx, item) {
             canopy.setControlValue(FAN_DEVICE_ID, "speed", item.value, 
-                function() {}, 
+                function() {skipRefresh = 2;}, 
                 function() {
                     alert("Failed to set fan speed!");
                 }
@@ -84,8 +99,8 @@ function CanoFanDemoPageNode(canopy, dispatcher) {
 
     chart1 = new CanoPlotNode({title: "Temperature", vAxisFormat: "#˚F"}).appendTo($topp);
     chart2 = new CanoPlotNode({title: "Humidity", vAxisFormat: '#%'}).appendTo($bottom);
-    $temp = $("<div class=sensor_box style='position:absolute; top:80px; left:730px'><div class=xxl>45&deg;F</div>Temperature</div>").appendTo($chartOuter);
-    $hum = $("<div class=sensor_box style='position:absolute; top:270px; left:730px'><div class=xxl>52%</div>Humidity</div>").appendTo($chartOuter);
+    $temp = $("<div class=sensor_box style='position:absolute; top:130px; left:700px'><div class=xxl>-&deg;F</div>Temperature</div>").appendTo($chartOuter);
+    $hum = $("<div class=sensor_box style='position:absolute; top:310px; left:700px'><div class=xxl>-%</div>Humidity</div>").appendTo($chartOuter);
     /*$content = $("\
         <div class=center_channel>\
             <div style='position:relative;'>\

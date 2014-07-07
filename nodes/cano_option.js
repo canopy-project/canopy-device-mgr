@@ -73,7 +73,7 @@ function CanoOptionNode(origParams) {
         this.refresh();
     }
 
-    var select = function(idx, skipCallback) {
+    this.select = function(idx, skipCallback) {
         for (i = 0; i < items.length; i++) {
             items[i].$item.toggleClass(params.normalClass, (i != idx))
             items[i].$item.toggleClass(params.selectedClass, (i == idx))
@@ -88,7 +88,7 @@ function CanoOptionNode(origParams) {
             items[i].$item.off('click').on('click', 
                 (function(idx) {
                     return function() {
-                        select(idx, false);
+                        self.select(idx, false);
                     }
                 }(i))
             );
