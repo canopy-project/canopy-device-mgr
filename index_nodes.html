@@ -6,6 +6,7 @@
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script src="canopy-js-client/canopy_client.js"></script>
 <script src="canopy_dispatcher.js"></script>
+<script src="canopy_app_util.js"></script>
 <script src="nodes/cano.js"></script>
 <script src="nodes/cano_device_controls_dialog.js"></script>
 <script src="nodes/cano_device_event_dialog.js"></script>
@@ -34,7 +35,11 @@
 <div id="main"></div>
 </body>
 <script>
-var canopy = new CanopyClient();
+var canopy = new CanopyClient({
+    "cloud-host" : "canopy.link",
+    "cloud-http-port" : 8080,
+    "cloud-use-https" : false,
+});
 $(function() {
     var dispatcher = new CanopyDispatcher(canopy);
     canopy.getLoggedInUsername(function(username) {
