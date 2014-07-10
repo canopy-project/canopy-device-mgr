@@ -3,7 +3,8 @@ var gDevices; /* hack */
 
 function CanoSubmenuNode(canopy, dispatcher) {
     var $me,
-        self=this;
+        self=this,
+        deviceListNode;
 
     $.extend(this, new CanoNode());
 
@@ -22,13 +23,18 @@ function CanoSubmenuNode(canopy, dispatcher) {
     }
 
     this.refresh = function(devicesOnly) {
-        gAccount.fetchDevices(function(devices) {
-            gDevices = devices;
-            var counts = CanopyUtil_DeviceCounts(devices);
-            $("#total_count").html(counts[0]);
-            $("#online_count").html(counts[1]);
-            $("#offline_count").html(counts[2]);
-            setTimeout(function(){self.refresh(true);}, 5000);
+        gAccount.fetchDevices({
+            onSuccess: function(devices) {
+                gDevices = devices;
+                deviceListNode.refresh(devices);
+                var numTotal = devices.length;
+                var numConnected = devices.count({connected: true});
+                var numDisconnected = numTotal - numConnected;
+                $("#total_count").html(numTotal);
+                $("#online_count").html(numConnected);
+                $("#offline_count").html(numDisconnected);
+                /*setTimeout(function(){self.refresh(true);}, 5000);*/
+            }
         });
         if (!devicesOnly) {
             /* hack.  Why are we modifying the topbar here? */
@@ -47,6 +53,7 @@ function CanoSubmenuNode(canopy, dispatcher) {
         }
     }
 
+    deviceListNode = new CanoDeviceList(canopy);
 
     $me = $("\
 <div class=cano-submenu>\
@@ -116,4 +123,6 @@ function CanoSubmenuNode(canopy, dispatcher) {
     </div-->\
 </div>\
     ");
+
+    deviceListNode.appendTo($me);
 }
