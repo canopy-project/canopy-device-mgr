@@ -14,14 +14,17 @@ function CanoLoginDialogNode(params) {
         $("#signin_button").off('click').on("click", function() {
             var username = $("#username").val();
             var password = $("#password").val();
-            canopy.login(username, password, 
-                function() {
+            canopy.login({
+                username: username, 
+                password: password,
+                onSuccess: function(account) {
+                    gAccount = account;
                     dispatcher.showPage("main");
                 },
-                function() {
+                onError: function() {
                     alert("Login failed");
                 }
-            );
+            });
         });
         $("#signin_expand_button").off('click').on('click', function() {
             self.expand();

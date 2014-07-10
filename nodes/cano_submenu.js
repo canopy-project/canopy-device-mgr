@@ -22,7 +22,7 @@ function CanoSubmenuNode(canopy, dispatcher) {
     }
 
     this.refresh = function(devicesOnly) {
-        canopy.fetchDevices(function(devices) {
+        gAccount.fetchDevices(function(devices) {
             gDevices = devices;
             var counts = CanopyUtil_DeviceCounts(devices);
             $("#total_count").html(counts[0]);
@@ -31,13 +31,18 @@ function CanoSubmenuNode(canopy, dispatcher) {
             setTimeout(function(){self.refresh(true);}, 5000);
         });
         if (!devicesOnly) {
-            canopy.getLoggedInUsername(function(username) {
-                $("#topbar_username").html("<b>" + username + "</b>");
-                $("#topbar_username").off('click').on('click', function() {
-                    canopy.logout(function() {
-                        dispatcher.showPage("login");
-                    });
-                })
+            /* hack.  Why are we modifying the topbar here? */
+            canopy.fetchAccount({
+                onSuccess: function(account) {
+                    $("#topbar_username").html("<b>" + account.username() + "</b>");
+                    $("#topbar_username").off('click').on('click', function() {
+                        canopy.logout({
+                            onSuccess: function() {
+                                dispatcher.showPage("login");
+                            }
+                        });
+                    })
+                }
             });
         }
     }

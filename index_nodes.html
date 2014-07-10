@@ -40,13 +40,18 @@ var canopy = new CanopyClient({
     cloudHTTPPort : 8080,
     cloudUseHTTPS : false,
 });
+var gAccount = null; /* hack */
 $(function() {
     var dispatcher = new CanopyDispatcher(canopy);
-    canopy.getLoggedInUsername(function(username) {
-        dispatcher.showPage("main");
-    }, function() {
-        dispatcher.showPage("login");
-    })
+    canopy.fetchAccount({
+        onSuccess: function(account) {
+            gAccount = account;
+            dispatcher.showPage("main");
+        },
+        onError: function(reason) {
+            dispatcher.showPage("login");
+        }
+    });
 });
 </script>
 </html>

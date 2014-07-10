@@ -13,13 +13,17 @@ function CanoTopbarNode(canopy, dispatcher) {
     }
 
     this.refresh = function() {
-        canopy.getLoggedInUsername(function(username) {
-            $("#topbar_username").html("<b>" + username + "</b>");
-            $("#topbar_username").off('click').on('click', function() {
-                canopy.logout(function() {
-                    dispatcher.showPage("login");
-                });
-            })
+        canopy.fetchAccount({
+            onSuccess: function(account) {
+                $("#topbar_username").html("<b>" + account.username() + "</b>");
+                $("#topbar_username").off('click').on('click', function() {
+                    canopy.logout({
+                        onSuccess: function() {
+                            dispatcher.showPage("login");
+                        }
+                    });
+                })
+            }
         });
     }
 
