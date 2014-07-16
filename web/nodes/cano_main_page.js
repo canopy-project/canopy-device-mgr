@@ -25,6 +25,15 @@ function CanoMainPageNode(params) {
         dispatcher: dispatcher
     });
 
+    contentNode = new CanoDevicesScreenNode({
+        canopyClient: canopy,
+        dispatcher: dispatcher
+    });
+
+    $me = $("<div>");
+    topbarNode.appendTo($me);
+    contentNode.appendTo($me);
+
     /*$main = $("\
     <div class=center_channel>\
         <div class=cano-dialog-flat style='margin:8px'>\
@@ -52,7 +61,7 @@ function CanoMainPageNode(params) {
     \
     </div>\
     ");*/
-    $left = $("<div class=cano-main_page-left-section></div>");
+    /*$left = $("<div class=cano-main_page-left-section></div>");
     $middle = $("<div style='' class=cano-main_page-middle-section></div>");
     $right = $("<div class=cano-main_page-right-section></div>");
 
@@ -143,5 +152,5 @@ function CanoMainPageNode(params) {
     $me = $("<div>");
     topbarNode.appendTo($me);
     //$submenu.appendTo($me);
-    $main.appendTo($me);
+    $main.appendTo($me);*/
 }

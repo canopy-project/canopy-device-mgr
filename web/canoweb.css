@@ -128,6 +128,13 @@ h2 {
     display: inline-block;
     vertical-align:top;
 }
+.cano-main_page-left-and-middle-section {
+    width: 736px;
+    padding:0px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
 .cano-main_page-right-section {
     width: 244px;
     height:900px;
