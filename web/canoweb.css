@@ -30,6 +30,17 @@ body {
     cursor: pointer;
 }
 
+.btn_not_selected, input[type=submit] {
+    display: inline-block; 
+    border:1px solid #a0a0a0;
+    background: #d0d0d0;
+    color: #303030;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 8px;
+    cursor: pointer;
+}
+
 input[type=submit]:hover {
     background: #4080c0;
 }
@@ -80,7 +91,7 @@ h2 {
     color: #a0b0f8;
 }
 .center_channel {
-    width: 940px;
+    width: 1004px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -98,29 +109,64 @@ h2 {
     box-shadow: 2px 2px 8px #a0a0a0;
 }
 
+.cano-main_page-outer{
+    vertical-align:top;
+}
+.cano-main_page-left-section {
+    width: 244px;
+    height:400px;
+    padding:6px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+.cano-main_page-middle-section {
+    width: 480px;
+    height:700px;
+    padding:6px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+.cano-main_page-right-section {
+    width: 244px;
+    height:900px;
+    padding:6px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+
 .cano-topbar-outer {
     top: 0px;
     width: 100%;
-    border-bottom: 1px solid #a0a0a0;
-    background: #ffffff;
+    border-bottom: 2px solid #d0d0d0;
+    background: #f8f8f8;
+    background: linear-gradient(to bottom, #ffffff,#ffffff, #f4f4f4); /* Standard syntax */
 }
+
 .cano-topbar-left-section {
     display: inline-block;
-    width: 250px;
-    padding: 4px;
+    width: 244px;
+    padding: 6px;
+    margin:0px;
     vertical-align: baseline;
 }
 .cano-topbar-middle-section {
     display: inline-block;
-    width: 690px;
-    padding: 4px;
+    width: 480px;;
+    padding: 6px;
+    margin:0px;
     padding-bottom:0px;
     vertical-align: baseline;
 }
 .cano-topbar-right-section {
-    position: absolute;
-    right: 0px;
-    width: 250px;
+    display: inline-block;
+    width: 244px;
+    margin:0px;
+    vertical-align: baseline;
+    padding: 6px;
+    text-align: right;
 }
 
 .cano-dialog-flat {
@@ -131,7 +177,6 @@ h2 {
     padding-top: 8px;
     background: #f4f4f4;
     vertical-align:top;
-    margin-bottom: 16px;
     border-bottom: 1px solid #d8d8d8;
 }
 .cano-banner-dialog {
