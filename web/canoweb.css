@@ -1,3 +1,10 @@
+a {
+    color: #204080;
+    text-decoration: none;
+}
+a:hover {
+    color: #3060a0;
+}
 body {
     margin: 0px;
     padding: 0px;
@@ -54,6 +61,9 @@ input[type=text], input[type=password] {
 .thin {
     font-weight: 200;
 }
+.thicker {
+    font-weight: 400;
+}
 
 h2 {
     font-weight: 200;
@@ -62,7 +72,7 @@ h2 {
 }
 .logo-in-text {
     font-family: "ABeeZee";
-    color: #3060a0;
+    color: #204080;
 }
 .logo-in-text-light {
     font-family: "ABeeZee";

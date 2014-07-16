@@ -32,13 +32,36 @@ function CanoLoginPageNode(canopy, dispatcher) {
 
     $me = $("\
         <div class=center_channel style='position: relative;'>\
-        <div class=cano-login_page-images-outer>\
-            <img src=http://www.canopy.link/devel/canopy_logo.jpg><br>\
-            <img src=http://www.canopy.link/devel/fan_cloud_iphone.png>\
+            <div class=cano-login_page-images-outer>\
+                <img src=http://www.canopy.link/devel/canopy_logo.jpg><br>\
+                <img src=http://www.canopy.link/devel/fan_cloud_iphone.png>\
+            </div>\
+            <div class=cano-login_page-dialogs-outer>\
+                <div id=login_dialog></div>\
+                <div id=signup_dialog></div>\
+            </div>\
         </div>\
-        <div class=cano-login_page-dialogs-outer>\
-            <div id=login_dialog></div>\
-            <div id=signup_dialog></div>\
+        <div style='position:absolute; width:100%; top:650px; border-bottom:2px solid #c0c0c0; padding-bottom:16px; background:#f0f0f0; border-top:2px solid #c0c0c0; padding-top:16px; box-shadow: 2px 2px 8px #909090'>\
+            <div class=center_channel>\
+                <span class=logo-in-text>Canopy</span> is an open source Internet of Things platform.\
+                <div class=small_margin_top>\
+                    <span class=logo-in-text>http://canopy.link</span> is the largest hosted deployment of the <span class=logo-in-text>Canopy Cloud Service</span>.\
+                </div>\
+                <div class='small_margin_top'>\
+                    <div class='ml thicker' style='display:inline-block;'>\
+                        <a href='foo'>Learn More</a>\
+                    </div>\
+                    <br><div class='s thicker' style='display:inline-block; margin-left:30px;'>\
+                        <a href='foo2'>Make your product \"smart\" with Canopy.</a>\
+                    </div>\
+                    <br><div class='s thicker' style='display:inline-block; margin-left:30px;'>\
+                        <a href='foo2'>Develop applications for Canopy-enabled products.</a>\
+                    </div>\
+                    <br><div class='s thicker' style='display:inline-block; margin-left:30px;'>\
+                        <a href='foo2'>F.A.Q.</a>\
+                    </div>\
+                </div>\
+            </div>\
         </div>\
-    </div>");
+    ");
 }

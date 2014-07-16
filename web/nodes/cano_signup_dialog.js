@@ -46,7 +46,7 @@ function CanoSignupDialogNode(params) {
 
     $me = $("\
         <div class=cano-dialog style='width:300px'>\
-            <div class=l>New to <span class=logo-in-text>canopy</span>?</div>\
+            <div class=l>New to <span class=logo-in-text>Canopy</span>?</div>\
             <div id=signup_form style='display:none;'>\
                 <div class=small_margin_top>\
                     Choose a username<br>\
@@ -67,6 +67,7 @@ function CanoSignupDialogNode(params) {
             </div>\
             <input id='signup_button' class=small_margin_top type=submit style='display:none' value='CREATE ACCOUNT'></input>\
             <input id=signup_submit type=submit style='margin-top:12px' value='SIGN UP'></input>\
+            <a class='thicker' href='tour.html'>Take tour</a>\
         </div>\
     ");
 }

@@ -29,7 +29,7 @@ var canopy = new CanopyClient({
     cloudUseHTTPS : false,
 });
 $(function() {
-    dispatcher = new CanowebDispatcher()
+    dispatcher = new CanowebDispatcher(canopy)
     canopy.onReady(function() {
         if (canopy.account) {
             dispatcher.showPage("main")
