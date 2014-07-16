@@ -1,0 +1,103 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Source Sans Pro", Helvetica,arial,freesans,clean,sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #000000;
+}
+
+.small_margin_top {
+    margin-top:12px;
+}
+
+.btn, input[type=submit] {
+    display: inline-block; 
+    border:1px solid #4060a0;
+    background: #3060a0;
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background: #4080c0;
+}
+
+input[type=text], input[type=password] {
+    border:1px solid #c0c0c0;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 0px;
+    padding: 8px;
+}
+.l {
+    font-size: 34px;
+}
+.big {
+    font-size: 34px;
+}
+.xxl {
+    font-size: 50px;
+}
+.ml {
+    font-size: 26px;
+}
+.ms {
+    font-size: 18px;
+}
+.s {
+    font-size: 15px;
+}
+.thin {
+    font-weight: 200;
+}
+
+h2 {
+    font-weight: 200;
+    font-size: 34px;
+    margin-bottom: 0px;
+}
+.logo-in-text {
+    font-family: "ABeeZee";
+    color: #3060a0;
+}
+.logo-in-text-light {
+    font-family: "ABeeZee";
+    color: #a0b0f8;
+}
+.center_channel {
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cano-dialog {
+    text-align: left;
+    border-top: 10px solid #d0d0d0;
+    display: inline-block;
+    padding: 16px;
+    padding-top: 8px;
+    background: #f0f0f0;
+    vertical-align:top;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #d0d0d0;
+    box-shadow: 2px 2px 8px #909090;
+}
+
+.cano-login_page-dialogs-outer {
+    position: absolute;
+    display: inline-block;
+    right: 0px;
+    top: 55px;
+}
+
+.cano-login_page-images-outer {
+    position: absolute;
+    display: inline-block;
+    left: 0px;
+    top: 80px;
+    text-align: center;
+}
