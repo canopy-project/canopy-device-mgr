@@ -41,7 +41,7 @@ function CanoLoginPageNode(canopy, dispatcher) {
                 <div id=signup_dialog></div>\
             </div>\
         </div>\
-        <div style='position:absolute; width:100%; top:650px; border-bottom:2px solid #c0c0c0; padding-bottom:16px; background:#f0f0f0; border-top:2px solid #c0c0c0; padding-top:16px; box-shadow: 2px 2px 8px #909090'>\
+        <div class=cano-banner-dialog style='position:absolute; width:100%; top:650px;'>\
             <div class=center_channel>\
                 <span class=logo-in-text>Canopy</span> is an open source Internet of Things platform.\
                 <div class=small_margin_top>\

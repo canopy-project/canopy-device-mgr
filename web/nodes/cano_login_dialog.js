@@ -14,6 +14,8 @@ function CanoLoginDialogNode(params) {
         $("#signin_button").off('click').on("click", function() {
             var username = $("#username").val();
             var password = $("#password").val();
+            $signinError = $("#signin_error");
+            $signinError.slideUp();
             canopy.login({
                 username: username, 
                 password: password,
@@ -21,8 +23,16 @@ function CanoLoginDialogNode(params) {
                     gAccount = account;
                     dispatcher.showPage("main");
                 },
-                onError: function() {
-                    alert("Login failed");
+                onError: function(reason) {
+                    $signinError = $("#signin_error");
+                    if (reason == "incorrect_username_or_password") {
+                        $signinError.html("Incorrect username/email and password combination.");
+                        $signinError.slideDown();
+                    }
+                    else {
+                        $signinError.html("Oops, unexpected error logging in.");
+                        $signinError.slideDown();
+                    }
                 }
             });
         });
@@ -51,6 +61,7 @@ function CanoLoginDialogNode(params) {
                 <div class=l>Sign in</div>\
                 <div id=signin_form>\
                     <div class=ms>Monitor, control, and share your<br><span class=logo-in-text>Canopy</span>-enabled devices.</div>\
+                    <div id=signin_error style='display:none' class=cano-warning-small></div>\
                     <div class=small_margin_top>\
                         Username or email<br>\
                         <input name=username id=username type=text></input>\
