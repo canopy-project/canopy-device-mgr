@@ -19,8 +19,8 @@ function CanoTopbarNode(params) {
             <div class='cano-topbar-left-section'>\
                 <div class=logo-in-text>Canopy</div>\
             </div><div class='cano-topbar-middle-section'>\
-                <div style='padding-bottom:4px; display:inline-block; border-bottom: 2px solid #c00000;'>My Devices</div>\
-                <div style='padding-bottom:6px; margin-left:20px; display:inline-block;'>Settings</div>\
+                <div style='padding-bottom:4px; display:inline-block; border-bottom: 2px solid #c00000;'>Devices</div>\
+                <div style='padding-bottom:6px; margin-left:20px; display:inline-block;'>Account</div>\
             </div><div class='cano-topbar-right-section'>" + canopy.account.username() + "</div>\
         </div>\
     </div>\
