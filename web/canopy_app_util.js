@@ -14,6 +14,7 @@ function CanopyUtil_Compose(segments) {
     var out = [];
     var $out;
     var placeholderCnt = 0;
+    var placeholders = [];
     for (i = 0; i < numSegments; i++) {
         if (typeof segments[i] === "string") {
             /* regular string, just append to output */

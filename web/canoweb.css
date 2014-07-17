@@ -319,3 +319,23 @@ h2 {
     top: 80px;
     text-align: center;
 }
+
+.cano-devices_menu-outer {
+    width: 724px;
+    padding: 6px;
+    padding-bottom: 0px;
+    border-bottom: 2px solid #d0d0d0;
+}
+
+.cano-devices_menu-button {
+    text-align: center;
+    display: inline-block;
+    line-height: 0.9;
+    cursor: pointer;
+    padding-bottom: 6px;
+}
+
+.cano-devices_menu-button:hover {
+    border-bottom: 2px solid #3060a0;
+    padding-bottom: 4px;
+}

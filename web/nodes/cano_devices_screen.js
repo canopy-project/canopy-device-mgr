@@ -23,7 +23,10 @@ function CanoDevicesScreenNode(params) {
 
     devicesMenuNode = new CanoDevicesMenuNode({
         canopyClient: canopy,
-        dispatcher: dispatcher
+        dispatcher: dispatcher,
+        onFilterSet: function(filter) {
+            devicesListNode.setFilter(filter);
+        }
     });
     devicesMenuNode.appendTo($left);
 
