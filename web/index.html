@@ -6,6 +6,7 @@
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script src="../canopy-js-client/canopy_client.js"></script>
     <script src="nodes/cano.js"></script>
+    <script src="nodes/cano_devices_list_item.js"></script>
     <script src="nodes/cano_devices_list.js"></script>
     <script src="nodes/cano_devices_menu.js"></script>
     <script src="nodes/cano_devices_screen.js"></script>
@@ -27,23 +28,23 @@
 
 <script>
 
-var canopy = new CanopyClient({
+var gCanopy = new CanopyClient({
     autoRefresh: true,
     cloudHost : "canopy.link",
     cloudHTTPPort : 8080,
     cloudUseHTTPS : false,
 });
 $(function() {
-    dispatcher = new CanowebDispatcher(canopy)
-    canopy.onReady(function() {
-        if (canopy.account) {
+    dispatcher = new CanowebDispatcher(gCanopy);
+    gCanopy.onReady(function() {
+        if (gCanopy.account) {
             dispatcher.showPage("main")
         }
         else {
             dispatcher.showPage("login");
         }
 
-        canopy.onLogout(function() {
+        gCanopy.onLogout(function() {
             dispatcher.showPage("login");
         });
     });

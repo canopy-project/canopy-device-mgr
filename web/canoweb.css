@@ -19,6 +19,42 @@ body {
     margin-top:12px;
 }
 
+.btn-small{
+    display: inline-block; 
+    border:1px solid #4060a0;
+    background: #3060a0;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 4px;
+    cursor: pointer;
+    line-height:1.333;
+}
+
+.btn-small-not_selected{
+    display: inline-block; 
+    border:1px solid #a0a0a0;
+    background: #d0d0d0;
+    color: #303030;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 4px;
+    cursor: pointer;
+    line-height:1.333;
+}
+.btn-small-not_selected:hover{
+    border:1px solid #c0c0c0;
+    background: #f0f0f0;
+    color: #505050;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 4px;
+    cursor: pointer;
+}
+
 .btn, input[type=submit] {
     display: inline-block; 
     border:1px solid #4060a0;
@@ -173,6 +209,51 @@ h2 {
     text-align: right;
 }
 
+.cano-devices_list-outer {
+    padding-top:4px;
+}
+
+.cano-devices_list_item-outer {
+    width:736px;
+    border-bottom:1px dashed #d8d8d8;
+    padding-top:4px;
+    padding-bottom:4px;
+}
+
+.cano-devices_list_item-disconnected {
+    color: #a00000;
+}
+
+.cano-devices_list_item-left-section {
+    display: inline-block;
+    width: 256px;
+    padding: 0px;
+    margin:0px;
+    vertical-align: top;
+}
+
+.cano-devices_list_item-right-section {
+    display: inline-block;
+    width: 480px;
+    height:64px;
+    padding: 0px;
+    margin-top:3px;
+    margin-bottom:9px;
+    vertical-align: top;
+}
+
+.cano-devices_list_item-link {
+    cursor: pointer;
+    padding:6px;
+    border-radius:6px;
+}
+
+.cano-devices_list_item-link:hover {
+    background:#e8f4ff;
+}
+.cano-devices_list_item-link:hover img {
+    box-shadow: 2px 2px 8px #204080 !important; 
+}
 .cano-dialog-flat {
     text-align: left;
     border-top: 8px solid #d8d8d8;

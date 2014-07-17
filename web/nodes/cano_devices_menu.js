@@ -18,8 +18,8 @@ function CanoDevicesMenuNode(params) {
     $me = $("<div>");
 
     $me.append("\
-        <div style='width:100%; padding:6px; padding-bottom:0px; border-bottom:2px solid #d0d0d0;'>\
-            <div style='display:inline-block; width:256px;'>\
+        <div style='width:724px; padding:6px; padding-bottom:0px; border-bottom:2px solid #d0d0d0;'>\
+            <div style='display:inline-block; width:250px;'>\
                 <div style='text-align:center; border-bottom:2px solid #a00000; padding-bottom:4px; display: inline-block; line-height:0.90'>\
                     <span class=big>" + canopy.devices.length + "</span>\
                     <span class=s><br>showing all devices</span>\
