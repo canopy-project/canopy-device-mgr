@@ -339,3 +339,17 @@ h2 {
     border-bottom: 2px solid #3060a0;
     padding-bottom: 4px;
 }
+
+.cano-account_dropdown-outer {
+    position:relative;
+    display: inline-block;
+}
+.cano-account_dropdown-inner {
+    position:absolute;
+    background:#fffff0;
+    padding:8px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px #808080;
+    right:-8px;
+    top:13px;
+}

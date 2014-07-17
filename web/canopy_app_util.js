@@ -21,7 +21,7 @@ function CanopyUtil_Compose(segments) {
             out.push(segments[i]);
         }
         else if (typeof segments[i] === "object") {
-            if (segments[i] instanceof CanoNode) {
+            if (segments[i].get$) {
                 /* canopy node object.  Create placeholder */
                 var placeholderId = "_tmpid_" + placeholderCnt;
                 out.push("<div id=" + placeholderId + "/>");
