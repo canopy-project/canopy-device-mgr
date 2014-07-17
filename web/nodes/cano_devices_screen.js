@@ -4,6 +4,7 @@ function CanoDevicesScreenNode(params) {
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
         devicesMenuNode,
+        eventPanelNode,
         $left,
         $right
     ;
@@ -31,6 +32,12 @@ function CanoDevicesScreenNode(params) {
         dispatcher: dispatcher
     });
     devicesListNode.appendTo($left);
+
+    eventPanelNode = new CanoEventPanelNode({
+        canopyClient: canopy,
+        dispatcher: dispatcher
+    });
+    eventPanelNode.appendTo($right);
 
     $me = $("<div class=center_channel>");
     $me.append($left).append($right);

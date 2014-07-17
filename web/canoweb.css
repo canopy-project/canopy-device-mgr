@@ -30,6 +30,7 @@ body {
     padding: 4px;
     cursor: pointer;
     line-height:1.333;
+    background: linear-gradient(to top, #204080, #3060a0, #204080); /* Standard syntax */
 }
 
 .btn-small-not_selected{
@@ -43,6 +44,11 @@ body {
     padding: 4px;
     cursor: pointer;
     line-height:1.333;
+    position:relative;
+    top:-2px;
+    left:-2px;
+    box-shadow: 3px 3px 3px #b0b0b0;
+    background: linear-gradient(to top, #c8c8c8, #d8d8d8, #c8c8c8); /* Standard syntax */
 }
 .btn-small-not_selected:hover{
     border:1px solid #c0c0c0;
@@ -263,6 +269,20 @@ h2 {
     background: #f4f4f4;
     vertical-align:top;
     border-bottom: 1px solid #d8d8d8;
+}
+.cano-event_panel-outer {
+    font-size:18px;
+    text-align: left;
+    border-top: 8px solid #d8d8d8;
+    display: inline-block;
+    padding-top: 4px;
+    background: #f4f4f4;
+    vertical-align:top;
+    border-bottom: 1px solid #d8d8d8;
+}
+.cano-event_panel-item {
+    border-bottom: 1px solid #d0d0d0;
+    padding:8px;
 }
 .cano-banner-dialog {
     text-align: left;

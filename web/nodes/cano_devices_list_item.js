@@ -35,8 +35,8 @@ function CanoDevicesListItemNode(params) {
     $right.append("\
         <div style='display:inline-block; vertical-align:bottom; width:1px; height:64px;'></div>\
         <div style='vertical-align: bottom; display:inline-block; line-height:0.6'>\
-            <div style='vertical-align:middle; display:inline-block;' class=btn-small>OFF</div>\
-            <div style='vertical-align:middle; display:inline-block;' class=btn-small-not_selected>SLOW</div>\
+            <div style='vertical-align:middle; display:inline-block;' class=btn-small-not_selected>OFF</div>\
+            <div style='vertical-align:middle; display:inline-block;' class=btn-small>SLOW</div>\
             <div style='vertical-align:middle; display:inline-block;' class=btn-small-not_selected>MED</div>\
             <div style='vertical-align:middle; display:inline-block;' class=btn-small-not_selected>FAST</div>\
             <span class=s><br>Fan speed</span>\
@@ -55,7 +55,7 @@ function CanoDevicesListItemNode(params) {
         </div>\
         <div style='text-align:center; margin-left:16px; position:relative; top:4px; vertical-align:bottom; display:inline-block; line-height:0.6'>\
             <br><img src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/32x32/gears.png>&nbsp;\
-            <span class=s><br><br>Settings</span>\
+            <span class=s><br><br>Edit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>\
         </div>\
     ");
 }
