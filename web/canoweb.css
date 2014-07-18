@@ -13,6 +13,7 @@ body {
     font-size: 20px;
     color: #000000;
     line-height: 1.333;
+    background:#f8f8f8;
 }
 
 .small_margin_top {
@@ -216,15 +217,35 @@ h2 {
 }
 
 .cano-devices_list-outer {
-    padding-top:4px;
+    padding-top:0px;
 }
 
-.cano-devices_list_item-outer {
+.cano-devices_list_item-outer1 {
     width:736px;
-    border-bottom:1px dashed #d8d8d8;
     padding-top:4px;
     padding-bottom:4px;
-    overflow:hidden;
+    /*background: #ffffff url('http://whyfiles.org/wp-content/uploads/2010/03/clouds.jpg') no-repeat ;*/
+    /*background: #ffffff url('http://canopy.link/shutterstock_82034455_fan_h175.jpg') no-repeat left center;*/
+    background: #ffffff url('images/robot1_64x64.jpg') no-repeat left center;
+    background-size: 100px;
+    margin-top:12px;
+    margin-bottom:12px;
+    border-radius:5px;
+    box-shadow: 2px 2px 2px #a0a0a0;
+    border: 1px solid #d8d8d8;
+}
+.cano-devices_list_item-outer2 {
+    width:736px;
+    padding-top:4px;
+    padding-bottom:4px;
+    /*background: #ffffff url('http://whyfiles.org/wp-content/uploads/2010/03/clouds.jpg') no-repeat ;*/
+    background: #ffffff url('http://canopy.link/shutterstock_82034455_fan_h175.jpg') no-repeat left center;
+    background-size: 85px;
+    margin-top:12px;
+    margin-bottom:12px;
+    border-radius:5px;
+    box-shadow: 2px 2px 2px #a0a0a0;
+    border: 1px solid #d8d8d8;
 }
 
 .cano-devices_list_item-disconnected {
@@ -256,7 +277,7 @@ h2 {
 }
 
 .cano-devices_list_item-link:hover {
-    background:#e8f4ff;
+    font-weight:400;
 }
 .cano-devices_list_item-link:hover img {
     box-shadow: 2px 2px 8px #204080 !important; 
@@ -277,9 +298,12 @@ h2 {
     border-top: 8px solid #d8d8d8;
     display: inline-block;
     padding-top: 4px;
-    background: #f4f4f4;
+    background: #ffffff;
     vertical-align:top;
+    border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
+    border-left: 1px solid #d8d8d8;
+    box-shadow: 2px 2px 3px #a0a0a0;
 }
 .cano-event_panel-item {
     border-bottom: 1px solid #d0d0d0;
@@ -353,4 +377,20 @@ h2 {
     box-shadow: 2px 2px 4px #808080;
     right:-8px;
     top:13px;
+}
+.cano-sensor_small-outer {
+    display:inline-block;
+    line-height:0.9;
+    vertical-align: text-bottom;
+    margin-left:25px;
+    margin-top:15px;
+}
+.cano-sensor_small-top {
+    font-weight:800;
+    color: #606060;
+    font-size: 28px;
+}
+.cano-sensor_small-bottom {
+    color: #606060;
+    font-size: 15px;
 }
