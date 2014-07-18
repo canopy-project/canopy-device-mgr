@@ -19,10 +19,17 @@ body {
 .small_margin_top {
     margin-top:12px;
 }
+.bottom_aligner {
+    display:inline-block;
+    width: 0px;
+    height:100%;
+    vertical-align:bottom;
+    background: #ff0000;
+}
 
 .btn-small{
     display: inline-block; 
-    border:1px solid #4060a0;
+    border:1px solid #a0a0a0;
     background: #3060a0;
     color: #ffffff;
     font-size: 14px;
@@ -30,7 +37,7 @@ body {
     border-radius: 2px;
     padding: 4px;
     cursor: pointer;
-    line-height:1.333;
+    margin-right:2px;
     background: linear-gradient(to top, #204080, #3060a0, #204080); /* Standard syntax */
 }
 
@@ -44,16 +51,16 @@ body {
     border-radius: 2px;
     padding: 4px;
     cursor: pointer;
-    line-height:1.333;
     position:relative;
-    top:-2px;
-    left:-2px;
-    box-shadow: 3px 3px 3px #b0b0b0;
+    top:-0px;
+    left:-0px;
+    margin-right:2px;
+    /*box-shadow: 0px 2px 2px #b0b0b0;*/
     background: linear-gradient(to top, #c8c8c8, #d8d8d8, #c8c8c8); /* Standard syntax */
 }
 .btn-small-not_selected:hover{
-    border:1px solid #c0c0c0;
-    background: #f0f0f0;
+    border:1px solid #b0b0b0;
+    background: #d8d8d8;
     color: #505050;
     font-size: 14px;
     font-weight: 700;
@@ -188,8 +195,8 @@ h2 {
     top: 0px;
     width: 100%;
     border-bottom: 2px solid #d0d0d0;
-    background: #f8f8f8;
-    background: linear-gradient(to bottom, #ffffff,#ffffff, #f4f4f4); /* Standard syntax */
+    background: #ffffff;
+    /*background: linear-gradient(to bottom, #ffffff,#ffffff, #f4f4f4); */
 }
 
 .cano-topbar-left-section {
@@ -217,13 +224,11 @@ h2 {
 }
 
 .cano-devices_list-outer {
-    padding-top:0px;
+    padding-top: 0px;
 }
 
 .cano-devices_list_item-outer1 {
     width:736px;
-    padding-top:4px;
-    padding-bottom:4px;
     /*background: #ffffff url('http://whyfiles.org/wp-content/uploads/2010/03/clouds.jpg') no-repeat ;*/
     /*background: #ffffff url('http://canopy.link/shutterstock_82034455_fan_h175.jpg') no-repeat left center;*/
     background: #ffffff url('images/robot1_64x64.jpg') no-repeat left center;
@@ -231,21 +236,21 @@ h2 {
     margin-top:12px;
     margin-bottom:12px;
     border-radius:5px;
-    box-shadow: 2px 2px 2px #a0a0a0;
+    box-shadow: 2px 2px 3px #d0d0d0;
     border: 1px solid #d8d8d8;
+    height: 80px;
 }
 .cano-devices_list_item-outer2 {
     width:736px;
-    padding-top:4px;
-    padding-bottom:4px;
     /*background: #ffffff url('http://whyfiles.org/wp-content/uploads/2010/03/clouds.jpg') no-repeat ;*/
     background: #ffffff url('http://canopy.link/shutterstock_82034455_fan_h175.jpg') no-repeat left center;
     background-size: 85px;
     margin-top:12px;
     margin-bottom:12px;
     border-radius:5px;
-    box-shadow: 2px 2px 2px #a0a0a0;
+    box-shadow: 2px 2px 4px #d0d0d0;
     border: 1px solid #d8d8d8;
+    height: 80px;
 }
 
 .cano-devices_list_item-disconnected {
@@ -255,33 +260,39 @@ h2 {
 .cano-devices_list_item-left-section {
     display: inline-block;
     width: 256px;
-    padding: 0px;
-    margin:0px;
+    height: 100%;
     vertical-align: top;
 }
 
 .cano-devices_list_item-right-section {
     display: inline-block;
     width: 480px;
-    height:64px;
-    padding: 0px;
-    margin-top:3px;
-    margin-bottom:9px;
+    height: 100%;
     vertical-align: top;
 }
 
-.cano-devices_list_item-link {
+.cano-devices_list_item-title-outer{
+    display:inline-block;
+    height:100%;
     cursor: pointer;
-    padding:6px;
-    border-radius:6px;
+    line-height:1.1;
+    margin-left:75px;
 }
 
-.cano-devices_list_item-link:hover {
+.cano-devices_list_item-title-top {
+    display:inline-block;
+    height:60%;
+    font-size: 28px;
+}
+.cano-devices_list_item-title-bottom {
+    height:40%;
+    font-size: 15px;
+}
+
+.cano-devices_list_item-title-outer:hover {
     font-weight:400;
 }
-.cano-devices_list_item-link:hover img {
-    box-shadow: 2px 2px 8px #204080 !important; 
-}
+
 .cano-dialog-flat {
     text-align: left;
     border-top: 8px solid #d8d8d8;
@@ -303,7 +314,7 @@ h2 {
     border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
     border-left: 1px solid #d8d8d8;
-    box-shadow: 2px 2px 3px #a0a0a0;
+    box-shadow: 2px 2px 3px #d0d0d0;
 }
 .cano-event_panel-item {
     border-bottom: 1px solid #d0d0d0;
@@ -380,17 +391,26 @@ h2 {
 }
 .cano-sensor_small-outer {
     display:inline-block;
-    line-height:0.9;
-    vertical-align: text-bottom;
-    margin-left:25px;
-    margin-top:15px;
+    height:100%;
+    line-height:1.1;
+    margin-right:25px;
 }
 .cano-sensor_small-top {
     font-weight:800;
     color: #606060;
     font-size: 28px;
+    height:60%;
 }
 .cano-sensor_small-bottom {
     color: #606060;
     font-size: 15px;
+    height:40%;
+}
+.cano-device_control_widget-icons-outer {
+    display: inline-block;
+    float: right;
+    padding-top:4px;
+}
+.cano-device_control_widget-icons-outer img{
+    cursor: pointer;
 }

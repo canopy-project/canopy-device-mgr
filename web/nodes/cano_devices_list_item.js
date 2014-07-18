@@ -34,10 +34,14 @@ function CanoDevicesListItemNode(params) {
     $right = $("<div class=cano-devices_list_item-right-section>");
 
     $left.append("\
-        <div class=cano-devices_list_item-link>\
-            <!--img style='vertical-align:middle; border-radius:7px; box-shadow: 1px 1px 3px #a0a0a0'; src=images/robot1_64x64.jpg-->\
-            <div style='margin-left:72px; padding:4px; vertical-align:middle; width:160px; display:inline-block; line-height:0.9;'>\
-                <span class=ml>" + device.friendlyName() + "</span><br><span class=s>Greg's Office</span>\
+        <div class='cano-devices_list_item-title-outer'>\
+            <div class='cano-devices_list_item-title-top'>\
+                <div class='bottom_aligner'></div><div style='display:inline-block'>\
+                    " + device.friendlyName() + "\
+                </div>\
+            </div>\
+            <div class='cano-devices_list_item-title-bottom'>\
+                Greg's Office\
             </div>\
         </div>\
     ");

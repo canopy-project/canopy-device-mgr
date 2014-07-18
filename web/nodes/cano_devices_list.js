@@ -23,7 +23,6 @@ function CanoDevicesListNode(params) {
     }
 
     this.refresh = function() {
-        $me.html("");
         deviceItemNodes.length = 0; /* TODO cleanup existing items? */
 
         for (var i = 0; i < canopy.devices.length; i++) {

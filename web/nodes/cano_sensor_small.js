@@ -29,8 +29,12 @@ function CanoSensorSmallNode(params) {
         }
     }
 
-    $me = $("<div class=cano-sensor_small-outer>\
-        <div class=cano-sensor_small-top>" + value + "</div>\
-        <div class=cano-sensor_small-bottom>" + sensor.name() + "</div>\
-    </div>");
+        $me = $("<div class=cano-sensor_small-outer>\
+            <div class=cano-sensor_small-top>\
+                <div class=bottom_aligner></div><div style='display: inline-block'>\
+                    " + value + "\
+                </div>\
+            </div>\
+            <div class=cano-sensor_small-bottom>" + sensor.name() + "</div>\
+        </div>");
 }

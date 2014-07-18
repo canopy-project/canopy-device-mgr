@@ -20,25 +20,36 @@ function CanoDeviceControlWidgetNode(params) {
     }
 
     this.refresh = function() {
-        $me.html("");
         propNodes.length = 0;
         for (var i = 0; i < device.properties.__length; i++) {
             var prop = device.properties[i];
-            if (prop.isControl()) {
-
-            }
-            else if (prop.isSensor()) {
+            if (prop.isSensor()) {
                 var propNode = new CanoSensorSmallNode({
                     sensor: prop
                 });
                 propNodes.push(propNode);
                 propNode.appendTo($me);
             }
+            else if (prop.isControl()) {
+                var propNode = new CanoControlSmallNode({
+                    control: prop
+                });
+                propNodes.push(propNode);
+                propNode.appendTo($me);
+            }
         }
+        $me.append("\
+            <div class='cano-device_control_widget-icons-outer'>\
+               <img title='Share this device' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/send_mail.png>&nbsp;&nbsp;\
+               <img title='Edit details' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/gears.png>&nbsp;&nbsp;\
+            </div>\
+        </div>\
+        ");
     }
 
+    $me = $("<div style='height:100%'>");
 
-    $me = $("\
+    /*$me = $("\
         <div style='vertical-align:center; height:64px;'>\
             <div style='display:inline-block; vertical-align:bottom; width:1px; height:64px;'></div>\
             <div style='vertical-align: bottom; display:inline-block; line-height:0.6'>\
@@ -65,7 +76,7 @@ function CanoDeviceControlWidgetNode(params) {
                 <span class=s><br><br>Edit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>\
             </div>\
         </div>\
-    ");
+    ");*/
 
     this.refresh();
 }
