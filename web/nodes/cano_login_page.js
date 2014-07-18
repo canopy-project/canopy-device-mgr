@@ -12,6 +12,7 @@ function CanoLoginPageNode(canopy, dispatcher) {
     this.onLive = function() {
         loginDialogNode.render($("#login_dialog"));
         signupDialogNode.render($("#signup_dialog"));
+        $('body').css('background', 'white');
     }
 
     loginDialogNode = new CanoLoginDialogNode({

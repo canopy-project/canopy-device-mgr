@@ -21,6 +21,7 @@ function CanoMainPageNode(params) {
     this.onLive = function() {
         topbarNode.onLive();
         contentNode.onLive();
+        $('body').css('background', '#f4f4f4');
     }
 
     topbarNode = new CanoTopbarNode({
