@@ -224,6 +224,7 @@ h2 {
     border-bottom:1px dashed #d8d8d8;
     padding-top:4px;
     padding-bottom:4px;
+    overflow:hidden;
 }
 
 .cano-devices_list_item-disconnected {

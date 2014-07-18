@@ -16,6 +16,8 @@ function CanoDevicesScreenNode(params) {
     }
 
     this.onLive = function() {
+        devicesMenuNode.onLive();
+        eventPanelNode.onLive();
     }
 
     $left = $("<div class=cano-main_page-left-and-middle-section></div>");

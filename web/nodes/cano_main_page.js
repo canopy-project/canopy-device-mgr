@@ -9,7 +9,8 @@ function CanoMainPageNode(params) {
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        topbarNode;
+        topbarNode,
+        contentNode;
 
     $.extend(this, new CanoNode());
 
@@ -18,6 +19,8 @@ function CanoMainPageNode(params) {
     }
 
     this.onLive = function() {
+        topbarNode.onLive();
+        contentNode.onLive();
     }
 
     topbarNode = new CanoTopbarNode({

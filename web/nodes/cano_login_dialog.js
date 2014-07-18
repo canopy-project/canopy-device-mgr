@@ -19,8 +19,7 @@ function CanoLoginDialogNode(params) {
             canopy.login({
                 username: username, 
                 password: password,
-                onSuccess: function(account) {
-                    gAccount = account;
+                onSuccess: function() {
                     dispatcher.showPage("main");
                 },
                 onError: function(reason) {
