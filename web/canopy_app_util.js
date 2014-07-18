@@ -1,3 +1,10 @@
+function CanopyUtil_IsValidEmail(email) {
+    /* http://davidcel.is/blog/2012/09/06/stop-validating-email-addresses-with-regex/ */
+
+    /*http://stackoverflow.com/questions/46155/validate-email-address-in-javascript */
+    return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/g.test(email);
+}
+
 function CanopyUtil_GetURLParams() {
     var params = [];
     var query = location.search.slice(1).split('&');

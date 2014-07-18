@@ -1,5 +1,7 @@
 /*
- * .device -- CanopyDevice object to generate control widget for.
+ *  params:
+ *  .canopyClient - CanopyClient object
+ *  .device -- CanopyDevice object to generate control widget for.
  */
 function CanoDeviceControlWidgetNode(params) {
     var self=this,
@@ -7,7 +9,9 @@ function CanoDeviceControlWidgetNode(params) {
         $left,
         $right,
         device = params.device,
-        propNodes = []
+        canopy = params.canopyClient,
+        propNodes = [],
+        $shareButton
     ;
 
     $.extend(this, new CanoNode());
@@ -17,6 +21,12 @@ function CanoDeviceControlWidgetNode(params) {
     }
 
     this.onLive = function() {
+        $shareButton.off().on('click', function() {
+            new CanoSharingPopupNode({
+                canopyClient: canopy, 
+                device: device
+            }).appendTo($("#main"));
+        });
     }
 
     this.refresh = function() {
@@ -38,14 +48,18 @@ function CanoDeviceControlWidgetNode(params) {
                 propNode.appendTo($me);
             }
         }
-        $me.append("\
+
+        $me.append(CanopyUtil_Compose(["\
             <div class='cano-device_control_widget-icons-outer'>\
-               <img title='Share this device' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/send_mail.png>&nbsp;&nbsp;\
+               ", $shareButton, "\
+               &nbsp;\
                <img title='Edit details' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/gears.png>&nbsp;&nbsp;\
             </div>\
         </div>\
-        ");
+        "]));
     }
+
+    $shareButton = $("<img title='Share this device' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/send_mail.png>");
 
     $me = $("<div style='height:100%'>");
 

@@ -24,10 +24,12 @@ function CanoDevicesListNode(params) {
 
     this.refresh = function() {
         deviceItemNodes.length = 0; /* TODO cleanup existing items? */
+        $me.html("");
 
         for (var i = 0; i < canopy.devices.length; i++) {
             var device = canopy.devices[i];
             var deviceItemNode = new CanoDevicesListItemNode({
+                canopyClient: canopy,
                 device: canopy.devices[i]
             });
             if (filter.connected === true && !device.isConnected())

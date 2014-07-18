@@ -3,6 +3,7 @@ function CanoDevicesListItemNode(params) {
         $me,
         $left,
         $right,
+        canopy = params.canopyClient,
         device = params.device,
         controlWidgetNode
     ;
@@ -17,6 +18,7 @@ function CanoDevicesListItemNode(params) {
     }
 
     controlWidgetNode = new CanoDeviceControlWidgetNode({
+        canopyClient: canopy,
         device: device
     });
 

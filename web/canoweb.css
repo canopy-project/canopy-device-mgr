@@ -5,6 +5,9 @@ a {
 a:hover {
     color: #3060a0;
 }
+.test {
+    background:#ff0000 !important;
+}
 body {
     margin: 0px;
     padding: 0px;
@@ -15,7 +18,30 @@ body {
     line-height: 1.333;
     background:#f8f8f8;
 }
+.cano-popup-outer {
+    position: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align:center;
+}
 
+.cano-popup-inner {
+    text-align:left;
+    display:inline-block;
+    position: relative;
+    top:64px;
+    background-color: #f4f4f4;
+    border-top: 10px solid #d8d8d8;
+    padding: 16px;
+    padding-top: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #d8d8d8;
+    border-radius:4px;
+    box-shadow: 4px 4px 8px #606060;
+}
 .small_margin_top {
     margin-top:12px;
 }
@@ -80,11 +106,11 @@ body {
     cursor: pointer;
 }
 
-.btn_not_selected, input[type=submit] {
+.btn_not_selected, .btn_not_selected input[type=submit] {
     display: inline-block; 
-    border:1px solid #a0a0a0;
-    background: #d0d0d0;
-    color: #303030;
+    border:1px solid #a0a0a0 !important;
+    background: #d0d0d0 !important;
+    color: #303030 !important;
     font-weight: 700;
     border-radius: 2px;
     padding: 8px;
