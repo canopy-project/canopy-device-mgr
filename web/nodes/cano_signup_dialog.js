@@ -15,15 +15,19 @@ function CanoSignupDialogNode(params) {
             var username = $("#signup_username").val();
             var email = $("#signup_email").val();
             var password = $("#signup_password").val();
-            var password_confirm = $("#signup_password2").val();
-            canopy.createAccount(username, email, password, password_confirm,
-                function() {
+            var passwordConfirm = $("#signup_password2").val();
+            canopy.createAccount({
+                username: username, 
+                email: email, 
+                password: password, 
+                passwordConfirm: passwordConfirm,
+                onSuccess: function() {
                     dispatcher.showPage("main");
                 },
-                function() {
+                onError: function() {
                     alert("Create acct failed");
                 }
-            );
+            });
         });
         $("#signup_submit").off('click').on('click', function() {
             self.expand();
