@@ -34,8 +34,8 @@ function CanoLoginPageNode(canopy, dispatcher) {
     $me = $("\
         <div class=center_channel style='position: relative;'>\
             <div class=cano-login_page-images-outer>\
-                <img src=http://www.canopy.link/devel/canopy_logo.jpg><br>\
-                <img src=http://www.canopy.link/devel/fan_cloud_iphone.png>\
+                <img src=images/canopy_logo.jpg><br>\
+                <img src=images/fan_cloud_iphone.png>\
             </div>\
             <div class=cano-login_page-dialogs-outer>\
                 <div id=login_dialog></div>\
