@@ -7,7 +7,8 @@ function CanoSensorSmallNode(params) {
         $left,
         $right,
         sensor = params.sensor,
-        propNodes = []
+        propNodes = [],
+        hoverPlotNode
     ;
 
     $.extend(this, new CanoNode());
@@ -17,7 +18,21 @@ function CanoSensorSmallNode(params) {
     }
 
     this.onLive = function() {
+        $me.hover(function() {
+            hoverPlotNode.get$().show();
+            sensor.fetchHistoricData({
+                onSuccess: function(data) {
+                    hoverPlotNode.setTimeseriesData(data.samples);
+                }
+            });
+        },
+        function() {
+            hoverPlotNode.get$().hide();
+        }
+        );
     }
+
+    hoverPlotNode = new CanoHoverPlotNode();
 
     var value = (sensor.value() !== null) ? sensor.value().v : '-';
     if (value != '-') {
@@ -29,12 +44,15 @@ function CanoSensorSmallNode(params) {
         }
     }
 
-        $me = $("<div class=cano-sensor_small-outer>\
-            <div class=cano-sensor_small-top>\
-                <div class=bottom_aligner></div><div style='display: inline-block'>\
-                    " + value + "\
-                </div>\
+    $me = $("<div class=cano-sensor_small-outer>\
+        <div class=cano-sensor_small-top>\
+            <div class=bottom_aligner></div><div style='display: inline-block'>\
+                " + value + "\
             </div>\
-            <div class=cano-sensor_small-bottom>" + sensor.name() + "</div>\
-        </div>");
+        </div>\
+        <div class=cano-sensor_small-bottom>" + sensor.name() + "</div>\
+    </div>");
+
+    hoverPlotNode.appendTo($me);
+    hoverPlotNode.get$().hide();
 }

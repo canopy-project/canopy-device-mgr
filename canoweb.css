@@ -420,6 +420,7 @@ h2 {
     height:100%;
     line-height:1.1;
     margin-right:25px;
+    cursor: pointer;
 }
 .cano-sensor_small-top {
     font-weight:800;
@@ -439,4 +440,37 @@ h2 {
 }
 .cano-device_control_widget-icons-outer img{
     cursor: pointer;
+}
+
+.cano-hover_plot-outer {
+    position: absolute;
+    left:0px;
+    right:0px;
+}
+
+.cano-hover_plot-inner {
+    position: relative;
+    top:-10px;
+    z-index: 400;
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f4f4f4;
+    border: 1px solid #a0a0a0;
+    border-radius: 8px;
+    box-shadow: 3px 3px 10px #909090;
+    overflow:hidden;
+}
+.cano-hover_plot-poker-outer {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #f00000;
+}
+
+.cano-hover_plot-poker-inner {
+    position: absolute;
+    font-size: 60px;
+    top: -50px;
+    left: -5px;
+    color: #a0c0d0;
 }
