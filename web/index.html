@@ -2,9 +2,13 @@
 <meta charset="utf-8">
 <html>
 <head>
+    <script src="canoweb.conf.js"></script>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script src="../canopy-js-client/canopy_client.js"></script>
+    <script>
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+    </script>
     <script src="nodes/cano.js"></script>
     <script src="nodes/cano_account_dropdown.js"></script>
     <script src="nodes/cano_control_small.js"></script>
@@ -36,12 +40,7 @@
 
 <script>
 
-var gCanopy = new CanopyClient({
-    autoRefresh: true,
-    cloudHost : "canopy.link",
-    cloudHTTPPort : 8080,
-    cloudUseHTTPS : false,
-});
+var gCanopy = new CanopyClient(gCanopyWebAppConfiguration);
 $(function() {
     dispatcher = new CanowebDispatcher(gCanopy);
     gCanopy.onReady(function() {
