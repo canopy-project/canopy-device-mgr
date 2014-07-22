@@ -40,6 +40,18 @@ function CanoDevicesListNode(params) {
             deviceItemNodes.push(deviceItemNode);
             deviceItemNode.appendTo($me);
         }
+        if (canopy.devices.length == 0) {
+            $me.append("\
+                <div style='width:716px; margin-top:16px; background:#ffffff; border:1px solid #d8d8d8; padding:8px;'>\
+                    <div class=l>Welcome to Canopy.</div>\
+                    <div>\
+                        <p>\
+                            There's nothing to do here until you get access to Canopy-enabled <i>things</i>.\
+                        </p>\
+                    </div>\
+                </div>\
+            ");
+        }
     }
 
     $me = $("<div class=cano-devices_list-outer>");
