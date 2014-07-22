@@ -1,0 +1,442 @@
+a {
+    color: #204080;
+    text-decoration: none;
+}
+a:hover {
+    color: #3060a0;
+}
+.test {
+    background:#ff0000 !important;
+}
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Source Sans Pro", Helvetica,arial,freesans,clean,sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #000000;
+    line-height: 1.333;
+    background:#f8f8f8;
+}
+.cano-popup-outer {
+    position: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align:center;
+}
+
+.cano-popup-inner {
+    text-align:left;
+    display:inline-block;
+    position: relative;
+    top:64px;
+    background-color: #f4f4f4;
+    border-top: 10px solid #d8d8d8;
+    padding: 16px;
+    padding-top: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #d8d8d8;
+    border-radius:4px;
+    box-shadow: 4px 4px 8px #606060;
+}
+.small_margin_top {
+    margin-top:12px;
+}
+.bottom_aligner {
+    display:inline-block;
+    width: 0px;
+    height:100%;
+    vertical-align:bottom;
+    background: #ff0000;
+}
+
+.btn-small{
+    display: inline-block; 
+    border:1px solid #a0a0a0;
+    background: #3060a0;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 4px;
+    cursor: pointer;
+    margin-right:2px;
+    background: linear-gradient(to top, #204080, #3060a0, #204080); /* Standard syntax */
+}
+
+.btn-small-not_selected{
+    display: inline-block; 
+    border:1px solid #a0a0a0;
+    background: #d0d0d0;
+    color: #303030;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 4px;
+    cursor: pointer;
+    position:relative;
+    top:-0px;
+    left:-0px;
+    margin-right:2px;
+    /*box-shadow: 0px 2px 2px #b0b0b0;*/
+    background: linear-gradient(to top, #c8c8c8, #d8d8d8, #c8c8c8); /* Standard syntax */
+}
+.btn-small-not_selected:hover{
+    border:1px solid #b0b0b0;
+    background: #d8d8d8;
+    color: #505050;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.btn, input[type=submit] {
+    display: inline-block; 
+    border:1px solid #4060a0;
+    background: #3060a0;
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.btn_not_selected, .btn_not_selected input[type=submit] {
+    display: inline-block; 
+    border:1px solid #a0a0a0 !important;
+    background: #d0d0d0 !important;
+    color: #303030 !important;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background: #4080c0;
+}
+
+input[type=text], input[type=password] {
+    border:1px solid #c0c0c0;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 0px;
+    padding: 8px;
+}
+.l {
+    font-size: 34px;
+}
+.big {
+    font-size: 34px;
+}
+.xxl {
+    font-size: 50px;
+}
+.ml {
+    font-size: 26px;
+}
+.ms {
+    font-size: 18px;
+}
+.s {
+    font-size: 15px;
+}
+.thin {
+    font-weight: 200;
+}
+.thicker {
+    font-weight: 400;
+}
+
+h2 {
+    font-weight: 200;
+    font-size: 34px;
+    margin-bottom: 0px;
+}
+.logo-in-text {
+    font-family: "ABeeZee";
+    color: #204080;
+}
+.logo-in-text-light {
+    font-family: "ABeeZee";
+    color: #a0b0f8;
+}
+.center_channel {
+    width: 1004px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cano-dialog {
+    text-align: left;
+    border-top: 10px solid #d8d8d8;
+    display: inline-block;
+    padding: 16px;
+    padding-top: 8px;
+    background: #f4f4f4;
+    vertical-align:top;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #d8d8d8;
+    box-shadow: 2px 2px 8px #a0a0a0;
+}
+
+.cano-main_page-outer{
+    vertical-align:top;
+}
+.cano-main_page-left-section {
+    width: 244px;
+    padding:6px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+.cano-main_page-middle-section {
+    width: 480px;
+    padding:6px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+.cano-main_page-left-and-middle-section {
+    width: 736px;
+    padding:0px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+.cano-main_page-right-section {
+    width: 244px;
+    padding:6px;
+    margin:0px;
+    display: inline-block;
+    vertical-align:top;
+}
+
+.cano-topbar-outer {
+    top: 0px;
+    width: 100%;
+    border-bottom: 2px solid #d0d0d0;
+    background: #ffffff;
+    /*background: linear-gradient(to bottom, #ffffff,#ffffff, #f4f4f4); */
+}
+
+.cano-topbar-left-section {
+    display: inline-block;
+    width: 244px;
+    padding: 6px;
+    margin:0px;
+    vertical-align: baseline;
+}
+.cano-topbar-middle-section {
+    display: inline-block;
+    width: 480px;;
+    padding: 6px;
+    margin:0px;
+    padding-bottom:0px;
+    vertical-align: baseline;
+}
+.cano-topbar-right-section {
+    display: inline-block;
+    width: 244px;
+    margin:0px;
+    vertical-align: baseline;
+    padding: 6px;
+    text-align: right;
+}
+
+.cano-devices_list-outer {
+    padding-top: 0px;
+}
+
+.cano-devices_list_item-outer1 {
+    width:736px;
+    /*background: #ffffff url('http://whyfiles.org/wp-content/uploads/2010/03/clouds.jpg') no-repeat ;*/
+    /*background: #ffffff url('http://canopy.link/shutterstock_82034455_fan_h175.jpg') no-repeat left center;*/
+    background: #ffffff url('images/robot1_64x64.jpg') no-repeat left center;
+    background-size: 100px;
+    margin-top:12px;
+    margin-bottom:12px;
+    border-radius:5px;
+    box-shadow: 2px 2px 3px #d0d0d0;
+    border: 1px solid #d8d8d8;
+    height: 80px;
+}
+.cano-devices_list_item-outer2 {
+    width:736px;
+    /*background: #ffffff url('http://whyfiles.org/wp-content/uploads/2010/03/clouds.jpg') no-repeat ;*/
+    background: #ffffff url('http://canopy.link/shutterstock_82034455_fan_h175.jpg') no-repeat left center;
+    background-size: 85px;
+    margin-top:12px;
+    margin-bottom:12px;
+    border-radius:5px;
+    box-shadow: 2px 2px 4px #d0d0d0;
+    border: 1px solid #d8d8d8;
+    height: 80px;
+}
+
+.cano-devices_list_item-disconnected {
+    color: #a00000;
+}
+
+.cano-devices_list_item-left-section {
+    display: inline-block;
+    width: 256px;
+    height: 100%;
+    vertical-align: top;
+}
+
+.cano-devices_list_item-right-section {
+    display: inline-block;
+    width: 480px;
+    height: 100%;
+    vertical-align: top;
+}
+
+.cano-devices_list_item-title-outer{
+    display:inline-block;
+    height:100%;
+    cursor: pointer;
+    line-height:1.1;
+    margin-left:75px;
+}
+
+.cano-devices_list_item-title-top {
+    display:inline-block;
+    height:60%;
+    font-size: 28px;
+}
+.cano-devices_list_item-title-bottom {
+    height:40%;
+    font-size: 15px;
+}
+
+.cano-devices_list_item-title-outer:hover {
+    font-weight:400;
+}
+
+.cano-dialog-flat {
+    text-align: left;
+    border-top: 8px solid #d8d8d8;
+    display: inline-block;
+    padding: 16px;
+    padding-top: 8px;
+    background: #f4f4f4;
+    vertical-align:top;
+    border-bottom: 1px solid #d8d8d8;
+}
+.cano-event_panel-outer {
+    font-size:18px;
+    text-align: left;
+    border-top: 8px solid #d8d8d8;
+    display: inline-block;
+    padding-top: 4px;
+    background: #ffffff;
+    vertical-align:top;
+    border-right: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8;
+    border-left: 1px solid #d8d8d8;
+    box-shadow: 2px 2px 3px #d0d0d0;
+}
+.cano-event_panel-item {
+    border-bottom: 1px solid #d0d0d0;
+    padding:8px;
+}
+.cano-banner-dialog {
+    text-align: left;
+    border-top: 1px solid #d8d8d8;
+    display: inline-block;
+    padding: 16px;
+    padding-top: 8px;
+    background: #f4f4f4;
+    vertical-align:top;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #d8d8d8;
+    box-shadow: 2px 2px 8px #a0a0a0;
+}
+.cano-warning-small {
+    background: #ffff80;
+    font-weight: 400;
+    font-size: 15px;
+    padding:8px;
+    margin-top:8px;
+    border: 1px solid #a0a0a0;
+}
+
+.cano-login_page-dialogs-outer {
+    position: absolute;
+    display: inline-block;
+    right: 0px;
+    top: 55px;
+}
+
+.cano-login_page-images-outer {
+    position: absolute;
+    display: inline-block;
+    left: 0px;
+    top: 80px;
+    text-align: center;
+}
+
+.cano-devices_menu-outer {
+    width: 724px;
+    padding: 6px;
+    padding-bottom: 0px;
+    border-bottom: 2px solid #d0d0d0;
+}
+
+.cano-devices_menu-button {
+    text-align: center;
+    display: inline-block;
+    line-height: 0.9;
+    cursor: pointer;
+    padding-bottom: 6px;
+}
+
+.cano-devices_menu-button:hover {
+    border-bottom: 2px solid #3060a0;
+    padding-bottom: 4px;
+}
+
+.cano-account_dropdown-outer {
+    position:relative;
+    display: inline-block;
+}
+.cano-account_dropdown-inner {
+    position:absolute;
+    background:#fffff0;
+    padding:8px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px #808080;
+    right:-8px;
+    top:13px;
+}
+.cano-sensor_small-outer {
+    display:inline-block;
+    height:100%;
+    line-height:1.1;
+    margin-right:25px;
+}
+.cano-sensor_small-top {
+    font-weight:800;
+    color: #606060;
+    font-size: 28px;
+    height:60%;
+}
+.cano-sensor_small-bottom {
+    color: #606060;
+    font-size: 15px;
+    height:40%;
+}
+.cano-device_control_widget-icons-outer {
+    display: inline-block;
+    float: right;
+    padding-top:4px;
+}
+.cano-device_control_widget-icons-outer img{
+    cursor: pointer;
+}

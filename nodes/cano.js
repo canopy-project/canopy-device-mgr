@@ -1,6 +1,5 @@
 function CanoNode() {
-    var $me,
-        topbarNode;
+    var $me;
 
     this.render = function($container) {
         $container.html(this.get$());

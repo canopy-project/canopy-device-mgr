@@ -15,15 +15,19 @@ function CanoSignupDialogNode(params) {
             var username = $("#signup_username").val();
             var email = $("#signup_email").val();
             var password = $("#signup_password").val();
-            var password_confirm = $("#signup_password2").val();
-            canopy.createAccount(username, email, password, password_confirm,
-                function() {
+            var passwordConfirm = $("#signup_password2").val();
+            canopy.createAccount({
+                username: username, 
+                email: email, 
+                password: password, 
+                passwordConfirm: passwordConfirm,
+                onSuccess: function() {
                     dispatcher.showPage("main");
                 },
-                function() {
+                onError: function() {
                     alert("Create acct failed");
                 }
-            );
+            });
         });
         $("#signup_submit").off('click').on('click', function() {
             self.expand();
@@ -46,15 +50,28 @@ function CanoSignupDialogNode(params) {
 
     $me = $("\
         <div class=cano-dialog style='width:300px'>\
-            <div class=l>New to <span class=logo-in-text>canopy</span>?</div>\
-                <div id=signup_form style='display:none;'>\
-                    Choose a username<br><input name=signup_username id=signup_username type=text></input><br><br>\
-                    Enter your email address<br><input name=signup_email id=signup_email type=text></input><br><br>\
-                    Choose a password<br><input name=signup_password id=signup_password type=password></input><br><br>\
-                    Confirm your password<br><input name=signup_password2 id=signup_password2 type=password></input><br><br>\
+            <div class=l>New to <span class=logo-in-text>Canopy</span>?</div>\
+            <div id=signup_form style='display:none;'>\
+                <div class=small_margin_top>\
+                    Choose a username<br>\
+                    <input name=signup_username id=signup_username type=text></input>\
                 </div>\
-            <input id='signup_button' type=submit style='display:none' value='CREATE ACCOUNT'></input>\
-            <input id=signup_submit type=submit style='margin-top:16px' value='SIGN UP'></input>\
+                <div class=small_margin_top>\
+                    Enter your email address<br>\
+                    <input name=signup_email id=signup_email type=text></input>\
+                </div>\
+                <div class=small_margin_top>\
+                    Choose a password<br>\
+                    <input name=signup_password id=signup_password type=password></input>\
+                </div>\
+                <div class=small_margin_top>\
+                    Confirm your password<br>\
+                    <input name=signup_password2 id=signup_password2 type=password></input>\
+                </div>\
+            </div>\
+            <input id='signup_button' class=small_margin_top type=submit style='display:none' value='CREATE ACCOUNT'></input>\
+            <input id=signup_submit type=submit style='margin-top:12px' value='SIGN UP'></input>\
+            <a class='thicker' href='tour.html'>Take tour</a>\
         </div>\
     ");
 }
