@@ -29,6 +29,16 @@ function CanoControlSmallNode(params) {
             </div>\
         ");
     }
+    else if (control.controlType() == "trigger" && control.datatype() == "void") {
+        $me = $("\
+            <div class=cano-sensor_small-outer>\
+                <div class=cano-sensor_small-top>\
+                    <div class=bottom_aligner></div><div style='display:inline-block;' class=btn-small-not_selected>REBOOT</div>\
+                </div>\
+                <div class=cano-sensor_small-bottom>&nbsp;</div>\
+            </div>\
+        ");
+    }
     else {
         var value = (control.value() !== null) ? control.value().v : '-';
 
