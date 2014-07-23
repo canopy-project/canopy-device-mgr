@@ -94,6 +94,17 @@ body {
     padding: 4px;
     cursor: pointer;
 }
+.btn-small-pending_select, .btn-small-pending_select:hover{
+    border:1px solid #b0b0b0;
+    background: #d8d8d8;
+    color: #505050;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 3px;
+    cursor: pointer;
+    border: 2px dashed #204080;
+}
 
 .btn, input[type=submit] {
     display: inline-block; 
@@ -473,4 +484,7 @@ h2 {
     top: -50px;
     left: -5px;
     color: #a0c0d0;
+}
+.cano-enum_control-outer {
+    display: inline-block;
 }

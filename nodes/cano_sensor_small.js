@@ -37,7 +37,7 @@ function CanoSensorSmallNode(params) {
     var value = (sensor.value() !== null) ? sensor.value().v : '-';
     if (value != '-') {
         if (sensor.units() == "degrees_f") {
-            value += "&deg;F";
+            value += "&deg;C";
         }
         if (sensor.numericDisplayHint() == "percentage") {
             value += "%";

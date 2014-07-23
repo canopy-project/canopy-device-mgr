@@ -20,8 +20,6 @@ function CanoPlotNode(origParams)
 
     /* Expects array of objects [t: <RFC3339 Time>,  v: <float>] */
     this.setTimeseriesData = function(samples) {
-        console.log("setTimeseriesData");
-        console.log(samples);
         dataArray.length = 0;
         dataArray.push([
             "Time",
@@ -29,9 +27,7 @@ function CanoPlotNode(origParams)
         ])
         for (i = 1; i < samples.length; i++) {
             t0 = Date.parse(samples[i-1].t);
-            console.log(t0);
             t1 = Date.parse(samples[i].t);
-            console.log(t1);
             if (t1 - t0 > 200000)
             {
                 dataArray.push([
