@@ -11,7 +11,8 @@ function CanoDeviceControlWidgetNode(params) {
         device = params.device,
         canopy = params.canopyClient,
         propNodes = [],
-        $shareButton
+        $shareButton,
+        $settingsButton
     ;
 
     $.extend(this, new CanoNode());
@@ -23,6 +24,13 @@ function CanoDeviceControlWidgetNode(params) {
     this.onLive = function() {
         $shareButton.off().on('click', function() {
             new CanoSharingPopupNode({
+                canopyClient: canopy, 
+                device: device
+            }).appendTo($("#main"));
+        });
+        $settingsButton.off().on('click', function() {
+            console.log(device);
+            new CanoDeviceSettingsPopupNode({
                 canopyClient: canopy, 
                 device: device
             }).appendTo($("#main"));
@@ -53,11 +61,14 @@ function CanoDeviceControlWidgetNode(params) {
             <div class='cano-device_control_widget-icons-outer'>\
                ", $shareButton, "\
                &nbsp;\
-               <img title='Edit details' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/gears.png>&nbsp;&nbsp;\
+               ", $settingsButton, "\
+               &nbsp;&nbsp;\
             </div>\
         </div>\
         "]));
     }
+
+    $settingsButton = $("<img title='Edit details' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/gears.png>");
 
     $shareButton = $("<img title='Share this device' src=http://c.dryicons.com/images/icon_sets/minimalistica_part_2_icons/png/24x24/send_mail.png>");
 
