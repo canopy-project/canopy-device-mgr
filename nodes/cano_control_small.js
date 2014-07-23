@@ -28,14 +28,11 @@ function CanoControlSmallNode(params) {
         childNode = enumControlNode;
     }
     else if (control.controlType() == "trigger" && control.datatype() == "void") {
-        $me = $("\
-            <div class=cano-sensor_small-outer>\
-                <div class=cano-sensor_small-top>\
-                    <div class=bottom_aligner></div><div style='display:inline-block;' class=btn-small-not_selected>REBOOT</div>\
-                </div>\
-                <div class=cano-sensor_small-bottom>&nbsp;</div>\
-            </div>\
-        ");
+        var buttonControlNode = new CanoButtonControlNode({
+            control: control
+        });
+        $me = buttonControlNode.get$();
+        childNode = buttonControlNode;
     }
     else {
         var value = (control.value() !== null) ? control.value().v : '-';
@@ -47,6 +44,52 @@ function CanoControlSmallNode(params) {
                 </div>\
             <div class=cano-sensor_small-bottom>" + control.name() + "</div>\
         </div>");
+    }
+}
+
+/*
+ * .control -- CanopyProperty object to display
+ */
+function CanoButtonControlNode(params) {
+    var self=this,
+        $me
+    ;
+
+    $.extend(this, new CanoNode());
+
+    this.get$ = function() {
+        return $me;
+    }
+
+    this.onLive = function() {
+        buttonNode.onLive();
+    }
+
+    buttonNode = new CanoButtonNode({
+        cssClass: "btn-small-not_selected",
+        content: params.control.name(),
+        onClick: function() {
+            params.control.setTargetValue(null, {
+                onSuccess: function() {
+                },
+                onError: function() {
+                    alert("Unable to perform action");
+                }
+            });
+        }
+    });
+    
+    $me = CanopyUtil_Compose(["\
+        <div class=cano-sensor_small-outer>\
+            <div class=cano-sensor_small-top>\
+                <div class=bottom_aligner></div>", buttonNode, "\
+            </div>\
+            <div class=cano-sensor_small-bottom>&nbsp;</div>\
+        </div>\
+    "]);
+
+    if (params.control.value()) {
+        optionNode.select(params.control.value().v, true);
     }
 }
 
@@ -103,7 +146,6 @@ function CanoEnumControl(params) {
         </div>\
     "]);
 
-    console.log(params.control.value());
     if (params.control.value()) {
         optionNode.select(params.control.value().v, true);
     }
