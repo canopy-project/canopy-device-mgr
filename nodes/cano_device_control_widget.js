@@ -29,7 +29,6 @@ function CanoDeviceControlWidgetNode(params) {
             }).appendTo($("#main"));
         });
         $settingsButton.off().on('click', function() {
-            console.log(device);
             new CanoDeviceSettingsPopupNode({
                 canopyClient: canopy, 
                 device: device

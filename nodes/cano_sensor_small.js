@@ -34,7 +34,7 @@ function CanoSensorSmallNode(params) {
 
     hoverPlotNode = new CanoHoverPlotNode();
 
-    var value = (sensor.value() !== null) ? sensor.value().v : '-';
+    var value = (sensor.value() !== null) ? Math.round(100*sensor.value().v)/100 : '-';
     if (value != '-') {
         if (sensor.units() == "degrees_f") {
             value += "&deg;C";

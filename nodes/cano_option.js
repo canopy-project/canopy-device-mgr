@@ -67,6 +67,7 @@ function CanoOptionNode(origParams) {
                 // selected
                 $items[i].removeClass(params.itemNotSelectedClass);
                 $items[i].addClass(params.itemSelectedClass);
+                $items[i].removeClass(params.itemPendingSelectClass);
                 if (params.onSelect && !skipCallbacks) {
                     params.onSelect(self, idx, params.items[i].value);
                 }
