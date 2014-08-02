@@ -49,6 +49,13 @@ function CanoControlSmallNode(params) {
         $me = buttonControlNode.get$();
         childNode = buttonControlNode;
     }
+    else if (control.controlType() == "parameter" && control.datatype() == "bool") {
+        var boolControlNode = new CanoBooleanControl({
+            control: control,
+        });
+        $me = boolControlNode.get$();
+        childNode = boolControlNode;
+    }
     else {
         var value = (control.value() !== null) ? control.value().v : '-';
 
@@ -108,6 +115,60 @@ function CanoButtonControlNode(params) {
     }
 }
 
+/*
+ * .control -- CanopyProperty object to display
+ */
+function CanoBooleanControl(params) {
+    var self=this,
+        $me
+    ;
+
+    $.extend(this, new CanoNode());
+
+    this.get$ = function() {
+        return $me;
+    }
+
+    this.onLive = function() {
+        optionNode.onLive();
+    }
+    
+    optionNode = new CanoOptionNode({
+        outerClass: "cano-enum_control-outer",
+        itemSelectedClass: "btn-small",
+        itemNotSelectedClass: "btn-small-not_selected",
+        itemPendingSelectClass: "btn-small-pending_select",
+        onClick: function(optnode, idx, value) {
+            optnode.pendingSelect(idx);
+            params.control.setTargetValue(value, {
+                onSuccess: function() {
+                    optnode.select(idx);
+                },
+                onError: function() {
+                }
+            });
+            return false; /* prevent selection */
+        },
+        items: [
+            { content: "ON", value: 1 },
+            { content: "OFF", value: 0 },
+        ],
+        selectedIdx: -1
+    });
+
+    $me = CanopyUtil_Compose(["\
+        <div class=cano-sensor_small-outer>\
+            <div class=cano-sensor_small-top>\
+                <div class=bottom_aligner></div>", optionNode, "\
+            </div>\
+            <div class=cano-sensor_small-bottom>" + params.control.name() + "</div>\
+        </div>\
+    "]);
+
+    if (params.control.value()) {
+        optionNode.select(params.control.value().v, true);
+    }
+}
 /*
  * .control -- CanopyProperty object to display
  * .values -- Array of values
