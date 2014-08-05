@@ -27,7 +27,7 @@ function CanoLoginPageNode(canopy, dispatcher) {
     this.onLive = function() {
         loginDialogNode.render($("#login_dialog"));
         signupDialogNode.render($("#signup_dialog"));
-        $('body').css('background', 'white');
+        //$('body').css('background', 'white');
     }
 
     loginDialogNode = new CanoLoginDialogNode({
@@ -47,17 +47,15 @@ function CanoLoginPageNode(canopy, dispatcher) {
     });
 
     $me = $("\
-        <div class=center_channel style='position: relative;'>\
+        <div class=center_channel>\
             <div class=cano-login_page-images-outer>\
-                <img src=images/canopy_logo.jpg><br>\
-                <img src=images/fan_cloud_iphone.png>\
             </div>\
             <div class=cano-login_page-dialogs-outer>\
                 <div id=login_dialog></div>\
                 <div id=signup_dialog></div>\
             </div>\
         </div>\
-        <div style='position:absolute; width:100%; top:650px;'>\
+        <!--div style='position:absolute; width:100%; top:650px;'>\
             <div class=center_channel>\
                 <div class=cano-banner-dialog style='width:940px;'>\
                     <span class=logo-in-text>Canopy</span> is an open source Internet of Things platform.\
@@ -80,6 +78,6 @@ function CanoLoginPageNode(canopy, dispatcher) {
                     </div>\
                 </div>\
             </div>\
-        </div>\
+        </div-->\
     ");
 }

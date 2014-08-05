@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+var ALPHA=true
 function CanoSignupDialogNode(params) {
     var self=this,
         canopy = params.canopyClient,
@@ -63,30 +64,47 @@ function CanoSignupDialogNode(params) {
             $("#signup_button").hide();
     }
 
-    $me = $("\
-        <div class=cano-dialog style='width:300px'>\
-            <div class=l>New to <span class=logo-in-text>Canopy</span>?</div>\
-            <div id=signup_form style='display:none;'>\
+    if (!ALPHA) {
+        $me = $("\
+            <div class=cano-dialog style='width:300px'>\
+                <div class=l>New to <span class=logo-in-text>Canopy</span>?</div>\
+                <div id=signup_form style='display:none;'>\
+                    <div class=small_margin_top>\
+                        Choose a username<br>\
+                        <input name=signup_username id=signup_username type=text></input>\
+                    </div>\
+                    <div class=small_margin_top>\
+                        Enter your email address<br>\
+                        <input name=signup_email id=signup_email type=text></input>\
+                    </div>\
+                    <div class=small_margin_top>\
+                        Choose a password<br>\
+                        <input name=signup_password id=signup_password type=password></input>\
+                    </div>\
+                    <div class=small_margin_top>\
+                        Confirm your password<br>\
+                        <input name=signup_password2 id=signup_password2 type=password></input>\
+                    </div>\
+                </div>\
+                <input id='signup_button' class=small_margin_top type=submit style='display:none' value='CREATE ACCOUNT'></input>\
+                <input id=signup_submit type=submit style='margin-top:12px' value='SIGN UP'></input>\
+                <a class='thicker' href='tour.html'>Take tour</a>\
+            </div>\
+        ");
+    }
+    else {
+        $me = $("\
+            <div class=cano-dialog style='width:300px'>\
+                <div class=l>You can't hurry love...</div>\
+                Canopy is currently in pre-alpha. Accounts are by\
+                invitation only.\
                 <div class=small_margin_top>\
-                    Choose a username<br>\
-                    <input name=signup_username id=signup_username type=text></input>\
+                    <a href=mailto:info@canopy.link class=thicker>Contact us</a> to request a demo or early access.\
                 </div>\
                 <div class=small_margin_top>\
-                    Enter your email address<br>\
-                    <input name=signup_email id=signup_email type=text></input>\
-                </div>\
-                <div class=small_margin_top>\
-                    Choose a password<br>\
-                    <input name=signup_password id=signup_password type=password></input>\
-                </div>\
-                <div class=small_margin_top>\
-                    Confirm your password<br>\
-                    <input name=signup_password2 id=signup_password2 type=password></input>\
+                    <a href=http://canopy.link class=thicker>Learn more</a> about Canopy.\
                 </div>\
             </div>\
-            <input id='signup_button' class=small_margin_top type=submit style='display:none' value='CREATE ACCOUNT'></input>\
-            <input id=signup_submit type=submit style='margin-top:12px' value='SIGN UP'></input>\
-            <a class='thicker' href='tour.html'>Take tour</a>\
-        </div>\
-    ");
+        ");
+    }
 }

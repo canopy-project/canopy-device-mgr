@@ -32,6 +32,8 @@ body {
     color: #000000;
     line-height: 1.333;
     background:#f8f8f8;
+background: #ffffff url('http://canopy.link/images/shutterstock_100858951_cloud_computing_mod_h500.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 .cano-popup-outer {
     position: fixed;
@@ -200,15 +202,14 @@ h2 {
 
 .cano-dialog {
     text-align: left;
-    border-top: 10px solid #d8d8d8;
     display: inline-block;
     padding: 16px;
     padding-top: 8px;
-    background: #f4f4f4;
+    background: rgba(255, 255, 255, 0.85);
     vertical-align:top;
     margin-bottom: 16px;
-    border-bottom: 1px solid #d8d8d8;
-    box-shadow: 2px 2px 8px #a0a0a0;
+    box-shadow: 4px 4px 8px #505050;
+    font-weight: 300;
 }
 
 .cano-main_page-outer{
@@ -394,10 +395,8 @@ h2 {
 }
 
 .cano-login_page-dialogs-outer {
-    position: absolute;
-    display: inline-block;
-    right: 0px;
-    top: 55px;
+    padding-top:48px;
+    padding-left:16px;
 }
 
 .cano-login_page-images-outer {

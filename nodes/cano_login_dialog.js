@@ -72,9 +72,9 @@ function CanoLoginDialogNode(params) {
     $me = $("\
         <div class=centered style='margin-top: 16px'>\
             <div class=cano-dialog style='width:300px'>\
-                <div class=l>Sign in</div>\
+                <div class='l logo-in-text'>Canopy</div>\
                 <div id=signin_form>\
-                    <div class=ms>Monitor, control, and share your<br><span class=logo-in-text>Canopy</span>-enabled devices.</div>\
+                    <div class=ms>Monitor, control, and share your <br>Canopy-enabled devices.</div>\
                     <div id=signin_error style='display:none' class=cano-warning-small></div>\
                     <div class=small_margin_top>\
                         Username or email<br>\
