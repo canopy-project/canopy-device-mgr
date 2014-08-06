@@ -502,3 +502,7 @@ h2 {
 .cano-enum_control-outer {
     display: inline-block;
 }
+
+.ui-slider-range {
+    background: #4060b0;
+}
