@@ -503,6 +503,12 @@ h2 {
     display: inline-block;
 }
 
-.ui-slider-range {
-    background: #0794f8;
+.ui-slider, .ui-slider-handle, .ui-slider-range {
+    background: rgba(255, 255, 255, 0) !important;
+    color: rgba(255, 255, 255, 0) !important;
+    border: 0px solid #a0a0a0 !important;
+    outline: none;
+}
+.ui-slider-handle {
+    width: 1px !important;
 }

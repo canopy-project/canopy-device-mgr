@@ -30,30 +30,30 @@ function DizonDemoPageNode(params) {
     function updateImage(event, ui) {
 
         var val = ui.value;
-        console.log(val);
-        if (val == 0) {
+        if (val == 0 || val == 1) {
             $("#slider_title").html("OFF");
             $("#fan_image").attr("src", "images/dyson_fan_off_cropped.jpg");
         }
-        else if (val == 1) {
+        else if (val == 2) {
             $("#slider_title").html("LOW");
             $("#fan_image").attr("src", "images/dyson_fan_low_cropped.jpg");
         }
-        else if (val == 2) {
+        else if (val == 3) {
             $("#slider_title").html("MED");
             $("#fan_image").attr("src", "images/dyson_fan_med_cropped.jpg");
         }
-        else if (val == 3) {
-            $("#slider_title").html("HIGH");
+        else if (val == 4 || val == 5) {
+            $("#slider_title").html("MAX");
             $("#fan_image").attr("src", "images/dyson_fan_high_cropped.jpg");
         }
+        $("#instructions").hide();
     }
 
     this.onLive = function() {
         $('body').css('background', '#ffffff');
         $("#slider").slider({
             range: "min",
-            max: 3,
+            max: 5,
             value: 0,
             change: updateImage,
             slide: updateImage
@@ -91,9 +91,15 @@ function DizonDemoPageNode(params) {
         </td><td style='padding-left:48px' valign=top>\
             <img id='fan_image' src=images/dyson_fan_off_cropped.jpg width=85%>\
             <div style='position:relative'>\
-                <div style='display:inline-block; position:absolute; top:-110px; left:220px;'>\
-                    <div id='slider' style='font-size:30px;display:inline-block; width:380px'></div>\
-                    <div style='display:inline-block; margin-left:40px; font-size:40px' id='slider_title'>OFF</div>\
+                <div id='instructions' style='display:inline-block; position:absolute; top:-410px; left:40px;'>\
+                    <div style='border-bottom: 1px dashed #b0b0b0; border-top:1px dashed #b0b0b0; font-size:16px;display:inline-block; text-align:center;width:500px; padding-left:80px; height:140px; padding-top:110px'>\
+                    &larr; click or drag to adjust fan speed &rarr;</div>\
+                </div>\
+                <div style='display:inline-block; position:absolute; top:-410px; left:00px;'>\
+                    <div id='slider' style='font-size:400px;display:inline-block; width:680px'></div>\
+                </div>\
+                <div style='display:inline-block; position:absolute; top:-140px; left:190px;'>\
+                    <div style='display:inline-block; color: #a0a0a0; font-weight:200; margin-left:40px; font-size:70px' id='slider_title'>OFF</div>\
                 </div>\
             </div>\
             <div style='position:relative'>\
