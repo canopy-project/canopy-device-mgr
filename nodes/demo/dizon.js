@@ -60,8 +60,13 @@ function DizonDemoPageNode(params) {
         $("#instructions").hide();
 
         if (speed != oldSpeed) {
-            image.
+            device.properties.speed.setTargetValue(speed, {
+                onError: function() {alert("oops");}
+            });
         }
+    }
+
+    function showScreen(showTempPlot, showHumidityPlot) {
     }
 
     this.onLive = function() {
@@ -76,8 +81,16 @@ function DizonDemoPageNode(params) {
         var screen = "main";
         $("#thermometer").off('click').on("click", function(){
             if (screen == "main") {
-                $("#plot_screen").show();
-                $("#main_screen").hide();
+                device.properties.temperature.fetchHistoricData({
+                    onSuccess: function(data) {
+                        plotNode.setTimeseriesData(data);
+                        $("#plot_screen").show();
+                        $("#main_screen").hide();
+                    },
+                    onError: function() {
+                        alert("oops");
+                    }
+                });
                 $("#thermometer").toggleClass("demo-icon-selected", true);
                 $("#thermometer").toggleClass("demo-icon", false);
                 screen = "plot";
