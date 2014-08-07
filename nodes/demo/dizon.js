@@ -83,7 +83,7 @@ function DizonDemoPageNode(params) {
             if (screen == "main") {
                 device.properties.temperature.fetchHistoricData({
                     onSuccess: function(data) {
-                        plotNode.setTimeseriesData(data);
+                        plotNode.setTimeseriesData(data.samples);
                         $("#plot_screen").show();
                         $("#main_screen").hide();
                     },
@@ -138,8 +138,13 @@ function DizonDemoPageNode(params) {
         plotNode.appendTo($("#plotspot"));
 
     }
-    console.log(device.properties);
-    console.log(device.properties.temperature);
+
+    if (!device) {
+        $me = $("<div>No smart fan device</div>");
+        return;
+    }
+    var temperature = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.temperature.value().v)/100 : '-';
+    var humidity = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.humidity.value().v) : '-';
     $me = $("<div class=center_channel style='padding-left:32px;'>\
         <br>\
         <br>\
@@ -154,9 +159,9 @@ function DizonDemoPageNode(params) {
             Connected\
             <br><br><img id='thermometer' class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/thermometer.png>\
             <br>\
-            " + device.properties.temperature.value() + "&deg;F\
+            " + temperature + "&deg;F\
             <br><br><img id='humidity' src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/drop.png>\
-            " + device.properties.humidity.value() + "%<br>\
+            " + humidity + "%\
             <br><br><img src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/add_contact.png>\
             <br>\
             Share\

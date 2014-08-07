@@ -45,7 +45,7 @@ function CanoPlotNode(origParams)
             t1 = Date.parse(samples[i].t);
             console.log(t0);
             console.log(t1);
-            if (t1 - t0 > 2000000)
+            if (t1 - t0 > 20000)
             {
                 console.log("huh?");
                 dataArray.push([
@@ -102,7 +102,7 @@ function CanoPlotNode(origParams)
     $me = $("<div style='color:#000000'>");
 
     /* Load default data for testing */
-    this.setTimeseriesData([
+    /*this.setTimeseriesData([
         { t: "2014-08-06T08:01:47Z", v: 0},
         { t: "2014-08-06T08:11:47Z", v: 5},
         { t: "2014-08-06T08:21:47Z", v: 8},
@@ -112,7 +112,7 @@ function CanoPlotNode(origParams)
         { t: "2014-08-06T09:01:47Z", v: 4.2},
         { t: "2014-08-06T09:11:47Z", v: -1},
         { t: "2014-08-06T09:21:47Z", v: 1.5},
-    ]);
+    ]);*/
 }
 
 
