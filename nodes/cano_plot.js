@@ -13,6 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * params:
+ *  {
+ *      width: <int>,
+ *      height: <int>,
+ *      title: <string>
+ *      vAxisFormat: 
+ *  }
+ */
 function CanoPlotNode(origParams)
 {
     var self=this,
@@ -24,6 +34,8 @@ function CanoPlotNode(origParams)
     $.extend(this, new CanoNode());
 
     params = $.extend({}, {
+        width: 960,
+        height: 110
     }, origParams);
 
     this.get$ = function() {
@@ -47,7 +59,6 @@ function CanoPlotNode(origParams)
             console.log(t1);
             if (t1 - t0 > 20000)
             {
-                console.log("huh?");
                 dataArray.push([
                     new Date(t0),
                     null
@@ -60,14 +71,12 @@ function CanoPlotNode(origParams)
             else
             {
                 if (params.vAxisFormat == "#%") {
-                    console.log(new Date(t1));
                     dataArray.push([
                         new Date(t1),
                         samples[i].v / 100.0
                     ]);
                 }
                 else {
-                    console.log(new Date(t1));
                     dataArray.push([
                         new Date(t1),
                         /*samples[i].v*1.8 + 32*/
@@ -89,9 +98,10 @@ function CanoPlotNode(origParams)
             fontSize : 12,
             hAxis: {baselineColor: "#d8d8d8", textStyle:{color:"black"}, format: "h:mm a", gridlines: {color: 'transparent'}},
             vAxis: {baselineColor: "#000000", textStyle:{color:"black"}, format: params.vAxisFormat, gridlines: {color: 'transparent'}},
-            chartArea:{left:50,top:10,width:840,height:420},
-            height: 440,
-            width: 800,
+            chartArea:{left:50,top:10,width:params.width-40,height:params.height-40},
+            lineWidth: 1,
+            height: params.height,
+            width: params.width,
             backgroundColor: 'transparent',
         };
 

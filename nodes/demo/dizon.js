@@ -18,7 +18,10 @@ function DizonDemoPageNode(params) {
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        plotNode,
+        smallHumPlotNode,
+        smallTempPlotNode,
+        bigHumPlotNode,
+        bigTempPlotNode,
         device = null
     ;
     for (var i = 0; i < canopy.devices.length; i++) {
@@ -66,7 +69,63 @@ function DizonDemoPageNode(params) {
         }
     }
 
+    var showTemp = false;
+    var showHumidity = false;
+
     function showScreen(showTempPlot, showHumidityPlot) {
+
+        function hideAll() {
+            smallTempPlotNode.get$().hide();
+            smallHumPlotNode.get$().hide();
+            bigTempPlotNode.get$().hide();
+            bigHumPlotNode.get$().hide();
+            $("#main_screen").hide();
+            $("#plot_screen").hide();
+        }
+
+        $("#thermometer").toggleClass("demo-icon-selected", showTempPlot);
+        $("#humidity").toggleClass("demo-icon-selected", showHumidityPlot);
+
+        if (showTempPlot && showHumidityPlot) {
+            device.properties.temperature.fetchHistoricData({
+                onSuccess: function(data) {
+                    smallTempPlotNode.setTimeseriesData(data.samples);
+                    device.properties.humidity.fetchHistoricData({
+                        onSuccess: function(hdata) {
+                            smallHumPlotNode.setTimeseriesData(hdata.samples);
+                            hideAll();
+                            smallTempPlotNode.get$().show();
+                            smallHumPlotNode.get$().show();
+                            $("#plot_screen").show();
+                        }
+                    });
+                }
+            });
+        }
+        else if (showTempPlot) {
+            device.properties.temperature.fetchHistoricData({
+                onSuccess: function(data) {
+                    bigTempPlotNode.setTimeseriesData(data.samples);
+                    hideAll();
+                    bigTempPlotNode.get$().show();
+                    $("#plot_screen").show();
+                }
+            });
+        }
+        else if (showHumidityPlot) {
+            device.properties.humidity.fetchHistoricData({
+                onSuccess: function(data) {
+                    bigHumPlotNode.setTimeseriesData(data.samples);
+                    hideAll();
+                    bigHumPlotNode.get$().show();
+                    $("#plot_screen").show();
+                }
+            });
+        }
+        else {
+            hideAll();
+            $("#main_screen").show();
+        }
     }
 
     this.onLive = function() {
@@ -80,38 +139,13 @@ function DizonDemoPageNode(params) {
         });
         var screen = "main";
         $("#thermometer").off('click').on("click", function(){
-            if (screen == "main") {
-                device.properties.temperature.fetchHistoricData({
-                    onSuccess: function(data) {
-                        plotNode.setTimeseriesData(data.samples);
-                        $("#plot_screen").show();
-                        $("#main_screen").hide();
-                    },
-                    onError: function() {
-                        alert("oops");
-                    }
-                });
-                $("#thermometer").toggleClass("demo-icon-selected", true);
-                $("#thermometer").toggleClass("demo-icon", false);
-                screen = "plot";
-            }
-            else {
-                $("#plot_screen").hide();
-                $("#main_screen").show();
-                $("#thermometer").toggleClass("demo-icon-selected", false);
-                $("#thermometer").toggleClass("demo-icon", true);
-                screen = "main";
-            }
+            showTemp = !showTemp;
+            showScreen(showTemp, showHumidity);
         });
-        $("#humidity").hover(function(){
-                    $("#plot_screen").show();
-                    $("#main_screen").hide();
-                },
-                function(){
-                    $("#plot_screen").hide();
-                    $("#main_screen").show();
-                }
-        );
+        $("#humidity").off('click').on("click", function(){
+            showHumidity = !showHumidity;
+            showScreen(showTemp, showHumidity);
+        });
         $("body").on("touchstart", function(ev) {
             $("#slider").hide();
         });
@@ -135,8 +169,11 @@ function DizonDemoPageNode(params) {
             value = Math.floor(value);
             updateImage(null, {value: value});
         });
-        plotNode.appendTo($("#plotspot"));
 
+        smallTempPlotNode.appendTo($("#plotspot"));
+        smallHumPlotNode.appendTo($("#plotspot"));
+        bigTempPlotNode.appendTo($("#plotspot"));
+        bigHumPlotNode.appendTo($("#plotspot"));
     }
 
     if (!device) {
@@ -160,7 +197,7 @@ function DizonDemoPageNode(params) {
             <br><br><img id='thermometer' class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/thermometer.png>\
             <br>\
             " + temperature + "&deg;F\
-            <br><br><img id='humidity' src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/drop.png>\
+            <br><br><img id='humidity' class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/drop.png>\
             " + humidity + "%\
             <br><br><img src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/add_contact.png>\
             <br>\
@@ -183,15 +220,35 @@ function DizonDemoPageNode(params) {
             </div>\
             <div id='plot_screen' style='display:none'>\
                 <div style='position:relative'>\
-                    <div id=plotspot style='padding:4px;'>\
+                    <br><div id=plotspot style='padding:4px;'>\
                     </div>\
                 </div>\
             </div>\
         </table>\
     </div><br><br><br><br>");
 
-    plotNode = new CanoPlotNode({
+    smallTempPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#%"
+        vAxisFormat: "#%",
+        width: 800,
+        height: 220
+    });
+    smallHumPlotNode = new CanoPlotNode({
+        title: "hi",
+        vAxisFormat: "#%",
+        width: 800,
+        height: 220
+    });
+    bigTempPlotNode = new CanoPlotNode({
+        title: "hi",
+        vAxisFormat: "#%",
+        width: 800,
+        height: 440
+    });
+    bigHumPlotNode = new CanoPlotNode({
+        title: "hi",
+        vAxisFormat: "#%",
+        width: 800,
+        height: 440
     });
 }
