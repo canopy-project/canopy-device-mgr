@@ -514,6 +514,7 @@ h2 {
 }
 .demo-icon {
     padding:3px;
+    margin-top:-6px;
     cursor: pointer;
 }
 .demo-icon-selected {

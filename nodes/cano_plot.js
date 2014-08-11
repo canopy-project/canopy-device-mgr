@@ -55,7 +55,7 @@ function CanoPlotNode(origParams)
         for (i = 1; i < samples.length; i++) {
             t0 = Date.parse(samples[i-1].t);
             t1 = Date.parse(samples[i].t);
-            if (t1 - t0 > 20000)
+            if (t1 - t0 > 200000)
             {
                 dataArray.push([
                     new Date(t0),
@@ -68,7 +68,7 @@ function CanoPlotNode(origParams)
             }
             else
             {
-                if (params.vAxisFormat == "#%") {
+                if (params.vAxisFormat == "#%" || params.vAxisFormat == "#.#%") {
                     dataArray.push([
                         new Date(t1),
                         samples[i].v / 100.0

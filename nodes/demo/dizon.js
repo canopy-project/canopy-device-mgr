@@ -35,10 +35,11 @@ function DizonDemoPageNode(params) {
     this.get$ = function() {
         return $me;
     }
-    var speed;
+    var speed = 0;
+    var oldSpeed = 0;
+    var speedChangeTimeout = null;
 
     function updateImage(event, ui) {
-        var oldSpeed = speed;
         var val = ui.value;
         if (val == 0 || val == 1) {
             $("#slider_title").html("OFF");
@@ -62,11 +63,18 @@ function DizonDemoPageNode(params) {
         }
         $("#instructions").hide();
 
+        clearTimeout(speedChangeTimeout)
+        speedChangeTimeout = setTimeout(function() {
         if (speed != oldSpeed) {
             device.properties.speed.setTargetValue(speed, {
-                onError: function() {alert("oops");}
+                onError: function() {alert("oops");},
+                onSuccess: function() {
+                    oldSpeed = speed;
+                }
             });
         }
+            
+        }, 200);
     }
 
     var showTemp = false;
@@ -158,10 +166,10 @@ function DizonDemoPageNode(params) {
                 device: device
             }).appendTo($("#main"));
         });
-        $("body").on("touchstart", function(ev) {
+        $("body").off("touchstart").on("touchstart", function(ev) {
             $("#slider").hide();
         });
-        $("#fan_image").on("touchstart touchmove", function(ev) {
+        $("#fan_image").off("touchstart touchmove").on("touchstart touchmove", function(ev) {
             ev.preventDefault();
             var value = ((ev.originalEvent.pageX - 255) / (800 - 255.0)) * 5;
             if (value < 0)
@@ -171,7 +179,7 @@ function DizonDemoPageNode(params) {
             value = Math.floor(value);
             updateImage(null, {value: value});
         });
-        $("#instructions").on("touchstart touchmove", function(ev) {
+        $("#instructions").off("touchstart touchmove").on("touchstart touchmove", function(ev) {
             ev.preventDefault();
             var value = ((ev.originalEvent.pageX - 255.) / (800. - 255.0)) * 5;
             if (value < 0)
@@ -202,7 +210,7 @@ function DizonDemoPageNode(params) {
         return;
     }
     var temperature = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.temperature.value().v)/100 : '-';
-    var humidity = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.humidity.value().v) : '-';
+    var humidity = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.humidity.value().v)/100 : '-';
     $me = $("<div class=center_channel style='padding-left:32px;'>\
         <br>\
         <br>\
@@ -258,7 +266,7 @@ function DizonDemoPageNode(params) {
 
     smallTempPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#°C",
+        vAxisFormat: "#.#°C",
         width: 800,
         height: 220
     });
@@ -270,7 +278,7 @@ function DizonDemoPageNode(params) {
     });
     bigTempPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#°C",
+        vAxisFormat: "#.#°C",
         width: 800,
         height: 440
     });
