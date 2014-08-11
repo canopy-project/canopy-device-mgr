@@ -33,11 +33,16 @@ function CanowebDispatcher(canopy) {
     }
 
     this.showPage = function(pageName) {
-        if (pageName == "zlogin") {
+        if (pageName == "login") {
             this.switchTo(new CanoLoginPageNode(canopy, self));
         }
-        //else if (pageName == "main") {
-        else {
+        else if (pageName == "main") {
+            this.switchTo(new CanoMainPageNode({
+                canopyClient: canopy, 
+                dispatcher: self
+            }));
+        }
+        else if (pageName == "demo") {
             this.switchTo(new DizonDemoPageNode({
                 canopyClient: canopy, 
                 dispatcher: self
