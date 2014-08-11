@@ -146,6 +146,18 @@ function DizonDemoPageNode(params) {
             showHumidity = !showHumidity;
             showScreen(showTemp, showHumidity);
         });
+        $("#share").off('click').on("click", function(){
+            new CanoSharingPopupNode({
+                canopyClient: canopy, 
+                device: device
+            }).appendTo($("#main"));
+        });
+        $("#settings").off('click').on("click", function(){
+            new CanoDeviceSettingsPopupNode({
+                canopyClient: canopy, 
+                device: device
+            }).appendTo($("#main"));
+        });
         $("body").on("touchstart", function(ev) {
             $("#slider").hide();
         });
@@ -174,6 +186,15 @@ function DizonDemoPageNode(params) {
         smallHumPlotNode.appendTo($("#plotspot"));
         bigTempPlotNode.appendTo($("#plotspot"));
         bigHumPlotNode.appendTo($("#plotspot"));
+
+        if (device.isConnected()) {
+            $("#connected").show();
+            $("#disconnected").hide();
+        }
+        else {
+            $("#connected").hide();
+            $("#disconnected").show();
+        }
     }
 
     if (!device) {
@@ -189,17 +210,25 @@ function DizonDemoPageNode(params) {
         <!--span style='color:#a0a0a0;font-size:70px; font-weight:200'>dyzon</span-->\
         <div id=dyzon style='display:inline-block; color:#a0a0a0;font-size:70px; font-weight:200'>dyzon</div>\
         <span style='color:#000000;font-size:70px; font-weight:200'>AR06</span>\
-        <div style='white-space:nowrap; float:right; solid #a0a0a0;line-height:1; text-align:right; padding-right:32px;'><br><span style='color:#808080;font-size:40px; font-weight:300'>My Smart Fan</span><span style='font-size:30px'><br>Greg's Office</span></div>\
+        <div id='settings' style='cursor: pointer; white-space:nowrap; float:right; solid #a0a0a0;line-height:1; text-align:right; padding-right:32px;'><br><span style='color:#808080;font-size:40px; font-weight:300'>" + device.friendlyName() + "</span><span style='font-size:30px'><br>" + "Greg's Office" + "</span></div>\
         <table cellspacing=0 cellpadding=0 width=100%><tr><td width=1 align=center valign=top style='padding-left:24px; font-size:20px;line-height:1; border-right:2px solid #d8d8d8; padding-right:24px;'>\
-            <br><br><img src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/approve.png>\
+            <div id=connected>\
+                <br><br><img src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/approve.png>\
+                <br>\
+                Connected\
+            </div>\
+            <div id=disconnected style='display:none'>\
+                <br><img src=images/delete.png>\
+                <br>\
+                Disconnected\
+            </div>\
+            <br><img id='thermometer' class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/thermometer.png>\
             <br>\
-            Connected\
-            <br><br><img id='thermometer' class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/thermometer.png>\
-            <br>\
-            " + temperature + "&deg;F\
+            " + temperature + "&deg;C\
             <br><br><img id='humidity' class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/drop.png>\
+            <br>\
             " + humidity + "%\
-            <br><br><img src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/add_contact.png>\
+            <br><br><img id=share class=demo-icon src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/add_contact.png>\
             <br>\
             Share\
         </td><td valign=top>\
@@ -229,25 +258,25 @@ function DizonDemoPageNode(params) {
 
     smallTempPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#%",
+        vAxisFormat: "#°C",
         width: 800,
         height: 220
     });
     smallHumPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#%",
+        vAxisFormat: "#.#%",
         width: 800,
         height: 220
     });
     bigTempPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#%",
+        vAxisFormat: "#°C",
         width: 800,
         height: 440
     });
     bigHumPlotNode = new CanoPlotNode({
         title: "hi",
-        vAxisFormat: "#%",
+        vAxisFormat: "#.#%",
         width: 800,
         height: 440
     });

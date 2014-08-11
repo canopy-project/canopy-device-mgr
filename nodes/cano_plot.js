@@ -55,8 +55,6 @@ function CanoPlotNode(origParams)
         for (i = 1; i < samples.length; i++) {
             t0 = Date.parse(samples[i-1].t);
             t1 = Date.parse(samples[i].t);
-            console.log(t0);
-            console.log(t1);
             if (t1 - t0 > 20000)
             {
                 dataArray.push([
