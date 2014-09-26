@@ -42,6 +42,12 @@ function CanowebDispatcher(canopy) {
                 dispatcher: self
             }));
         }
+        else if (pageName == "anon_device") {
+            this.switchTo(new CanoAnonDevicePageNode({
+                canopyClient: canopy, 
+                dispatcher: self
+            }));
+        }
         else if (pageName == "demo") {
             this.switchTo(new DizonDemoPageNode({
                 canopyClient: canopy, 
