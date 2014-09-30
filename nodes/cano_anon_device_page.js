@@ -24,7 +24,8 @@ function CanoAnonDevicePageNode(params) {
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        controlPanelNode = null
+        controlPanelNode = null,
+        defEditorNode = null
     ;
 
     $.extend(this, new CanoNode());
@@ -44,6 +45,13 @@ function CanoAnonDevicePageNode(params) {
                     device: device
                 });
                 controlPanelNode.appendTo($main);
+
+                defEditorNode = new CanoDefEditorNode({
+                    canopyClient: canopy,
+                    device: device
+                });
+                defEditorNode.appendTo($main);
+
             },
             function() {
                 // on failure
