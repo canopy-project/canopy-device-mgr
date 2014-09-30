@@ -23,6 +23,7 @@ function CanoDefEditorPropertyNode(params) {
         menuNode = null,
         controlPanelNode = null,
         $rest = null,
+        $sddl = null,
         $c = null,
         $js = null
     ;
@@ -45,6 +46,7 @@ function CanoDefEditorPropertyNode(params) {
             $rest.hide();
             $c.hide();
             $js.hide();
+            $sddl.hide();
             if (value == "rest") {
                 $rest.show();
             }
@@ -53,6 +55,9 @@ function CanoDefEditorPropertyNode(params) {
             }
             else if (value == "js") {
                 $js.show();
+            }
+            else if (value == "sddl") {
+                $sddl.show();
             }
         },
         onClick: function() {
@@ -79,6 +84,19 @@ function CanoDefEditorPropertyNode(params) {
         } ],
         selectedIdx: 0
     });
+
+    /* Construct SDDL information */
+    /*
+     *  "sensor cpu" : {
+     *      "datatype" : "float32"
+     *  }
+     */
+    var sddl = prop.sddlString();
+    $sddl = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+        <b>SDDL Definition:</b>\
+        <div class=code>" + sddl + "</div>\
+    </div>"]).hide();
+
 
     /* Construct REST information */
     $rest = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
@@ -134,6 +152,7 @@ int main(void)\n\
         </div>\
         <div class=cano-def_editor_property-body-outer>\
             ", $rest, "\
+            ", $sddl, "\
             ", $c, "\
             ", $js, "\
         </div>\
