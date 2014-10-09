@@ -21,6 +21,7 @@ document.write('<script src="../mgr/nodes/cano_button.js"></script>');
 document.write('<script src="../mgr/nodes/cano_control_small.js"></script>');
 document.write('<script src="../mgr/nodes/cano_def_editor.js"></script>');
 document.write('<script src="../mgr/nodes/cano_def_editor_property.js"></script>');
+document.write('<script src="../mgr/nodes/cano_def_editor_property_config.js"></script>');
 document.write('<script src="../mgr/nodes/cano_device_control_widget.js"></script>');
 document.write('<script src="../mgr/nodes/cano_device_settings_popup.js"></script>');
 document.write('<script src="../mgr/nodes/cano_devices_list_item.js"></script>');

@@ -48,4 +48,5 @@ function CanoDefEditorNode(params) {
         propNode.appendTo($me);
     }
 
+    //alert(device.notifications().length);
 }

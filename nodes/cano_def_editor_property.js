@@ -22,6 +22,7 @@ function CanoDefEditorPropertyNode(params) {
         prop = params.prop,
         menuNode = null,
         controlPanelNode = null,
+        configNode = null,
         $rest = null,
         $sddl = null,
         $c = null,
@@ -47,8 +48,12 @@ function CanoDefEditorPropertyNode(params) {
             $c.hide();
             $js.hide();
             $sddl.hide();
+            configNode.get$().hide();
             if (value == "rest") {
                 $rest.show();
+            }
+            else if (value == "config") {
+                configNode.get$().show();
             }
             else if (value == "c") {
                 $c.show();
@@ -67,7 +72,7 @@ function CanoDefEditorPropertyNode(params) {
             content: "Hide Details",
             value: "hide-details",
         }, {
-            content: "Config",
+            content: "Editor",
             value: "config",
         }, {
             content: "SDDL",
@@ -99,19 +104,31 @@ function CanoDefEditorPropertyNode(params) {
 
 
     /* Construct REST information */
-    $rest = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
-        <b>Post data sample:</b>\
-        <div class=code>POST http://canopy.link/di/device/", device.id(), "\n\
+    if (prop.isSensor()) {
+        $rest = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+            <b>Post data sample:</b>\
+            <div class=code>POST http://canopy.link/di/device/", device.id(), "\n\
 {\n\
     \"", prop.name(), "\" : 74.3\n\
 }</div>\
-        <b>Get historical data:</b>\
-        <div class=code>GET <a href=http://dev02.canopy.link/api/device/", device.id(), "/", prop.name(), ">http://canopy.link/api/device/", device.id(), "/", prop.name(), "</a></div>\
-    </div>"]).hide();
+            <b>Get historical data:</b>\
+            <div class=code>GET <a href=http://dev02.canopy.link/api/device/", device.id(), "/", prop.name(), ">http://canopy.link/api/device/", device.id(), "/", prop.name(), "</a></div>\
+        </div>"]).hide();
+    }
+    else if (prop.isControl()) {
+        $rest = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+            <b>Remotely control value:</b>\
+            <div class=code>POST http://canopy.link/api/device/", device.id(), "\n\
+{\n\
+    \"", prop.name(), "\" : 74.3\n\
+}</div>\
+        </div>"]).hide();
+    }
 
-    $c = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
-        <b>Post data sample:</b>\
-        <div class=code>#include &lt;canopy.h&gt;\n\
+    if (prop.isSensor()) {
+        $c = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+            <b>Post data sample:</b>\
+            <div class=code>#include &lt;canopy.h&gt;\n\
 int main(void)\n\
 {\n\
     canopy_post_sample(\n\
@@ -120,27 +137,63 @@ int main(void)\n\
         CANOPY_VALUE_FLOAT32, 74.3f);\n\
     return 0;\n\
 }</div>\
-    </div>"]).hide();
+            </div>"]).hide();
+    }
+    else if (prop.isControl()) {
+        $c = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+            <b>Register control change callback</b>\
+            <div class=code>#include &lt;canopy.h&gt;\n\
+int handle_", prop.name(), "(CanopyContext ctx, const char *propname, float value, void *extra)\n\
+{\n\
+    printf(\"%s changed to %f\\n\", propname, value);\n\
+    return 0;\n\
+}\n\
+int main(void)\n\
+{\n\
+    canopy_on_change(\n\
+        CANOPY_UUID, \"", device.id(),"\",\n\
+        CANOPY_PROPERTY_NAME, \"", prop.name(), "\", \n\
+        CANOPY_ON_CHANGE_FLOAT32_CALLBACK, &handle_", prop.name(), ");\n\
+    canopy_run_event_loop();\n\
+    return 0;\n\
+}</div>\
+            </div>"]).hide();
+    }
 
     /* Construct Javascript Information */
-/*
- *  
- *  canopy.fetchDevice({
- *      deviceId: "9dfe2a00-efe2-45f9-a84c-8afc69caf4e7",
- *      done: function(device, error) {
- *          alert(device.
- *      }
- *  });
- */ 
-    $js = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
-        <b>Get most recent value:</b>\
-        <div class=code>canopy.fetchDevice({\n\
+    if (prop.isSensor()) {
+        $js = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+            <b>Include Javascript Client Library (HTML):</b>\
+            <div class=code>&lt;script src=\"/static/canopy-js-client.js\"&gt&lt;/script&gt;</div>\
+            <b>Get most recent value:</b>\
+            <div class=code>canopy.fetchDevice({\n\
     deviceId: \"", device.id(), "\",\n\
     done: function(device, error) {\n\
         alert(device.", prop.name(), "());\n\
     }\n\
 });</div>\
-    </div>"]).hide();
+        </div>"]).hide();
+    }
+    else if (prop.isControl()) {
+        $js = CanopyUtil_Compose(["<div class=cano-def_editor_property-body-inner>\
+            <b>Include Javascript Client Library (HTML):</b>\
+            <div class=code>&lt;script src=\"/static/canopy-js-client.js\"&gt&lt;/script&gt;</div>\
+            <b>Remotely control value:</b>\
+            <div class=code>canopy.fetchDevice({\n\
+    deviceId: \"", device.id(), "\",\n\
+    done: function(device, error) {\n\
+        device.setTargetValue(\"", prop.name(), "\", 123.4);\n\
+    }\n\
+});</div>\
+        </div>"]).hide();
+    }
+
+    configNode = new CanoDefEditorPropertyConfigNode({
+        canopyClient: canopy,
+        device: device,
+        prop: prop,
+    });
+    configNode.get$().hide();
 
     /* Assemble everything together */
     $me = CanopyUtil_Compose(["<div class=cano-def_editor_property-outer>\
@@ -151,6 +204,7 @@ int main(void)\n\
             ", menuNode, "\
         </div>\
         <div class=cano-def_editor_property-body-outer>\
+            ", configNode, "\
             ", $rest, "\
             ", $sddl, "\
             ", $c, "\
