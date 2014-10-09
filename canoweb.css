@@ -338,17 +338,13 @@ h2 {
 }
 .cano-def_editor_property-type {
     display: inline-block;
-    padding-left: 40px;
-    position: absolute;
-    left: 150px;
     font-family: monospace;
+    color: #606060;
 }
 .cano-def_editor_property-datatype {
     display: inline-block;
-    padding-left: 40px;
-    position: absolute;
-    left: 300px;
     font-family: monospace;
+    color: #606060;
 }
 
 .cano-devices_list-outer {

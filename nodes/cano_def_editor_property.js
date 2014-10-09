@@ -198,9 +198,9 @@ int main(void)\n\
     /* Assemble everything together */
     $me = CanopyUtil_Compose(["<div class=cano-def_editor_property-outer>\
         <div class=cano-def_editor_property-titlebar>\
-            <div class=cano-def_editor_property-name>", prop.name(), "</div>\
-            <div class=cano-def_editor_property-type>", prop.propertyType(), "</div>\
-            <div class=cano-def_editor_property-datatype>", prop.datatype(), "</div>\
+            <div class=cano-def_editor_property-type>", prop.propertyType(), "&nbsp;</div>\
+            <div class=cano-def_editor_property-name>", prop.name(), "&nbsp;</div>\
+            <div class=cano-def_editor_property-datatype><i>", prop.datatype(), "</i></div>\
             ", menuNode, "\
         </div>\
         <div class=cano-def_editor_property-body-outer>\
