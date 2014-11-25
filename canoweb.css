@@ -298,12 +298,18 @@ h2 {
 }
 .cano-def_editor_property-body-inner {
     padding: 8px;
+    margin-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: #d8d8d8;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 .cano-def_editor_property-menu-outer {
     position: absolute;
+    font-size: 18px;
     left: 440px;
     display: inline-block;
-    border-left: 1px solid #d0d0d0;
     cursor: pointer;
 }
 .cano-def_editor_property-menu-not-selected {
@@ -321,7 +327,7 @@ h2 {
     font-weight: bold;
 }
 .cano-def_editor_property-outer {
-    border: 1px solid #c8c8c8;
+    border: 0px solid #c8c8c8;
     margin-top: 8px;
     margin-bottom: 8px;
 }
@@ -330,6 +336,7 @@ h2 {
     position: relative;
     background: #ffffff;
     border-bottom: 1px solid #d8d8d8;
+    border: 1px solid #d8d8d8;
 }
 .cano-def_editor_property-name {
     display: inline-block;

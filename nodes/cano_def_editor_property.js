@@ -37,6 +37,7 @@ function CanoDefEditorPropertyNode(params) {
 
     this.onLive = function() {
         menuNode.onLive();
+        configNode.onLive();
     }
 
     menuNode = new CanoOptionNode({
