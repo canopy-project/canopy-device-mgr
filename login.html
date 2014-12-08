@@ -5,6 +5,11 @@
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="canopy-js-client/canopy.js"></script>
+    <script src="nodes/cano.js"></script>
+    <script src="nodes/cano.js"></script>
+    <script src="nodes/cano_login_form.js"></script>
+    <script src="nodes/cano_signup_form.js"></script>
+    <script src="canopy_app_util.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
     <link href='canoweb.css' rel='stylesheet' type='text/css'>
 </head>
@@ -13,7 +18,7 @@
 <div class=main-outer>
     <div class='topbar'>
         <div class='topbar-inner'>
-            <div class='topbar-left-part'>
+            <div class='topbar-left-part noselect'>
                 <a href='http://canopy.link'><div class='topbar-logo'>Canopy</div></a>
             </div>
             <div class='topbar-middle-part w400' style='color:#000000'>
@@ -27,47 +32,13 @@
    
     <div class='centered' style='background:#f0f0f0; padding-top:30px'>
         <div style='text-align:left; display:inline-block; max-width:1014px; padding-right:20px; padding-left:20px;'>
-            <table border=0 cellspacing=0 cellpadding=18 width=100%>
+            <table border=0 cellspacing=0 cellpadding=0 width=100%>
                 <tr>
-                    <td valign=top width=512 style='border-right:1px solid #c0c0c0'>
-                        <div style='font-size: 30px; font-weight:400'>
-                            Sign Up
-                        </div>
-                        <p>
-                            Username<br>
-                            <input id=signup_username type=text></input>
-                        </p>
-                        <p>
-                            Email<br>
-                            <input id=signup_email type=text></input>
-                        </p>
-                        <p>
-                            Choose Password<br>
-                            <input id=signup_password type=password></input>
-                        </p>
-                        <p>
-                            Confirm Password<br>
-                            <input id=signup_confirm_password type=password></input>
-                        </p>
-                        <p>
-                            <input id=create_account_btn type=submit value='CREATE ACCOUNT'></input>
-                        </p>
+                    <td valign=top width=290 style='padding:8px; padding-right:80px; border-right:1px solid #c0c0c0'>
+                        <div id=signupform></div>
                     </td>
-                    <td valign=top width=512 style=''>
-                        <div style='font-size: 30px; font-weight:400'>
-                            Log in
-                        </div>
-                        <p>
-                            Username or email<br>
-                            <input id=login_user type=text></input>
-                        </p>
-                        <p>
-                            Password<br>
-                            <input id=login_password type=password></input>
-                        </p>
-                        <p>
-                            <input id=login_btn type=submit value='SIGN IN'></input>
-                        </p>
+                    <td valign=top style='padding:8px; padding-left:30px; padding-right:80px'>
+                        <div id=loginform></div>
                     </td>
                 </tr>
             </table>
@@ -87,6 +58,7 @@
                     <ul>
                         <li>Monitor, control and share your Canopy-enabled devices.</li>
                         <li>Advanced administrative tools for device makers.</li>
+                        <li>100% open source.</li>
                     </ul>
                 </td>
             </tr>
@@ -127,46 +99,21 @@ var canopy = new CanopyClient({
 });
 
 canopy.OnReady(function() {
+    (new CanoLoginFormNode({
+        canopyClient : canopy,
+        dispatcher: null
+    })).render($("#loginform"));
+
+    (new CanoSignupFormNode({
+        canopyClient : canopy,
+        dispatcher: null
+    })).render($("#signupform"));
+
     if (canopy.IsLoggedIn()) {
         // User already logged in.  Redirect to device manager.
-        window.location.replace("index.html");
+        window.location.replace("index_new.html");
         return;
     } 
-
-    $("#login_btn").off('click').on('click', function() {
-        var username = $("#login_user").val();
-        var password = $("#login_password").val();
-        canopy.Login({
-            username: username,
-            password: password,
-            onSuccess: function() {
-                window.location.replace("index.html");
-            },
-            onError: function(reason) {
-                alert("Error signing in: " +reason);
-            }
-        });
-    });
-
-    $("#create_account_btn").off('click').on('click', function() {
-        var username = $("#signup_username").val();
-        var email = $("#signup_email").val();
-        var password = $("#signup_password").val();
-        var confirmPassword = $("#signup_password").val();
-
-        canopy.CreateAccount({
-            username: username,
-            email: email,
-            password: password,
-            confirmPassword: confirmPassword,
-            onSuccess: function() {
-                window.location.replace("index.html");
-            },
-            onError: function(reason) {
-                alert("Error creating account: " +reason);
-            }
-        });
-    });
 });
 
 </script>

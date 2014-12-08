@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 function CanopyUtil_IsValidEmail(email) {
     /* http://davidcel.is/blog/2012/09/06/stop-validating-email-addresses-with-regex/ */
 

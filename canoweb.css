@@ -998,6 +998,17 @@ background: url(images/shutterstock_156257867_work_team_1920x1200.jpg) no-repeat
     font-family: "ABeeZee";
     font-size: 28px;
     color: #3060b0;
+    display: inline-block;
+
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .toc {
