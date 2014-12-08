@@ -3,7 +3,8 @@
 
 <head>
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
-    <script src="canopy_project.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="canopy-js-client/canopy.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
     <link href='canoweb.css' rel='stylesheet' type='text/css'>
 </head>
@@ -34,22 +35,22 @@
                         </div>
                         <p>
                             Username<br>
-                            <input type=text></input>
+                            <input id=signup_username type=text></input>
                         </p>
                         <p>
                             Email<br>
-                            <input type=text></input>
+                            <input id=signup_email type=text></input>
                         </p>
                         <p>
                             Choose Password<br>
-                            <input type=text></input>
+                            <input id=signup_password type=password></input>
                         </p>
                         <p>
                             Confirm Password<br>
-                            <input type=text></input>
+                            <input id=signup_confirm_password type=password></input>
                         </p>
                         <p>
-                            <input type=submit value='Create Account'></input>
+                            <input id=create_account_btn type=submit value='CREATE ACCOUNT'></input>
                         </p>
                     </td>
                     <td valign=top width=512 style=''>
@@ -58,14 +59,14 @@
                         </div>
                         <p>
                             Username or email<br>
-                            <input type=text></input>
+                            <input id=login_user type=text></input>
                         </p>
                         <p>
                             Password<br>
-                            <input type=text></input>
+                            <input id=login_password type=password></input>
                         </p>
                         <p>
-                            <input type=submit value='Sign In'></input>
+                            <input id=login_btn type=submit value='SIGN IN'></input>
                         </p>
                     </td>
                 </tr>
@@ -118,6 +119,57 @@
     </center>
 </div>
 </body>
+<script>
+
+var canopy = new CanopyClient({
+    "cloud-host" : "74.93.13.249",
+    "http-port" : 8080
+});
+
+canopy.OnReady(function() {
+    if (canopy.IsLoggedIn()) {
+        // User already logged in.  Redirect to device manager.
+        window.location.replace("index.html");
+        return;
+    } 
+
+    $("#login_btn").off('click').on('click', function() {
+        var username = $("#login_user").val();
+        var password = $("#login_password").val();
+        canopy.Login({
+            username: username,
+            password: password,
+            onSuccess: function() {
+                window.location.replace("index.html");
+            },
+            onError: function(reason) {
+                alert("Error signing in: " +reason);
+            }
+        });
+    });
+
+    $("#create_account_btn").off('click').on('click', function() {
+        var username = $("#signup_username").val();
+        var email = $("#signup_email").val();
+        var password = $("#signup_password").val();
+        var confirmPassword = $("#signup_password").val();
+
+        canopy.CreateAccount({
+            username: username,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            onSuccess: function() {
+                window.location.replace("index.html");
+            },
+            onError: function(reason) {
+                alert("Error creating account: " +reason);
+            }
+        });
+    });
+});
+
+</script>
 </html>
 
 
