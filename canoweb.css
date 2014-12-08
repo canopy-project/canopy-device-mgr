@@ -13,6 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+.devmgr_topbar_outer {
+    padding: 16px;
+}
+
+.devmgr_topbar_item_selected {
+    font-weight: 800;
+    display: inline-block;
+    width:120px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.devmgr_topbar_item_not_selected {
+    font-weight: 400;
+    display: inline-block;
+    width:120px;
+    user-select: none;
+    cursor: pointer;
+}
+
 a {
     color: #204080;
     text-decoration: none;

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function CanoAccountDropdown(params) {
+function CanoAccountPageNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        $logoutButton,
-        visible = false
+        sidebarNode,
+        mainNode
     ;
 
     $.extend(this, new CanoNode());
@@ -29,34 +29,18 @@ function CanoAccountDropdown(params) {
     }
 
     this.onLive = function() {
-        $logoutButton.off('click').on('click', function(event) {
-            canopy.Logout({
-                onSuccess: function() {
-                    window.location.replace("login.html");
-                }
-            });
-            event.stopPropogation();
-        });
+        sidebarNode.onLive();
     }
 
-    this.show = function() {
-        $me.show();
-        visible = true;
-    }
-    this.hide = function() {
-        $me.hide();
-        visible = false;
-    }
-    this.isVisible = function() {
-        return visible;
-    }
+    sidebarNode = new CanoAccountSidebarNode({
+        canopyClient : canopy,
+        dispatcher: dispatcher
+    });
 
-    $logoutButton = $("<a href='javascript:void(0);'>Logout</a>");
+    mainNode = $("<div>You have a free account.</div>");
 
-    $me = CanopyUtil_Compose(["<div class=cano-account_dropdown-outer>\
-        <div class=cano-account_dropdown-inner>\
-            ", $logoutButton, "\
-        </div>\
+    $me = CanopyUtil_Compose(["<div>\
+        ", sidebarNode, "\
+        &nbsp; <div style='padding:16px; margin-left: 250px; margin-top:28px'>", mainNode, "</div>\
     </div>"]);
-    $me.hide();
 }
