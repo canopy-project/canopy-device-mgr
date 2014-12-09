@@ -34,6 +34,21 @@
     cursor: pointer;
 }
 
+.devmgr_device_table th {
+    font-weight: 400;
+    background: #ffffff;
+    border-bottom: 1px solid #d0d0d0;
+}
+.devmgr_device_table td {
+    border-bottom: 1px solid #d0d0d0;
+}
+.devmgr_device_table tr:nth-child(even) {
+    background: #ffffff;
+}
+.devmgr_device_table tr:nth-child(odd) {
+    background: #f0f4fb;
+}
+
 a {
     color: #204080;
     text-decoration: none;

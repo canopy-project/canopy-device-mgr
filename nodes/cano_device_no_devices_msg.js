@@ -27,15 +27,19 @@ function CanoDevicesNoDevicesMsgNode(params) {
     }
 
     this.onLive = function() {
+        $("#create_device_link").off("click").on("click", function() {
+            if (params.onCreateDeviceLink)
+                params.onCreateDeviceLink();
+        });
     }
 
-    $me = CanopyUtil_Compose(["\
+    $me = CanopyUtil_Compose(["<div style='padding:16px'>\
         <div class='l'>Welcome to the Canopy Device Manager</div>\
         <p>\
             You do not currently have access to any Canopy-enabled devices on this deployment.\
         </p>\
         <p>\
-            If you're a developer, you can <a href='..'>Create a Device</a>.\
+            If you're a developer, you can <a id=create_device_link href='javascript:void(0);'>Create a Device</a>.\
         </p>\
-    "]);
+    </div>"]);
 }

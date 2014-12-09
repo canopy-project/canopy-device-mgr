@@ -124,5 +124,8 @@ function CanoAccountSidebarNode(params) {
             </tr>\
         </table>\
     </div>\
+        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#dddddd; color:#000000'>\
+            Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
+        </div>\
 </div>"]);
 }

@@ -20,6 +20,9 @@ function CanoDevicesPageNode(params) {
         dispatcher = params.dispatcher,
         topbarNode,
         sidebarNode,
+        deviceListNode,
+        noDevicesNode,
+        createDeviceNode,
         mainNode
     ;
 
@@ -36,16 +39,53 @@ function CanoDevicesPageNode(params) {
 
     sidebarNode = new CanoDevicesSidebarNode({
         canopyClient : canopy,
-        dispatcher: dispatcher
+        dispatcher: dispatcher,
+        onCreateDeviceLink : function() {
+            mainNode.select("create_device");
+        }
     });
 
-    mainNode = new CanoDevicesNoDevicesMsgNode({
+    deviceListNode = new CanoDeviceListNode({
         canopyClient : canopy,
-        dispatcher: dispatcher
+        onSelect: function(idx, device) {
+            alert(device.UUID());
+        }
     });
+        
+    noDevicesNode = new CanoDevicesNoDevicesMsgNode({
+        canopyClient : canopy,
+        onCreateDeviceLink : function() {
+            mainNode.select("create_device");
+        }
+    });
+
+    createDeviceNode = new CanoDevicesCreateNode({
+        canopyClient : canopy,
+        onCreated: function() {
+            mainNode.select("no_devices");
+        },
+        onCancel: function() {
+            mainNode.select("no_devices");
+        }
+    });
+
+    mainNode = new CanoSwitcherNode({
+        children: [{
+            name: "create_device",
+            content: createDeviceNode,
+        }, {
+            name: "no_devices",
+            content: noDevicesNode,
+        }, {
+            name: "device_list",
+            content: deviceListNode,
+        }]
+    });
+
+    mainNode.select("device_list");
 
     $me = CanopyUtil_Compose(["<div>\
         ", sidebarNode, "\
-        &nbsp; <div style='padding:16px; margin-left: 250px; margin-top:28px'>", mainNode, "</div>\
+        &nbsp; <div style='margin-left:250px; margin-top:28px'>", mainNode, "</div>\
     </div>"]);
 }

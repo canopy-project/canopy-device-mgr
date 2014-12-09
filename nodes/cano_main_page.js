@@ -37,7 +37,8 @@ function CanoMainPageNode(params) {
 
     this.onLive = function() {
         topbarNode.onLive();
-        contentNode.onLive();
+        accountNode.onLive();
+        devicesNode.onLive();
     }
 
     topbarNode = new CanoTopbarNode({

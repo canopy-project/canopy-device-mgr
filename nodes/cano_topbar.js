@@ -81,7 +81,7 @@ function CanoTopbarNode(params) {
     $me = CanopyUtil_Compose(["\
         <div style='position:fixed; left:0px; width:250px; height: 58px; background:#3060b0; color:#ffffff'>\
             <div style='padding:16px;'>\
-                <b>ccs.canopy.link</b>\
+                <b>Canopy Enterprise</b>\
             </div>\
         </div>\
         <div style='position:fixed; left:250px; right:0px; height: 58px; background:#404040; color:#ffffff'>\

@@ -19,7 +19,7 @@ function CanoDevicesSidebarNode(params) {
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
         accountDropdownNode,
-        $username
+        $createDevice
     ;
 
     $.extend(this, new CanoNode());
@@ -44,6 +44,11 @@ function CanoDevicesSidebarNode(params) {
                 }
             }
         });*/
+        $createDevice.off('click').on('click', function() {
+            if (params.onCreateDeviceLink) {
+                params.onCreateDeviceLink();
+            }
+        });
     }
 
     /*accountDropdownNode = new CanoAccountDropdown({
@@ -52,19 +57,26 @@ function CanoDevicesSidebarNode(params) {
     });
 
     $username = $("<a href='javascript:void(0);'>" + canopy.account.username() + "</a>");*/
+    $createDevice = $("<div><i>+ Create Device</i></div>");
 
     $me = CanopyUtil_Compose(["\
         <div style='z-index: 400; position:fixed; width: 250px; top: 58px; bottom:0px; background:#dddddd; color:#000000'>\
             <div style='padding:16px; font-size: 16px;'>\
-                <div style='padding-left:2em'>All Devices (0)</div>\
-                <div style='padding-left:2em'>Connected (0)</div>\
-                <div style='padding-left:2em'>Disconnected (0)</div>\
+                <b>DEVICES</b>\
+                <div style='padding-left:2em'>All (" + canopy.me.devices.length + ")</div>\
+                <div style='padding-left:2em'>Activated (" + canopy.me.devices.length + ")</div>\
+                <div style='padding-left:2em'>Connected (" + canopy.me.devices.Connected().length + ")</div>\
+                <div style='padding-left:2em'>Disconnected (" + canopy.me.devices.Disconnected().length + ")</div>\
                 <div style='padding-left:2em'>Allocated (0)</div>\
+                ", $createDevice, "\
 \
-                <br><b>LOTS</b>\
+                <br><br><b>GROUPS</b>\
                 <div style='padding-left:2em'>Recently Created (0)</div>\
-                <div style='padding-left:2em'><i>+ Create Lot</i></div>\
+                <div style='padding-left:2em'><i>+ Create Group</i></div>\
             </div>\
+        </div>\
+        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#dddddd; color:#000000'>\
+            Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
         </div>\
     "]);
 }
