@@ -17,7 +17,8 @@ function CanoDeviceListNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
-        priv = {filterName: "All", filter:  {}};
+        priv = {filterName: "All", filter:  {}},
+        selectedDevice = null
     ;
 
     $.extend(this, new CanoNode());
@@ -27,7 +28,6 @@ function CanoDeviceListNode(params) {
     }
 
     this.onLive = function() {
-        this.refresh();
     }
 
     this.setFilter = function(filterName, newFilter) {
@@ -54,11 +54,10 @@ function CanoDeviceListNode(params) {
             </tr>\
         </table>");
 
-        var disconnected = "<span style='color:#a00000;'>Disconnected</span>"
-
         for (var i = 0; i < devices.length; i++) {
             var device = devices[i];
-            $row = $("<tr>\
+            var selected = (selectedDevice && (selectedDevice.UUID() == device.UUID())) ? "class=selected" : "";
+            $row = $("<tr " + selected + ">\
                 <td style='font-size:12px; font-family:monospace'>\
                     " + device.UUID().substring(0, 6) + "...\
                 </td>\
@@ -66,18 +65,24 @@ function CanoDeviceListNode(params) {
                     " + device.FriendlyName() + "\
                 </td>\
                 <td>\
-                    " + (device.ConnectionStatus()) + "\
+                    " + (CanopyUtil_ConnectionStatusText(device.ConnectionStatus())) + "\
                 </td>\
             </tr>");
             $row.off('click').on('click', function(idx, device) {
                 return function() {
+                    selectedDevice = device;
                     params.onSelect(idx, device);
+                    self.refresh();
                 }
             }(i, device));
             $table.append($row);
         }
         $me.append($table);
+
+        this.onLive();
     }
 
     $me = $("<div style='padding:16px'>");
+
+    this.refresh();
 }

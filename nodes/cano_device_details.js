@@ -21,7 +21,8 @@ function CanoDeviceDetailsNode(params) {
         device = null,
         switcherNode,
         optionNode,
-        detailsNode
+        detailsNode,
+        nameNode
     ;
 
     $.extend(this, new CanoNode());
@@ -34,6 +35,7 @@ function CanoDeviceDetailsNode(params) {
         switcherNode.onLive();
         optionNode.onLive();
         detailsNode.onLive();
+        nameNode.onLive();
     }
 
     this.setDevice = function(dev) {
@@ -73,13 +75,25 @@ function CanoDeviceDetailsNode(params) {
             content: detailsNode
         }]
     });
+    switcherNode.select("details");
+
+    nameNode = new CanoEditable({
+        textClass: "devmgr_device_editable_name_text",
+        inputClass: "devmgr_device_editable_name_input",
+        onChange: function(value) {
+            device.setSettings({friendlyName: value});
+            if (params.onDeviceModified)
+                params.onDeviceModified(device);
+        }
+    });
 
     this.refresh = function() {
         $me.html("");
         if (device != null) {
+            nameNode.setValue(device.FriendlyName, true);
             $me.append(CanopyUtil_Compose(["\
                 <div style='background:#f0f0f0; border-top-left-radius:5px; border-top-right-radius:5px; color:#000000; padding:8px;'>\
-                    <div class='ml'>" + device.FriendlyName() + "</div>\
+                    <div class='ml'>", nameNode, "</div>\
                 </div>\
                 <div style='background:#404040; border-top-left-radius:0px; border-top-right-radius:0px; color:#ffffff; font-weight:400; padding:0px;'>\
                     ", optionNode, "\
@@ -118,6 +132,8 @@ function CanoDeviceDetailsNode(params) {
                 <div style='padding:16px' class='ml'>No Device Selected</div>\
             ");
         }
+
+        this.onLive();
     }
 
     $me = $("<div>");

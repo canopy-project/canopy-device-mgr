@@ -53,14 +53,26 @@
     user-select: none;
     cursor: pointer;
 }
+
+.devmgr_device_table {
+    cursor: pointer;
+}
+
+.devmgr_device_table .selected td {
+    background: #fafac0;
+    font-weight: 400;
+}
+
 .devmgr_device_table th {
     font-weight: 400;
     background: #ffffff;
     border-bottom: 1px solid #d0d0d0;
 }
+
 .devmgr_device_table td {
     border-bottom: 1px solid #d0d0d0;
 }
+
 .devmgr_device_table tr:nth-child(even) {
     background: #f4f4f4;
 }
@@ -68,10 +80,33 @@
     background: #f0f0f0;
 }
 
+.devmgr_device_table tr:hover {
+    background: #ffffff;
+}
+
 .devmgr_prop_table td {
     border-bottom: 1px solid #d0d0d0;
 }
 
+.devmgr_device_editable_name_text {
+    padding: 1px;
+    cursor: pointer;
+}
+
+.devmgr_device_editable_name_text:hover {
+    border: 1px dashed #808000;
+    padding: 0px;
+}
+
+.devmgr_device_editable_name_input{
+    border: 1px solid #a0a0a0;
+    background: white;
+    font-size: 26px;
+    padding:2px;
+    margin-bottom:1px;
+    font-family: "Source Sans Pro", Helvetica,arial,freesans,clean,sans-serif;
+    font-weight: 300;
+}
 a {
     color: #204080;
     text-decoration: none;

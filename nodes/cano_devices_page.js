@@ -37,6 +37,7 @@ function CanoDevicesPageNode(params) {
         sidebarNode.onLive();
         mainNode.onLive();
         deviceDetailsNode.onLive();
+        deviceListNode.onLive();
     }
 
     sidebarNode = new CanoDevicesSidebarNode({
@@ -75,6 +76,9 @@ function CanoDevicesPageNode(params) {
     });
 
     deviceDetailsNode = new CanoDeviceDetailsNode({
+        onDeviceModified: function() {
+            deviceListNode.refresh();
+        }
     });
 
     mainNode = new CanoSwitcherNode({
