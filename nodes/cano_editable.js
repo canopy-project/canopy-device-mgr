@@ -59,7 +59,7 @@ function CanoEditable(params) {
     }
 
     this.refresh = function() {
-        $text.html(value);
+        $text.html(value + "&nbsp;");
         $input.val(value);
     }
 

@@ -90,7 +90,7 @@ function CanoDeviceDetailsNode(params) {
     this.refresh = function() {
         $me.html("");
         if (device != null) {
-            nameNode.setValue(device.FriendlyName, true);
+            nameNode.setValue(device.FriendlyName(), true);
             $me.append(CanopyUtil_Compose(["\
                 <div style='background:#f0f0f0; border-top-left-radius:5px; border-top-right-radius:5px; color:#000000; padding:8px;'>\
                     <div class='ml'>", nameNode, "</div>\

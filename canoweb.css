@@ -88,6 +88,24 @@
     border-bottom: 1px solid #d0d0d0;
 }
 
+.devmgr_device_editable_location_text {
+    padding: 1px;
+    cursor: pointer;
+}
+
+.devmgr_device_editable_location_text:hover {
+    border: 1px dashed #808000;
+    padding: 0px;
+}
+
+.devmgr_device_editable_location_input{
+    border: 1px solid #a0a0a0;
+    background: white;
+    font-size: 15px;
+    font-family: "Source Sans Pro", Helvetica,arial,freesans,clean,sans-serif;
+    font-weight: 400;
+}
+
 .devmgr_device_editable_name_text {
     padding: 1px;
     cursor: pointer;

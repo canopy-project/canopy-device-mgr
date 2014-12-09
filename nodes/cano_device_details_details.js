@@ -16,7 +16,8 @@
 function CanoDeviceDetailsDetailsNode(params) {
     var self=this,
         $me,
-        device = null
+        device = null,
+        locationNode
     ;
 
     $.extend(this, new CanoNode());
@@ -26,6 +27,7 @@ function CanoDeviceDetailsDetailsNode(params) {
     }
 
     this.onLive = function() {
+        locationNode.onLive();
     }
 
     this.setDevice = function(dev) {
@@ -33,21 +35,29 @@ function CanoDeviceDetailsDetailsNode(params) {
         this.refresh();
     }
 
+    locationNode = new CanoEditable({
+        textClass: "devmgr_device_editable_location_text",
+        inputClass: "devmgr_device_editable_location_input"
+    });
+
     this.refresh = function() {
         if (device == null)
             return;
-        $me.html("\
+
+        locationNode.setValue(device.LocationNote());
+
+        $me.html(CanopyUtil_Compose(["\
             <table cellspacing=0 cellpadding=8 class=devmgr_prop_table style='font-size:16px'>\
                 <tr>\
-                    <td align=right style='font-weight:400'>\
+                    <td align=right style='font-weight:400; color:#404040'>\
                         Status\
                     </td>\
                     <td>\
-                        " + device.ConnectionStatus() + "\
+                        " + CanopyUtil_ConnectionStatusText(device.ConnectionStatus()) + "\
                     </td>\
                 </tr>\
                 <tr>\
-                    <td align=right style='font-weight:400'>\
+                    <td align=right style='font-weight:400; color:#404040'>\
                         Last Seen\
                     </td>\
                     <td>\
@@ -55,22 +65,35 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                 </tr>\
                 <tr>\
-                    <td align=right style='font-weight:400'>\
+                    <td align=right style='font-weight:400; color:#404040'>\
                         UUID\
                     </td>\
                     <td>\
-                        " + device.UUID() + "\
+                        <div style='font-size:14px; font-family:monospace'>\
+                            " + device.UUID() + "\
+                        </div>\
                     </td>\
                 </tr>\
                 <tr>\
-                    <td align=right style='font-weight:400'>\
+                    <td align=right style='font-weight:400; color:#404040'>\
                         Secret Key\
                     </td>\
                     <td>\
-                        " + device.UUID() + "\
+                        <div style='font-size:14px; font-family:monospace'>\
+                            " + "857736b5ea09ff57ff833cd20c8e8eb08aea8a35a" + "\
+                        </div>\
                     </td>\
                 </tr>\
-            </table>");
+                <tr>\
+                    <td align=right style='font-weight:400; color:#404040'>\
+                        Location Note\
+                    </td>\
+                    <td>\
+                        ", locationNode, "\
+                    </td>\
+                </tr>\
+            </table><br>\
+        "]));
     }
 
     $me = $("<div>");
