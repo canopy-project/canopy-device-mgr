@@ -23,6 +23,7 @@ function CanoDevicesPageNode(params) {
         deviceListNode,
         noDevicesNode,
         createDeviceNode,
+        deviceDetailsNode,
         mainNode
     ;
 
@@ -35,6 +36,7 @@ function CanoDevicesPageNode(params) {
     this.onLive = function() {
         sidebarNode.onLive();
         mainNode.onLive();
+        deviceDetailsNode.onLive();
     }
 
     sidebarNode = new CanoDevicesSidebarNode({
@@ -51,7 +53,7 @@ function CanoDevicesPageNode(params) {
     deviceListNode = new CanoDeviceListNode({
         canopyClient : canopy,
         onSelect: function(idx, device) {
-            alert(device.UUID());
+            deviceDetailsNode.setDevice(device);
         }
     });
         
@@ -72,6 +74,9 @@ function CanoDevicesPageNode(params) {
         }
     });
 
+    deviceDetailsNode = new CanoDeviceDetailsNode({
+    });
+
     mainNode = new CanoSwitcherNode({
         children: [{
             name: "create_device",
@@ -90,5 +95,6 @@ function CanoDevicesPageNode(params) {
     $me = CanopyUtil_Compose(["<div>\
         ", sidebarNode, "\
         &nbsp; <div style='margin-left:250px; margin-top:28px'>", mainNode, "</div>\
+        <div style='z-index: 20; border:1px solid #d0d0d0; background:#f0f0f0; right: 16px; border-radius:5px; width:600px; position:absolute; top:78px;'>", deviceDetailsNode, "</div>\
     </div>"]);
 }

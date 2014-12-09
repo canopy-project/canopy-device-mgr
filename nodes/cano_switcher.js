@@ -45,10 +45,17 @@ function CanoSwitcherNode(params) {
     this.select = function(name) {
         for (i = 0; i < params.children.length; i++) {
             if (params.children[i].name == name) {
-                params.children[i].content.get$().show();
+                if (params.children[i].content.get$)
+                    params.children[i].content.get$().show();
+                else
+                    params.children[i].content.show();
+
             }
             else {
-                params.children[i].content.get$().hide();
+                if (params.children[i].content.get$)
+                    params.children[i].content.get$().hide();
+                else
+                    params.children[i].content.hide();
             }
         }
     }
@@ -56,7 +63,13 @@ function CanoSwitcherNode(params) {
     $me = $("<div>");
 
     for (i = 0; i < params.children.length; i++) {
-        params.children[i].content.appendTo($me);
-        params.children[i].content.get$().hide();
+        if (params.children[i].content.get$) {
+            params.children[i].content.appendTo($me);
+            params.children[i].content.get$().hide();
+        }
+        else {
+            params.children[i].content.appendTo($me);
+            params.children[i].content.hide();
+        }
     }
 }

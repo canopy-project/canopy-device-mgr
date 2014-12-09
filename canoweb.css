@@ -49,6 +49,10 @@
     background: #f0f4fb;
 }
 
+.devmgr_prop_table td {
+    border-bottom: 1px solid #d0d0d0;
+}
+
 a {
     color: #204080;
     text-decoration: none;
@@ -861,7 +865,7 @@ background: url(images/shutterstock_156257867_work_team_1920x1200.jpg) no-repeat
 .code
 {
     font-family: monospace;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     box-shadow: 1px 1px 3px #a0a0a0;
     color: black;
     padding: 8px;

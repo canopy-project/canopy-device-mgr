@@ -79,12 +79,12 @@ function CanoTopbarNode(params) {
     });
 
     $me = CanopyUtil_Compose(["\
-        <div style='position:fixed; left:0px; width:250px; height: 58px; background:#3060b0; color:#ffffff'>\
+        <div style='z-index:1000; position:fixed; left:0px; width:250px; height: 58px; background:#3060b0; color:#ffffff'>\
             <div style='padding:16px;'>\
                 <b>Canopy Enterprise</b>\
             </div>\
         </div>\
-        <div style='position:fixed; left:250px; right:0px; height: 58px; background:#404040; color:#ffffff'>\
+        <div style='z-index:1000; position:fixed; left:250px; right:0px; height: 58px; background:#404040; color:#ffffff'>\
             <div style='padding:16px; padding-right:100px; position:absolute; right:0px;'>\
                 ", $username, accountDropdownNode, "\
             </div>\
