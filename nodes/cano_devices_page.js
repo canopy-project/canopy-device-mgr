@@ -42,6 +42,9 @@ function CanoDevicesPageNode(params) {
         dispatcher: dispatcher,
         onCreateDeviceLink : function() {
             mainNode.select("create_device");
+        },
+        onFilterChange : function(filterName, filter) {
+            deviceListNode.setFilter(filterName, filter);
         }
     });
 

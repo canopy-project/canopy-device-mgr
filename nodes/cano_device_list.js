@@ -16,7 +16,8 @@
 function CanoDeviceListNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient
+        canopy = params.canopyClient,
+        priv = {filterName: "All", filter:  {}};
     ;
 
     $.extend(this, new CanoNode());
@@ -29,8 +30,15 @@ function CanoDeviceListNode(params) {
         this.refresh();
     }
 
+    this.setFilter = function(filterName, newFilter) {
+        priv.filter = newFilter;
+        priv.filterName = filterName;
+        self.refresh();
+    }
+
     this.refresh = function() {
-        $me.html("");
+        var devices = canopy.me.devices.Filter(priv.filter);
+        $me.html("<div>Showing <i>" + priv.filterName + "</i> <span style='color:#808080'>(" + devices.length + " of " + devices.length + ")</span></div>");
 
         $table = $("<table class=devmgr_device_table cellspacing=0 cellpadding=8 style='font-size:16px'>\
             <tr>\
@@ -48,8 +56,8 @@ function CanoDeviceListNode(params) {
 
         var disconnected = "<span style='color:#a00000;'>Disconnected</span>"
 
-        for (var i = 0; i < canopy.me.devices.length; i++) {
-            var device = canopy.me.devices[i];
+        for (var i = 0; i < devices.length; i++) {
+            var device = devices[i];
             $row = $("<tr>\
                 <td style='font-size:12px; font-family:monospace'>\
                     " + device.UUID().substring(0, 6) + "...\
@@ -58,7 +66,7 @@ function CanoDeviceListNode(params) {
                     " + device.FriendlyName() + "\
                 </td>\
                 <td>\
-                    " + (device.IsConnected() ? "connected" : disconnected) + "\
+                    " + (device.ConnectionStatus()) + "\
                 </td>\
             </tr>");
             $row.off('click').on('click', function(idx, device) {
