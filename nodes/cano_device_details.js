@@ -43,9 +43,9 @@ function CanoDeviceDetailsNode(params) {
     }
 
     optionNode = new CanoOptionNode({
-        outerClass: "devmgr_topbar_outer",
-        itemSelectedClass: "devmgr_topbar_item_selected",
-        itemNotSelectedClass: "devmgr_topbar_item_not_selected",
+        outerClass: "devmgr_window_menu_outer",
+        itemSelectedClass: "devmgr_window_menu_item_selected",
+        itemNotSelectedClass: "devmgr_window_menu_item_not_selected",
         items: [{
             content: "Details",
             value: "details"
@@ -78,13 +78,13 @@ function CanoDeviceDetailsNode(params) {
         $me.html("");
         if (device != null) {
             $me.append(CanopyUtil_Compose(["\
-                <div style='background:#3060b0; border-top-left-radius:5px; border-top-right-radius:5px; color:#ffffff; font-weight:400; padding:16px;'>\
-                    <div>" + device.FriendlyName() + "</div>\
+                <div style='background:#f0f0f0; border-top-left-radius:5px; border-top-right-radius:5px; color:#000000; padding:8px;'>\
+                    <div class='ml'>" + device.FriendlyName() + "</div>\
                 </div>\
                 <div style='background:#404040; border-top-left-radius:0px; border-top-right-radius:0px; color:#ffffff; font-weight:400; padding:0px;'>\
                     ", optionNode, "\
                 </div>\
-                <div style='padding:16px'>\
+                <div style='padding:8px'>\
                     ", switcherNode, "\
                     <!--div style='font-size:14px; color:#808080; font-family:monospace'>" + device.UUID() + "</div>\
                     <div>\

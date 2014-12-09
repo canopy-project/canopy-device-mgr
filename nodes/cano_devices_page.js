@@ -94,7 +94,7 @@ function CanoDevicesPageNode(params) {
 
     $me = CanopyUtil_Compose(["<div>\
         ", sidebarNode, "\
-        &nbsp; <div style='margin-left:250px; margin-top:28px'>", mainNode, "</div>\
+        &nbsp; <div style='margin-left:244px; margin-top:18px'>", mainNode, "</div>\
         <div style='z-index: 20; border:1px solid #d0d0d0; background:#f0f0f0; right: 16px; border-radius:5px; width:600px; position:absolute; top:78px;'>", deviceDetailsNode, "</div>\
     </div>"]);
 }

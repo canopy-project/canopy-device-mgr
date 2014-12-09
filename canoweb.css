@@ -15,7 +15,7 @@
  */
 
 .devmgr_topbar_outer {
-    padding: 16px;
+    padding: 8px;
 }
 
 .devmgr_topbar_item_selected {
@@ -34,6 +34,25 @@
     cursor: pointer;
 }
 
+.devmgr_window_menu_outer {
+    padding:8px; 
+}
+
+.devmgr_window_menu_item_selected {
+    font-weight: 800;
+    display: inline-block;
+    margin-right:40px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.devmgr_window_menu_item_not_selected {
+    font-weight: 400;
+    display: inline-block;
+    margin-right:40px;
+    user-select: none;
+    cursor: pointer;
+}
 .devmgr_device_table th {
     font-weight: 400;
     background: #ffffff;
@@ -43,10 +62,10 @@
     border-bottom: 1px solid #d0d0d0;
 }
 .devmgr_device_table tr:nth-child(even) {
-    background: #ffffff;
+    background: #f4f4f4;
 }
 .devmgr_device_table tr:nth-child(odd) {
-    background: #f0f4fb;
+    background: #f0f0f0;
 }
 
 .devmgr_prop_table td {
