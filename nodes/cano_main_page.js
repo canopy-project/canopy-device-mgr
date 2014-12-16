@@ -26,7 +26,8 @@ function CanoMainPageNode(params) {
         dispatcher = params.dispatcher,
         topbarNode,
         devicesNode,
-        accountNode
+        accountNode,
+        popupNode
     ;
 
     $.extend(this, new CanoNode());
@@ -39,7 +40,21 @@ function CanoMainPageNode(params) {
         topbarNode.onLive();
         accountNode.onLive();
         devicesNode.onLive();
+        popupNode.onLive();
+
+        $("#activate_ok").off('click').on('click', function() {
+                popupNode.close();
+                window.location.replace("index_new.html");
+        });
     }
+
+    var $msgContent = $("<div>\
+        <div class=l>Account Activated</div>\
+        Your email address has been confirmed.\
+        <br><br><input id=activate_ok type=submit value='OK'></input>");
+    var popupNode = new CanoPopupNode({
+        content: $msgContent
+    });
 
     topbarNode = new CanoTopbarNode({
         canopyClient: canopy,
@@ -71,4 +86,9 @@ function CanoMainPageNode(params) {
     topbarNode.appendTo($me);
     devicesNode.appendTo($me);
     accountNode.appendTo($me);
+
+    var urlParams = CanopyUtil_GetURLParams();
+    if (urlParams["activated"] == "true") {
+        popupNode.appendTo($me);
+    }
 }

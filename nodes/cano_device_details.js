@@ -22,6 +22,7 @@ function CanoDeviceDetailsNode(params) {
         switcherNode,
         optionNode,
         detailsNode,
+        varsNode,
         nameNode
     ;
 
@@ -35,12 +36,14 @@ function CanoDeviceDetailsNode(params) {
         switcherNode.onLive();
         optionNode.onLive();
         detailsNode.onLive();
+        varsNode.onLive();
         nameNode.onLive();
     }
 
     this.setDevice = function(dev) {
         device = dev;
         detailsNode.setDevice(dev);
+        varsNode.setDevice(dev);
         this.refresh();
     }
 
@@ -53,7 +56,7 @@ function CanoDeviceDetailsNode(params) {
             value: "details"
         }, {
             content: "Cloud Vars",
-            value: "account"
+            value: "vars"
         }, {
             content: "Notifications",
             value: "notifs"
@@ -69,11 +72,17 @@ function CanoDeviceDetailsNode(params) {
 
     detailsNode = new CanoDeviceDetailsDetailsNode({});
 
+    varsNode = new CanoDeviceDetailsVarsNode({});
+
     switcherNode = new CanoSwitcherNode({
         children: [{
             name: "details",
             content: detailsNode
-        }]
+        }, {
+            name: "vars",
+            content: varsNode
+        }
+        ]
     });
     switcherNode.select("details");
 

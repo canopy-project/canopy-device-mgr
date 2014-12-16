@@ -83,11 +83,12 @@ function CanoSignupFormNode(params) {
                 },
                 onError: function(reason) {
                     if (reason == "username_already_taken") {
-                    $("#signup_error").html("Oops... Error signing in.");
                         $("#signup_error").html("Username already taken");
+                        $("#signup_error").slideDown();
                     }
                     else {
-                        $("#signup_error").html("Oops... Error signing in.");
+                        $("#signup_error").html("Oops... Error creating account");
+                        $("#signup_error").slideDown();
                     }
                 }
             });
