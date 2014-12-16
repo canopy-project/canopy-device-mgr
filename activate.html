@@ -48,7 +48,94 @@ Possibilities:
 
 <body style='min-width: 800px; background:#ffffff'>
 
-<div id=main></div>
+<div class='main-outer' id=main>
+    <div class='topbar'>
+        <div class='topbar-inner'>
+            <div class='topbar-left-part noselect'>
+                <a href='http://canopy.link'><div class='topbar-logo'>Canopy</div></a>
+            </div>
+            <div class='topbar-middle-part w400' style='color:#000000'>
+                Device Manager for 74.93.13.249
+            </div>
+            <div class='topbar-right-part' style='width:200px;'>&nbsp;
+            </div>
+        </div>
+    </div>
+    <div style='height:58px;'>&nbsp;</div>
+   
+    <div class='centered' style='background:#f0f0f0; padding-top:30px'>
+        <div style='display:inline-block; text-align:left'>
+            <br><br><div class='l'>Activate Your Account</div>
+            
+            <div id=activate_current_username></div>
+
+            <table cellpadding=16>
+                <tr>
+                    <td>Username: </td>
+                    <td><b id=activate_username></b></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input id=activate_password type=password></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type=submit id=activate_btn value='Activate'></td>
+                </tr>
+            </table>
+
+            <br><br></input>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+    
+
+    <center class=bg-blue-gradient style='padding-top:00px; padding-bottom:30px' >
+        <table width=800>
+            <tr>
+                <td valign=bottom>
+                    <img style='position: relative; top:15px;' class=frontpage-cloudplug-img src=http://canopy.link/images/cloud_circuit_h256.png></img>
+                </td>
+                <td valign=center>
+                    <div class='l' style=''>Canopy Device Manager</div>
+                    <ul>
+                        <li>Monitor, control and share your Canopy-enabled devices.</li>
+                        <li>Advanced administrative tools for device makers.</li>
+                        <li>100% open source.</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <div style='font-size: 16px'>
+            Twitter:
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='http://twitter.com/CanopyIoT'>
+                @CanopyIoT
+            </a>
+            <div style='display:inline-block; width:50px'></div>
+            Email:
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='mailto:info@canopy.link'>
+                info@canopy.link
+            </a>
+            <div style='display:inline-block; width:50px'></div>
+            GitHub:
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='http://github.com/canopy-project'>
+                github.com/canopy-project
+            </a>
+            <div style='display:inline-block; width:50px'></div>
+            Forum
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='http://canopy.lefora.com'>
+                canopy.lefora.com
+            </a>
+        </div>
+    </center>
+
+    <center>
+            <br><div style='font-size:16px'>Copyright 2014 SimpleThings, Inc.</div>
+    </center>
+</div>
 
 </body>
 <script>
@@ -60,6 +147,35 @@ var canopy = new CanopyClient({
 
 canopy.OnReady(function() {
     urlParams = CanopyUtil_GetURLParams();
+    $("#activate_username").html(urlParams["username"]);
+
+    $("#activate_btn").off('click').on('click', function() {
+        // sign in as new user
+        canopy.Login({
+            "username" : urlParams["username"],
+            "password" : $("#activate_password").val(),
+            onSuccess: function() {
+                canopy.ActivateAccount({
+                    "username" : urlParams["username"],
+                    "code" : urlParams["code"],
+                    onSuccess: function() {
+                        window.location.replace("index_new.html?activated=true");
+                    }
+                });
+            },
+            onError: function() {
+            }
+        });
+    });
+
+    if (canopy.IsLoggedIn()) {
+        if (canopy.me.Username().value != urlParams["username"]) {
+            $("#activate_current_username").html("<div style='width:400px; font-size:14px;'>\
+                <br>You are currently signed in as <b>" + canopy.me.Username().value + "</b>.\
+                By clicking <b>Activate</b> you will be signed out and signed in as <b>" + urlParams['username'] + "</b>.<br></div>");
+            return;
+        }
+    }
 
     canopy.ActivateAccount({
         username: urlParams["username"],
@@ -68,7 +184,6 @@ canopy.OnReady(function() {
             window.location.replace("index_new.html?activated=true");
         },
         onError: function() {
-            alert("Error activating account");
             //window.location.replace("login.html");
         }
     });
