@@ -51,7 +51,13 @@ function CanoDeviceListNode(params) {
                             Device Name\
                         </th>\
                         <th align=left>\
-                            Status\
+                            Activation Status\
+                        </th>\
+                        <th align=left>\
+                            WebSocket\
+                        </th>\
+                        <th align=left>\
+                            Activity\
                         </th>\
                     </tr>\
                 </table>");
@@ -67,7 +73,13 @@ function CanoDeviceListNode(params) {
                             " + device.FriendlyName() + "\
                         </td>\
                         <td>\
+                            " + (CanopyUtil_OperStatusText(device.OperStatus())) + "\
+                        </td>\
+                        <td>\
                             " + (CanopyUtil_ConnectionStatusText(device.ConnectionStatus())) + "\
+                        </td>\
+                        <td>\
+                            <div style='font-weight:400; color:#40b040'>-</div>\
                         </td>\
                     </tr>");
                     $row.off('click').on('click', function(idx, device) {

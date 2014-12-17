@@ -33,11 +33,18 @@ function CanopyUtil_GetURLParams() {
 
 function CanopyUtil_ConnectionStatusText(connectionStatus) {
     if (connectionStatus == "never_connected")
-        return "<span style='color:#3060b0; font-weight:400'>Newly Created</span>"
+        return "Never Connected"
     if (connectionStatus == "connected")
         return "<span style='color:#008000; font-weight:400'>Connected</span>"
     if (connectionStatus == "disconnected")
         return "<span style='color:#b00000; font-weight:400'>Disconnected</span>"
+}
+
+function CanopyUtil_OperStatusText(operStatus) {
+    if (operStatus == "newly_created")
+        return "<span style='color:#3060b0; font-weight:400'>Newly Created</span>"
+    if (operStatus == "in_operation")
+        return "<span style='font-weight:300'>Activated</span>"
 }
 
 function CanopyUtil_Compose(segments) {
