@@ -18,7 +18,7 @@ function CanoDevicesPageNode(params) {
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        topbarNode,
+        topbarSubmenuNode,
         sidebarNode,
         deviceListNode,
         noDevicesNode,
@@ -51,6 +51,8 @@ function CanoDevicesPageNode(params) {
         }
         deviceListNode.refresh();
     }
+    topbarSubmenuNode = new CanoTopbarSubmenuNode({
+    })
 
     sidebarNode = new CanoDevicesSidebarNode({
         canopyClient : canopy,
@@ -109,6 +111,7 @@ function CanoDevicesPageNode(params) {
     mainNode.select("device_list");
 
     $me = CanopyUtil_Compose(["<div>\
+        ", topbarSubmenuNode, "\
         ", sidebarNode, "\
         &nbsp; <div style='margin-left:244px; margin-top:18px'>", mainNode, "</div>\
         <div style='z-index: 20; border:1px solid #d0d0d0; background:#f0f0f0; right: 16px; border-radius:5px; width:500px; position:absolute; top:78px;'>", deviceDetailsNode, "</div>\

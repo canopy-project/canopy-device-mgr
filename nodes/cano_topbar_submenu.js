@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function CanoTopbarNode(params) {
+function CanoTopbarSubmenuNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
@@ -30,35 +30,7 @@ function CanoTopbarNode(params) {
     }
 
     this.onLive = function() {
-        $username.off('click').on('click', function(event) {
-            accountDropdownNode.show();
-            event.preventDefault();
-            return false;
-        });
-        accountDropdownNode.onLive();
         optionNode.onLive();
-
-        // hacky way to determine when to close the window.
-        $("html").click(function(e) {
-            if (!$(e.target).is($me)) {
-                if (accountDropdownNode.isVisible()) {
-                    accountDropdownNode.hide();
-                }
-            }
-        });
-    }
-
-    accountDropdownNode = new CanoAccountDropdown({
-        canopyClient: canopy,
-        dispatcher: dispatcher
-    });
-
-    //$username = $("<a href='javascript:void(0);'>" + canopy.account.username() + "</a>");
-    if (canopy.IsLoggedIn()) {
-        $username = $("<a href='javascript:void(0);' style='color:#ffffff; font-weight:400'>" + canopy.me.Username().value + "</a>");
-    }
-    else {
-        $username = $("");
     }
 
     optionNode = new CanoOptionNode({
@@ -66,17 +38,14 @@ function CanoTopbarNode(params) {
         itemSelectedClass: "devmgr_topbar_item_selected",
         itemNotSelectedClass: "devmgr_topbar_item_not_selected",
         items: [ {
-            content: "Devices",
+            content: "By Group",
             value: "devices"
         }, {
-            content: "Analytics",
+            content: "By Tag",
             value: "devices"
         }, {
-            content: "Apps",
+            content: "All",
             value: "apps"
-        }, {
-            content: "Account",
-            value: "account"
         }],
         onSelect: function(optionNode, idx, value) {
             params.onSelect(value);
@@ -85,16 +54,15 @@ function CanoTopbarNode(params) {
     });
 
     $me = CanopyUtil_Compose(["\
-        <div style='z-index:1000; position:fixed; left:0px; width:250px; height: 44px; background:#3060b0; border-bottom-left-radius:0px; border-left:0px solid #d0d0d0; color:#ffffff'>\
+        <div style='z-index:1000; position:fixed; border-bottom:1px solid #d0d0d0; top:44px; left:0px; width:250px; height: 44px; background:#f0f0f0; border-bottom-left-radius:0px; border-left:0px solid #d0d0d0; color:#ffffff'>\
             <div style='padding:8px;'>\
-                <b style='color:#ffffff'>Canopy Enterprise</b>\
+                <b style='color:#000000'>gregp</b>\
             </div>\
         </div>\
-        <div style='z-index:1000; position:fixed; left:250px; right:0px; height: 44px; background:#404040; border-bottom-right-radius:0px; border-right:0px solid #d0d0d0; color:#ffffff'>\
+        <div style='z-index:1000; position:fixed; top:44px; left:250px; right:0px; height: 44px; background:#f0f0f0; border-bottom-right-radius:0px; border-right:0px solid #d0d0d0; color:#202020; border-bottom:1px solid #d0d0d0; border-left:0px solid #d0d0d0; border-bottom-left-radius:0px; '>\
             <div style='padding:8px; padding-right:100px; position:absolute; right:0px;'>\
-                ", $username, accountDropdownNode, "\
             </div>\
             ", optionNode, "\
-        </div>\
+        </div><div style='height:44px'>&nbsp;</div>\
     "]);
 }

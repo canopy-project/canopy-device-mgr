@@ -44,7 +44,7 @@ function CanoDeviceDetailsVarsNode(params) {
         if (device == null)
             return;
 
-        if (device.vars.Length() == 0) {
+        if (!device.Vars() || device.Vars().Length() == 0) {
             // no cloud variables
             $me.html("<div style='font-size:17px'>This device does not have any Cloud Variables.\
             <p>\
@@ -66,6 +66,9 @@ canopy_sync_blocking(ctx, -1);</div>\
 }\
                 </div>\
             </p></div>");
+            return;
+        } else {
+            $me.html("<b>" + device.Vars().Var(0).Name() + device.Vars().Var(0).Value() + "</b>");
             return;
         }
 
