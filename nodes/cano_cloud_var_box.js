@@ -16,7 +16,8 @@
 function CanoCloudVarBoxNode(params) {
     var self=this,
         $me,
-        valueEditNode
+        valueEditNode,
+        hoverPlotNode
     ;
 
     valueEditNode = new CanoEditable({
@@ -42,6 +43,12 @@ function CanoCloudVarBoxNode(params) {
     }
 
     this.onLive = function() {
+        $me.off("mouseout").on("mouseout", function() {
+            hoverPlotNode.get$().hide();
+        });
+        $me.off("mouseover").on("mouseover", function() {
+            hoverPlotNode.get$().show();
+        });
         valueEditNode.onLive();
         this.refresh();
     }
@@ -70,6 +77,8 @@ function CanoCloudVarBoxNode(params) {
         valueNode = valueEditNode;
     }
 
+    hoverPlotNode = new CanoHoverPlotNode({});
+
     this.refresh = function() {
         valueEditNode.setValue(params.cloudvar.Value(), true);
         $me.html(CanopyUtil_Compose(["<div class=devmgr_cloudvar_box_outer>\
@@ -84,7 +93,15 @@ function CanoCloudVarBoxNode(params) {
             <div class='devmgr_cloudvar_box_bottom'>\
                 " + params.cloudvar.Name() + "\
             </div>\
+            ", hoverPlotNode, "\
         </div>"]));
+
+        hoverPlotNode.get$().hide();
+        params.cloudvar.FetchHistoricData({
+            onSuccess: function(data) {
+                hoverPlotNode.setTimeseriesData(data['samples']);
+            }
+        });
     }
 
     $me = $("<div style='display:inline-block'>");

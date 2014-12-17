@@ -4,6 +4,7 @@
 <head>
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script src="canopy-js-client/canopy.js"></script>
     <script src="canopy_app_util.js"></script>
     <script src="nodes/cano.js"></script>
@@ -22,8 +23,10 @@
     <script src="nodes/cano_account_dropdown.js"></script>
     <script src="nodes/cano_device_no_devices_msg.js"></script>
     <script src="nodes/cano_editable.js"></script>
+    <script src="nodes/cano_hover_plot.js"></script>
     <script src="nodes/cano_main_page.js"></script>
     <script src="nodes/cano_option.js"></script>
+    <script src="nodes/cano_plot.js"></script>
     <script src="nodes/cano_popup.js"></script>
     <script src="nodes/cano_switcher.js"></script>
     <script src="canoweb_dispatcher.js"></script>
@@ -56,7 +59,13 @@ canopy.OnReady(function() {
         cloudvar: canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0)
     });
     $("#main").html(tmp.get$());
-    tmp.onLive();*/
+    tmp.onLive();
+
+    canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0).FetchHistoricData({
+        onSuccess: function() {
+            alert("Done Fetching History");
+        }
+    });*/
 });
 </script>
 

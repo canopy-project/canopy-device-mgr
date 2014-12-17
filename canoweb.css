@@ -701,14 +701,13 @@ h2 {
 }
 
 .cano-hover_plot-outer {
-    position: absolute;
-    left:0px;
-    right:0px;
+    position: relative;
 }
 
 .cano-hover_plot-inner {
-    position: relative;
-    top:-10px;
+    position: absolute;
+    top:-00px;
+    right:-120px;
     z-index: 400;
     width: 960px;
     margin-left: auto;
