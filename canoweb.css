@@ -14,6 +14,60 @@
  * limitations under the License.
  */
 
+.devmgr_cloudvar_box_bottom {
+    font-weight: 400;
+    font-size: 13px;
+    padding-bottom:2px;
+    padding-top:1px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+    background:#4060b0;
+    color:#ffffff;
+}
+
+.devmgr_cloudvar_box_outer {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align:center;
+}
+
+.devmgr_cloudvar_box_value {
+    font-size:32px;
+    padding-left:16px;
+    padding-right:16px;
+}
+
+.devmgr_cloudvar_box_value_editable {
+    cursor: pointer;
+    padding:1px;
+}
+.devmgr_cloudvar_box_value_editable:hover {
+    border: 1px dashed #a0a0a0;
+    padding:0px;
+}
+
+.devmgr_cloudvar_box_input {
+    border: 0px solid #a0a0a0;
+    width: 50px;
+    background: #808080;
+    color: #ffffff;
+    font-size: 18px;
+    padding:2px; 
+    font-family: "Source Sans Pro", Helvetica,arial,freesans,clean,sans-serif;
+    font-weight: 300;
+}
+
+.devmgr_cloudvar_box_top {
+    padding-top: 4px;
+    line-height: 1;
+    height: 50px;
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    background:#404040;
+    color:#ffffff;
+}
+
 .devmgr_topbar_outer {
     padding: 8px;
 }

@@ -15,8 +15,25 @@
  */
 function CanoCloudVarBoxNode(params) {
     var self=this,
-        $me
+        $me,
+        valueEditNode
     ;
+
+    valueEditNode = new CanoEditable({
+        onChange: function(value) {
+            params.cloudvar.Value(value);
+            params.cloudvar.Save({
+                onSuccess: function() {
+                    self.refresh();
+                },
+                onError: function() {
+                    self.refresh();
+                }
+            });
+        },
+        inputClass: "devmgr_cloudvar_box_input",
+        textClass: "devmgr_cloudvar_box_value_editable"
+    });
 
     $.extend(this, new CanoNode());
 
@@ -25,6 +42,7 @@ function CanoCloudVarBoxNode(params) {
     }
 
     this.onLive = function() {
+        valueEditNode.onLive();
         this.refresh();
     }
 
@@ -44,20 +62,29 @@ function CanoCloudVarBoxNode(params) {
         }
     }
 
+    var valueNode;
+    if (params.cloudvar.Direction() == "out") {
+        valueNode = $("<span>" + params.cloudvar.Value() + "</span>");
+    }
+    else {
+        valueNode = valueEditNode;
+    }
+
     this.refresh = function() {
-        $me.html("<div style='display:inline-block; margin:3px; margin-right:10px; margin-bottom:10px; text-align:center;'>\
-            <div style='padding-left:16px; padding-right: 16px; padding-top:4px; line-height:1; height:50px; border-top-left-radius:5px; border-top-right-radius: 5px; background:#404040; color:#ffffff;'>\
-                <div style='font-size:32px'>\
-                    " + params.cloudvar.Value() + "\
+        valueEditNode.setValue(params.cloudvar.Value(), true);
+        $me.html(CanopyUtil_Compose(["<div class=devmgr_cloudvar_box_outer>\
+            <div class='devmgr_cloudvar_box_top'>\
+                <div class=devmgr_cloudvar_box_value>\
+                    ", valueNode, "\
                 </div>\
                 <div style='font-size:12px; font-weight:400; color: #80ff80;'>\
                     " + this.timestampString() + "\
                 </div>\
             </div>\
-            <div style='font-weight:400; background:#3060b0; padding-bottom:2px; padding-top:1px; border-bottom-right-radius: 5px; border-bottom-left-radius:5px; color: #ffffff; font-size:13px'>\
+            <div class='devmgr_cloudvar_box_bottom'>\
                 " + params.cloudvar.Name() + "\
             </div>\
-        </div>");
+        </div>"]));
     }
 
     $me = $("<div style='display:inline-block'>");
