@@ -33,7 +33,7 @@ function CanopyUtil_GetURLParams() {
 
 function CanopyUtil_ConnectionStatusText(connectionStatus) {
     if (connectionStatus == "never_connected")
-        return "Never Connected"
+        return "-"
     if (connectionStatus == "connected")
         return "<span style='color:#008000; font-weight:400'>Connected</span>"
     if (connectionStatus == "disconnected")
@@ -44,7 +44,25 @@ function CanopyUtil_OperStatusText(operStatus) {
     if (operStatus == "newly_created")
         return "<span style='color:#3060b0; font-weight:400'>Newly Created</span>"
     if (operStatus == "in_operation")
-        return "<span style='font-weight:300'>Activated</span>"
+        return "<span style='color:#30b030; font-weight:400'>Activated</span>"
+}
+
+function CanopyUtil_LastSeenSecondsAgoText(seconds) {
+    if (seconds == undefined) {
+        return "-";
+    }
+    if (seconds < 60) {
+        return "<span style='color:#30b030; font-weight:bold'>Active</span>";
+    }
+    else if (seconds >= 60 && seconds < 60*60) {
+        var mins = Math.floor(seconds/60);
+        return "<span style='color:#a0a030; font-weight:bold'>Inactive (" + mins + "m)</span>";
+    }
+    else if (seconds >= 60*60 && seconds < 24*60*60) {
+        var hours = Math.floor(seconds/(60*60));
+        return "<span style='color:#b03030; font-weight:bold'>Inactive (" + hours + "h)</span>";
+    }
+    return seconds;
 }
 
 function CanopyUtil_Compose(segments) {

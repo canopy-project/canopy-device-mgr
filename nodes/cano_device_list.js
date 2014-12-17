@@ -79,7 +79,7 @@ function CanoDeviceListNode(params) {
                             " + (CanopyUtil_ConnectionStatusText(device.ConnectionStatus())) + "\
                         </td>\
                         <td>\
-                            <div style='font-weight:400; color:#40b040'>-</div>\
+                            " + (CanopyUtil_LastSeenSecondsAgoText(device.LastSeenSecondsAgo())) + "\
                         </td>\
                     </tr>");
                     $row.off('click').on('click', function(idx, device) {
