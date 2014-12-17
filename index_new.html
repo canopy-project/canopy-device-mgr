@@ -11,6 +11,7 @@
     <script src="nodes/cano_topbar_submenu.js"></script>
     <script src="nodes/cano_account_page.js"></script>
     <script src="nodes/cano_account_sidebar.js"></script>
+    <script src="nodes/cano_cloud_var_box.js"></script>
     <script src="nodes/cano_device_list.js"></script>
     <script src="nodes/cano_device_details.js"></script>
     <script src="nodes/cano_device_details_details.js"></script>
@@ -51,6 +52,10 @@ canopy.OnReady(function() {
     }
 
     dispatcher.showPage("main");
+    /*var tmp = new CanoCloudVarBoxNode({
+        cloudvar: canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0)
+    });
+    $("#main").html(tmp.get$());*/
 });
 </script>
 

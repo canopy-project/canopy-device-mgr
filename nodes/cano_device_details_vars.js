@@ -68,7 +68,15 @@ canopy_sync_blocking(ctx, -1);</div>\
             </p></div>");
             return;
         } else {
-            $me.html("<b>" + device.Vars().Var(0).Name() + device.Vars().Var(0).Value() + "</b>");
+            $me.html("");
+            var numVars = device.Vars().Length();
+            var varNodes = [];
+            for (var i = 0; i < numVars; i++) {
+                var varNode = new CanoCloudVarBoxNode({
+                    cloudvar: device.Vars().Var(i)
+                });
+                $me.append(varNode.get$());
+            }
             return;
         }
 
