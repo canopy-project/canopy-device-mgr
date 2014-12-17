@@ -16,7 +16,10 @@
 function CanoDevicesCreateNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient;
+        canopy = params.canopyClient,
+        $deviceNameInput,
+        $quantityInput
+    ;
 
     $.extend(this, new CanoNode());
 
@@ -24,43 +27,24 @@ function CanoDevicesCreateNode(params) {
         return $me;
     }
 
+    $deviceNameInput = $("<input type=text style='width:250px'>");
+    $quantityInput = $("<input type=text value=1 style='width:250px'>");
+
     this.onLive = function() {
+
         $("#create_btn").off('click').on('click', function() {
-            /*var username = $("#login_user").val();
-            var password = $("#login_password").val();
-            $("#login_error").hide();
+            var deviceName = $deviceNameInput.val();
+            var quantity = parseInt($quantityInput.val());
 
-            if (username == "") {
-                $("#login_error").html("Please enter username.");
-                $("#login_error").slideDown();
-                return;
-            }
-            if (password == "") {
-                $("#login_error").html("Please enter password.");
-                $("#login_error").slideDown();
-                return;
+            // TODO: validate input
+            names = []
+            for (var i = 0; i < quantity; i++) {
+                names.push(deviceName + i);
             }
 
-            canopy.Login({
-                username: username,
-                password: password,
-                onSuccess: function() {
-                    window.location.replace("index_new.html");
-                },
-                onError: function(reason) {
-                    if (reason == "incorrect_username_or_password") {
-                        $("#login_error").html("Incorrect username or password.");
-                    }
-                    else {
-                        $("#login_error").html("Oops... Error signing in.");
-                    }
-                    $("#login_error").slideDown();
-                }
-            });*/
-
-            canopy.CreateDevice({
-                deviceName: "MyDevice",
-                quanitity: 1,
+            canopy.CreateDevices({
+                deviceNames: names,
+                quantity: quantity,
                 onSuccess: function() {
                     if (params.onCreated)
                         params.onCreated();
@@ -77,13 +61,13 @@ function CanoDevicesCreateNode(params) {
         });
     }
 
-    $me = $("\
+    $me = CanopyUtil_Compose(["<div>\
         <div style='border-bottom:1px solid #a0a0a0; padding:16px;'>\
-            Devices &rarr; Create Device\
+            Devices &rarr; Create Devices\
         </div>\
         <div style='padding:16px;'>\
             <div style='font-size: 30px; font-weight:400'>\
-                Create Device\
+                Create Devices\
             </div>\
             <div style='font-size: 16px; color: #404040;'>\
                 This form allocates UUID and Secret Key pairs for you to use.\
@@ -91,17 +75,17 @@ function CanoDevicesCreateNode(params) {
             <div style='display:none; font-style: italic; color: #ff0000;' id=login_error></div>\
             <p>\
                 Device Name<br>\
-                <input style='width:250px' id=login_user type=text></input>\
+                ", $deviceNameInput, "\
             </p>\
             <p>\
                 How many to create?<br>\
-                <input style='width:250px' value=1 id=login_user type=text></input>\
+                ", $quantityInput, "\
             </p>\
             <p>\
                 <input id=create_btn type=submit value='CREATE'></input>\
                 <input class=btn_not_selected id=cancel_btn type=submit value='CANCEL'></input>\
             </p>\
         </div>\
-    ");
+    </div>"]);
 
 }

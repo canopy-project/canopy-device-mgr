@@ -80,7 +80,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + "857736b5ea09ff57ff833cd20c8e8eb08aea8a35a" + "\
+                            " + device.SecretKey() + "\
                         </div>\
                     </td>\
                 </tr>\

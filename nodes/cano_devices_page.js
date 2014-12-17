@@ -38,6 +38,18 @@ function CanoDevicesPageNode(params) {
         mainNode.onLive();
         deviceDetailsNode.onLive();
         deviceListNode.onLive();
+
+        self.refresh()
+    }
+
+    this.refresh = function() {
+        if (canopy.me.Devices().length == 0) {
+            mainNode.select("no_devices");
+        }
+        else {
+            mainNode.select("device_list");
+        }
+        deviceListNode.refresh();
     }
 
     sidebarNode = new CanoDevicesSidebarNode({
@@ -68,10 +80,10 @@ function CanoDevicesPageNode(params) {
     createDeviceNode = new CanoDevicesCreateNode({
         canopyClient : canopy,
         onCreated: function() {
-            mainNode.select("no_devices");
+            self.refresh()
         },
         onCancel: function() {
-            mainNode.select("no_devices");
+            self.refresh()
         }
     });
 

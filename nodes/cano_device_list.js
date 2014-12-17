@@ -37,49 +37,54 @@ function CanoDeviceListNode(params) {
     }
 
     this.refresh = function() {
-        var devices = canopy.me.devices.Filter(priv.filter);
-        $me.html("<div>Showing <i>" + priv.filterName + "</i> <span style='color:#808080'>(" + devices.length + " of " + devices.length + ")</span></div>");
+        canopy.me.fetchDevices({
+            onSuccess : function() {
+                var devices = canopy.me.Devices().Filter(priv.filter);
+                $me.html("<div>Showing <i>" + priv.filterName + "</i> <span style='color:#808080'>(" + devices.length + " of " + devices.length + ")</span></div>");
 
-        $table = $("<table class=devmgr_device_table cellspacing=0 cellpadding=8 width=50% style='font-size:16px'>\
-            <tr>\
-                <th align=left>\
-                    UUID\
-                </th>\
-                <th align=left>\
-                    Device Name\
-                </th>\
-                <th align=left>\
-                    Status\
-                </th>\
-            </tr>\
-        </table>");
+                $table = $("<table class=devmgr_device_table cellspacing=0 cellpadding=8 width=50% style='font-size:16px'>\
+                    <tr>\
+                        <th align=left>\
+                            UUID\
+                        </th>\
+                        <th align=left>\
+                            Device Name\
+                        </th>\
+                        <th align=left>\
+                            Status\
+                        </th>\
+                    </tr>\
+                </table>");
 
-        for (var i = 0; i < devices.length; i++) {
-            var device = devices[i];
-            var selected = (selectedDevice && (selectedDevice.UUID() == device.UUID())) ? "class=selected" : "";
-            $row = $("<tr " + selected + ">\
-                <td style='font-size:12px; font-family:monospace'>\
-                    " + device.UUID().substring(0, 6) + "...\
-                </td>\
-                <td>\
-                    " + device.FriendlyName() + "\
-                </td>\
-                <td>\
-                    " + (CanopyUtil_ConnectionStatusText(device.ConnectionStatus())) + "\
-                </td>\
-            </tr>");
-            $row.off('click').on('click', function(idx, device) {
-                return function() {
-                    selectedDevice = device;
-                    params.onSelect(idx, device);
-                    self.refresh();
+                for (var i = 0; i < devices.length; i++) {
+                    var device = devices[i];
+                    var selected = (selectedDevice && (selectedDevice.UUID() == device.UUID())) ? "class=selected" : "";
+                    $row = $("<tr " + selected + ">\
+                        <td style='font-size:12px; font-family:monospace'>\
+                            " + device.UUID().substring(0, 6) + "...\
+                        </td>\
+                        <td>\
+                            " + device.FriendlyName() + "\
+                        </td>\
+                        <td>\
+                            " + (CanopyUtil_ConnectionStatusText(device.ConnectionStatus())) + "\
+                        </td>\
+                    </tr>");
+                    $row.off('click').on('click', function(idx, device) {
+                        return function() {
+                            selectedDevice = device;
+                            params.onSelect(idx, device);
+                            self.refresh();
+                        }
+                    }(i, device));
+                    $table.append($row);
                 }
-            }(i, device));
-            $table.append($row);
-        }
-        $me.append($table);
+                $me.append($table);
 
-        this.onLive();
+                self.onLive();
+            }
+        });
+
     }
 
     $me = $("<div style='padding:16px'>");
