@@ -28,22 +28,35 @@ function CanoCloudVarBoxNode(params) {
         this.refresh();
     }
 
+    this.timestampString = function() {
+        var secsAgo = Math.floor(params.cloudvar.TimestampSecondsAgo());
+        if (secsAgo < 60) {
+            return "<span style='color:#80ff80'>Just now</span>";
+        }
+        else if (secsAgo < 60*60) {
+            return "<span style='color:#d0f080'>" + Math.floor(secsAgo/60) + "m ago</span>";
+        }
+        else if (secsAgo < 24*60*60) {
+            return "<span style='color:#ffc080'>" + Math.floor(secsAgo/(60*60)) + "h ago";
+        }
+        else {
+            return "<span style='color:#ff4040'>" + Math.floor(secsAgo/(24*60*60*60)) + "d ago";
+        }
+    }
+
     this.refresh = function() {
-        $me.html("<div style='display:inline-block; margin:10px; border-radius:5px; text-align:center; width:80px; height:80px; background:#f0f4f0; border:1px solid #a0a0a0;'>\
-                <div style='position: relative'>\
-                    <div style='position: absolute; line-height:1; width:80px; top: 10px;'>\
-                        <div style='font-size:32px'>\
-                            " + params.cloudvar.Value() + "\
-                        </div>\
-                        <div style='font-size:12px; color: #008000;'>\
-                            " + params.cloudvar.Timestamp() + "\
-                        </div>\
-                    </div>\
+        $me.html("<div style='display:inline-block; margin:3px; margin-right:10px; margin-bottom:10px; text-align:center;'>\
+            <div style='padding-left:16px; padding-right: 16px; padding-top:4px; line-height:1; height:50px; border-top-left-radius:5px; border-top-right-radius: 5px; background:#404040; color:#ffffff;'>\
+                <div style='font-size:32px'>\
+                    " + params.cloudvar.Value() + "\
                 </div>\
-                <div class='bottom_aligner'></div>\
-                <div style='display: inline-block; font-weight:400; font-size:13px'>\
-                    " + params.cloudvar.Name() + "\
+                <div style='font-size:12px; font-weight:400; color: #80ff80;'>\
+                    " + this.timestampString() + "\
                 </div>\
+            </div>\
+            <div style='font-weight:400; background:#3060b0; padding-bottom:2px; padding-top:1px; border-bottom-right-radius: 5px; border-bottom-left-radius:5px; color: #ffffff; font-size:13px'>\
+                " + params.cloudvar.Name() + "\
+            </div>\
         </div>");
     }
 
