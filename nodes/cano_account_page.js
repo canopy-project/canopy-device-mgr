@@ -21,6 +21,7 @@ function CanoAccountPageNode(params) {
         topbarSubmenuNode,
         sidebarNode,
         passwordNode,
+        profileNode,
         mainNode
     ;
 
@@ -34,6 +35,12 @@ function CanoAccountPageNode(params) {
         sidebarNode.onLive();
         topbarSubmenuNode.onLive();
         mainNode.onLive();
+        
+        this.refresh();
+    }
+
+    this.refresh = function() {
+        mainNode.select("profile");
     }
 
     sidebarNode = new CanoAccountSidebarNode({
@@ -60,10 +67,13 @@ function CanoAccountPageNode(params) {
     passwordNode = new CanoAccountPasswordSectionNode({
         canopyClient: canopy});
 
+    profileNode = new CanoAccountProfileSectionNode({
+        canopyClient: canopy});
+
     mainNode = new CanoSwitcherNode({
         children: [ {
             name: "profile",
-            content: $("<div>Edit Profile</div>")
+            content: profileNode
         }, {
             name: "upgrade",
             content: $("<div>Upgrade</div>")

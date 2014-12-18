@@ -20,7 +20,13 @@ function CanoAccountPasswordSectionNode(params) {
         dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
-        mainNode
+        mainNode,
+        $oldPasswordInput,
+        $newPasswordInput,
+        $confirmPasswordInput,
+        $passwordError,
+        $successMsg,
+        $saveBtn
     ;
 
     $.extend(this, new CanoNode());
