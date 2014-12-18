@@ -48,6 +48,10 @@ function CanoTopbarNode(params) {
         });
     }
 
+    this.select = function(idx, skipcallbacks) {
+        optionNode.select(idx, skipcallbacks);
+    }
+
     accountDropdownNode = new CanoAccountDropdown({
         canopyClient: canopy,
         dispatcher: dispatcher
@@ -84,13 +88,15 @@ function CanoTopbarNode(params) {
         selectedIdx: 0
     });
 
+
+
     $me = CanopyUtil_Compose(["\
-        <div style='z-index:1000; position:fixed; left:0px; width:250px; height: 44px; background:#3060b0; border-bottom-left-radius:0px; border-left:0px solid #d0d0d0; color:#ffffff'>\
+        <div style='z-index:1200; position:fixed; left:0px; width:250px; height: 44px; background:#3060b0; border-bottom-left-radius:0px; border-left:0px solid #d0d0d0; color:#ffffff'>\
             <div style='padding:8px;'>\
                 <b style='color:#ffffff'>Canopy Enterprise</b>\
             </div>\
         </div>\
-        <div style='z-index:1000; position:fixed; left:250px; right:0px; height: 44px; background:#404040; border-bottom-right-radius:0px; border-right:0px solid #d0d0d0; color:#ffffff'>\
+        <div style='z-index:1200; position:fixed; left:250px; right:0px; height: 44px; background:#404040; border-bottom-right-radius:0px; border-right:0px solid #d0d0d0; color:#ffffff'>\
             <div style='padding:8px; padding-right:100px; position:absolute; right:0px;'>\
                 ", $username, accountDropdownNode, "\
             </div>\

@@ -51,8 +51,8 @@ function CanoAccountSidebarNode(params) {
     });
 
     $me = CanopyUtil_Compose(["\
-<div style='z-index: 400; position:fixed; width: 250px; top: 58px; bottom:0px; background:#dddddd; color:#000000'>\
-    <div style='padding:16px; font-size: 16px;'>\
+<div style='z-index: 400; position:fixed; width: 250px; top: 90px; bottom:0px; background:#ffffff; color:#000000'>\
+    <div style='padding:8px; font-size: 16px;'>\
         <table>\
             <tr>\
                 <td valign=top style='font-size:16px;'>\
@@ -124,7 +124,7 @@ function CanoAccountSidebarNode(params) {
             </tr>\
         </table>\
     </div>\
-        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#dddddd; color:#000000'>\
+        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#ffffff; color:#000000'>\
             Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
         </div>\
 </div>"]);

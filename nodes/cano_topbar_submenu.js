@@ -37,16 +37,7 @@ function CanoTopbarSubmenuNode(params) {
         outerClass: "devmgr_topbar_outer",
         itemSelectedClass: "devmgr_topbar_item_selected",
         itemNotSelectedClass: "devmgr_topbar_item_not_selected",
-        items: [ {
-            content: "By Group",
-            value: "devices"
-        }, {
-            content: "By Tag",
-            value: "devices"
-        }, {
-            content: "All",
-            value: "apps"
-        }],
+        items: params.items,
         onSelect: function(optionNode, idx, value) {
             params.onSelect(value);
         },

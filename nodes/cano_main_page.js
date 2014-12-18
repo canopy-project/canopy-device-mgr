@@ -91,4 +91,7 @@ function CanoMainPageNode(params) {
     if (urlParams["activated"] == "true") {
         popupNode.appendTo($me);
     }
+
+    topbarNode.select(3, false);
+
 }

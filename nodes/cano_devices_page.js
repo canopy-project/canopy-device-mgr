@@ -52,6 +52,16 @@ function CanoDevicesPageNode(params) {
         deviceListNode.refresh();
     }
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        items: [ {
+            content: "By Group",
+            value: "devices"
+        }, {
+            content: "By Tag",
+            value: "devices"
+        }, {
+            content: "All",
+            value: "apps"
+        }],
     })
 
     sidebarNode = new CanoDevicesSidebarNode({

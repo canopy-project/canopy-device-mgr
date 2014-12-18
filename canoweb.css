@@ -77,11 +77,11 @@
 }
 
 .devmgr_cloudvar_plot_inner {
-    position: relative;
     left:-20px;
 }
 
 .devmgr_topbar_outer {
+    z-index: 1200;
     padding: 8px;
 }
 
@@ -675,10 +675,12 @@ h2 {
 
 .cano-account_dropdown-outer {
     position:relative;
+    z-index: 2000;
     display: inline-block;
 }
 .cano-account_dropdown-inner {
     position:absolute;
+    z-index: 2000;
     background:#fffff0;
     padding:8px;
     border-radius: 4px;
@@ -1157,7 +1159,7 @@ background: url(images/shutterstock_156257867_work_team_1920x1200.jpg) no-repeat
 .topbar {
     position:fixed;
     width: 100%;
-    z-index: 800;
+    z-index: 2000;
     background: rgba(255, 255, 255, 0.90);
     background: -webkit-linear-gradient(rgba(255, 255, 255, .98), rgba(255, 255, 255, 0.85));
     background: -o-linear-gradient(rgba(255, 255, 255, .98), rgba(255, 255, 255, 0.85));

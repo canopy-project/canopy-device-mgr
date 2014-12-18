@@ -18,7 +18,9 @@ function CanoAccountPageNode(params) {
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
+        topbarSubmenuNode,
         sidebarNode,
+        passwordNode,
         mainNode
     ;
 
@@ -30,6 +32,8 @@ function CanoAccountPageNode(params) {
 
     this.onLive = function() {
         sidebarNode.onLive();
+        topbarSubmenuNode.onLive();
+        mainNode.onLive();
     }
 
     sidebarNode = new CanoAccountSidebarNode({
@@ -37,10 +41,42 @@ function CanoAccountPageNode(params) {
         dispatcher: dispatcher
     });
 
-    mainNode = $("<div>You have a free account.</div>");
+    topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        items: [ {
+            content: "Profile",
+            value: "profile"
+        }, {
+            content: "Upgrade",
+            value: "upgrade"
+        }, {
+            content: "Password",
+            value: "password"
+        }],
+        onSelect: function(val) {
+            mainNode.select(val);
+        }
+    })
+
+    passwordNode = new CanoAccountPasswordSectionNode({
+        canopyClient: canopy});
+
+    mainNode = new CanoSwitcherNode({
+        children: [ {
+            name: "profile",
+            content: $("<div>Edit Profile</div>")
+        }, {
+            name: "upgrade",
+            content: $("<div>Upgrade</div>")
+        }, {
+            name: "password",
+            content: passwordNode
+        } ],
+        selectedIdx: 0
+    });
 
     $me = CanopyUtil_Compose(["<div>\
+        ", topbarSubmenuNode, "\
         ", sidebarNode, "\
-        &nbsp; <div style='padding:16px; margin-left: 250px; margin-top:28px'>", mainNode, "</div>\
+        &nbsp; <div style='padding:16px; margin-left: 244px; margin-top:18px'>", mainNode, "</div>\
     </div>"]);
 }
