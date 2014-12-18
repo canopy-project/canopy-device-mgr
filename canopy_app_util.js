@@ -31,36 +31,33 @@ function CanopyUtil_GetURLParams() {
     return params;
 }
 
-function CanopyUtil_ConnectionStatusText(connectionStatus) {
-    if (connectionStatus == "never_connected")
-        return "-"
-    if (connectionStatus == "connected")
-        return "<span style='color:#008000; font-weight:400'>Connected</span>"
-    if (connectionStatus == "disconnected")
-        return "<span style='color:#b00000; font-weight:400'>Disconnected</span>"
-}
-
-function CanopyUtil_OperStatusText(operStatus) {
-    if (operStatus == "newly_created")
-        return "<span style='color:#3060b0; font-weight:400'>Newly Created</span>"
-    if (operStatus == "in_operation")
-        return "<span style='color:#30b030; font-weight:400'>Activated</span>"
+function CanopyUtil_ConnectionStatusText(lastActivitySecondsAgo, connectionStatus) {
+    if (lastActivitySecondsAgo == null) {
+        return "-";
+    }
+    else {
+        if (connectionStatus == "connected")
+            return "<span style='color:#008000; font-weight:400'>Connected</span>";
+        if (connectionStatus == "disconnected")
+            return "<span style='color:#b00000; font-weight:400'>Disconnected</span>";
+    }
+    return "unknown";
 }
 
 function CanopyUtil_LastSeenSecondsAgoText(seconds) {
-    if (seconds == undefined) {
-        return "-";
+    if (seconds == null) {
+        return "<span style='color:#3060b0; font-weight:400'>Newly Created</span>"
     }
     if (seconds < 60) {
-        return "<span style='color:#30b030; font-weight:bold'>Active</span>";
+        return "<span style='color:#30b030; font-weight:400'>Active</span>";
     }
     else if (seconds >= 60 && seconds < 60*60) {
         var mins = Math.floor(seconds/60);
-        return "<span style='color:#a0a030; font-weight:bold'>Inactive (" + mins + "m)</span>";
+        return "<span style='color:#a0a030; font-weight:400'>Inactive (" + mins + "m)</span>";
     }
     else if (seconds >= 60*60 && seconds < 24*60*60) {
         var hours = Math.floor(seconds/(60*60));
-        return "<span style='color:#b03030; font-weight:bold'>Inactive (" + hours + "h)</span>";
+        return "<span style='color:#b03030; font-weight:400'>Inactive (" + hours + "h)</span>";
     }
     return seconds;
 }

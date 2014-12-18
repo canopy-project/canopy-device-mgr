@@ -26,8 +26,7 @@ function CanoDevicesSidebarNode(params) {
         $connected,
         $disconnected,
         $neverConnected,
-        $as_activated,
-        $as_newlyCreated,
+        $newlyCreated,
         $inactive,
         $active
     ;
@@ -60,32 +59,29 @@ function CanoDevicesSidebarNode(params) {
             }
         });
 
-        $all.off('click').on('click', function() {
+        var clearAllFilters = function() {
             $connected.prop("checked", false);
             $disconnected.prop("checked", false);
             $neverConnected.prop("checked", false);
-            $as_activated.prop("checked", false);
-            $as_newlyCreated.prop("checked", false);
+            $newlyCreated.prop("checked", false);
             $active.prop("checked", false);
             $inactive.prop("checked", false);
-            filterName = "All";
+        }
+
+        $all.off('click').on('click', function() {
+            clearAllFilters();
             updateFilter();
         });
 
         $activated.off('click').on('click', function() {
-            $connected.prop("checked", true);
-            $disconnected.prop("checked", true);
-            $neverConnected.prop("checked", false);
+            clearAllFilters();
+            $active.prop("checked", true);
+            $inactive.prop("checked", true);
             filterName = "Activated";
             updateFilter();
         });
 
-        $as_newlyCreated.off('click').on('click', function() {
-            filterName = "";
-            updateFilter();
-        });
-
-        $as_activated.off('click').on('click', function() {
+        $newlyCreated.off('click').on('click', function() {
             filterName = "";
             updateFilter();
         });
@@ -116,14 +112,7 @@ function CanoDevicesSidebarNode(params) {
         var filter = {};
         var genFilterName = (filterName == "");
 
-        if ($as_activated.is(":checked")) {
-            if (genFilterName) {
-                filterName += "Activated &amp; ";
-            }
-            // TODO: also show connected devices
-            filter.activated = true;
-        }
-        if ($as_newlyCreated.is(":checked")) {
+        if ($newlyCreated.is(":checked")) {
             if (genFilterName) {
                 filterName += "Newly Created &amp; ";
             }
@@ -184,33 +173,29 @@ function CanoDevicesSidebarNode(params) {
     $createDevice = $("<input type=submit value='CREATE DEVICES'></input>");
 
     $all = $("<a href='javascript:void(0);'>All (" + canopy.me.devices.length + ")</a>");
-    $activated = $("<a href='javascript:void(0);'>Activated (" + canopy.me.devices.Filter({connected:true, disconnected:true}).length + ")</a>");
+    $activated = $("<a href='javascript:void(0);'>Activated (" + canopy.me.devices.Filter({active:true, inactive:true}).length + ")</a>");
     $connected = $("<input type=checkbox>Connected (" + canopy.me.devices.Connected().length + ")</input>");
     $active = $("<input type=checkbox>Active (" + canopy.me.devices.Active().length + ")</input>");
     $inactive = $("<input type=checkbox>Inactive (" + canopy.me.devices.Inactive().length + ")</input>");
     $disconnected = $("<input type=checkbox>Disconnected (" + canopy.me.devices.Disconnected().length + ")</input>");
     $neverConnected = $("<input type=checkbox>Never Connected (" + canopy.me.devices.NeverConnected().length + ")</input>");
-    $as_activated = $("<input type=checkbox>Activated (" + canopy.me.devices.Activated().length + ")</input>");
-    $as_newlyCreated = $("<input type=checkbox>Newly Created (" + canopy.me.devices.NewlyCreated().length + ")</input>");
+    $newlyCreated = $("<input type=checkbox>Newly Created (" + canopy.me.devices.NewlyCreated().length + ")</input>");
     $me = CanopyUtil_Compose(["\
         <div style='z-index: 400; position:fixed; left:16px; width: 234px; top: 48px; bottom:0px; background:#ffffff; color:#000000'>\
             <div style='padding:8px; font-size: 16px;'>\
                 <div class='ml'>Filter</div>\
                 ", $all, "\
+                <br>", $activated, "\
                 <br>\
-                <br><b>ACTIVATION STATUS</b>\
-                <br>", $as_activated, "\
-                <br>", $as_newlyCreated, "\
-\
+                <br><b>ACTIVITY</b>\
+                <br>", $active, "\
+                <br>", $inactive, "\
+                <br>", $newlyCreated, "\
+                \
                 <br><br><b>WEBSOCKET STATUS</b>\
                 <br>", $connected, "\
                 <br>", $disconnected, "\
-                <br>", $neverConnected, "\
 \
-                <br><br><b>ACTIVITY</b>\
-                <br>", $active, "\
-                <br>", $inactive, "\
-                \
                 <!--br><br><b>LABEL</b>\
                 <br><input type=checkbox></input>Raspberry Pi (" + canopy.me.devices.Connected().length + ")\
 \

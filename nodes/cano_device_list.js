@@ -51,9 +51,6 @@ function CanoDeviceListNode(params) {
                             Device Name\
                         </th>\
                         <th align=left>\
-                            Activation Status\
-                        </th>\
-                        <th align=left>\
                             WebSocket\
                         </th>\
                         <th align=left>\
@@ -64,6 +61,7 @@ function CanoDeviceListNode(params) {
 
                 for (var i = 0; i < devices.length; i++) {
                     var device = devices[i];
+                    var lastActivity = device.LastActivitySecondsAgo();
                     var selected = (selectedDevice && (selectedDevice.UUID() == device.UUID())) ? "class=selected" : "";
                     $row = $("<tr " + selected + ">\
                         <td style='font-size:12px; font-family:monospace'>\
@@ -73,13 +71,10 @@ function CanoDeviceListNode(params) {
                             " + device.FriendlyName() + "\
                         </td>\
                         <td>\
-                            " + (CanopyUtil_OperStatusText(device.OperStatus())) + "\
+                            " + (CanopyUtil_ConnectionStatusText(lastActivity, device.ConnectionStatus())) + "\
                         </td>\
                         <td>\
-                            " + (CanopyUtil_ConnectionStatusText(device.ConnectionStatus())) + "\
-                        </td>\
-                        <td>\
-                            " + (CanopyUtil_LastSeenSecondsAgoText(device.LastSeenSecondsAgo())) + "\
+                            " + (CanopyUtil_LastSeenSecondsAgoText(lastActivity)) + "\
                         </td>\
                     </tr>");
                     $row.off('click').on('click', function(idx, device) {
