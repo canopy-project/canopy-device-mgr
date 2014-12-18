@@ -51,10 +51,10 @@ function CanoDeviceListNode(params) {
                             Device Name\
                         </th>\
                         <th align=left>\
-                            WebSocket\
+                            Activity\
                         </th>\
                         <th align=left>\
-                            Activity\
+                            WebSocket\
                         </th>\
                     </tr>\
                 </table>");
@@ -71,10 +71,10 @@ function CanoDeviceListNode(params) {
                             " + device.FriendlyName() + "\
                         </td>\
                         <td>\
-                            " + (CanopyUtil_ConnectionStatusText(lastActivity, device.ConnectionStatus())) + "\
+                            " + (CanopyUtil_LastSeenSecondsAgoText(lastActivity)) + "\
                         </td>\
                         <td>\
-                            " + (CanopyUtil_LastSeenSecondsAgoText(lastActivity)) + "\
+                            " + (CanopyUtil_ConnectionStatusText(lastActivity, device.ConnectionStatus())) + "\
                         </td>\
                     </tr>");
                     $row.off('click').on('click', function(idx, device) {

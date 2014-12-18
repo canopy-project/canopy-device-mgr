@@ -45,23 +45,24 @@ function CanoDeviceDetailsDetailsNode(params) {
             return;
 
         locationNode.setValue(device.LocationNote());
+        var lastActivity = device.LastActivitySecondsAgo();
 
         $me.html(CanopyUtil_Compose(["\
             <table cellspacing=0 cellpadding=8 class=devmgr_prop_table style='font-size:16px'>\
                 <tr>\
                     <td align=right style='font-weight:400; color:#404040'>\
-                        Status\
+                        Activity Status:\
                     </td>\
                     <td>\
-                        " + CanopyUtil_ConnectionStatusText(device.ConnectionStatus()) + "\
+                        " + (CanopyUtil_LastSeenSecondsAgoText(lastActivity)) + "\
                     </td>\
                 </tr>\
                 <tr>\
                     <td align=right style='font-weight:400; color:#404040'>\
-                        Last Seen\
+                        Websocket:\
                     </td>\
                     <td>\
-                        Unknown\
+                        " + CanopyUtil_ConnectionStatusText(lastActivity, device.ConnectionStatus()) + "\
                     </td>\
                 </tr>\
                 <tr>\
