@@ -52,7 +52,8 @@ function CanoAccountSidebarNode(params) {
 
     $me = CanopyUtil_Compose(["\
 <div style='z-index: 400; position:fixed; width: 250px; top: 90px; bottom:0px; background:#ffffff; color:#000000'>\
-    <div style='padding:8px; font-size: 16px;'>\
+    <div style='padding:8px; font-size: 16px; border-right:1px solid #f0f0f0;'>\
+        <div class=ml>Quotas</div>\
         <table>\
             <tr>\
                 <td valign=top style='font-size:16px;'>\
