@@ -59,6 +59,10 @@ function CanopyUtil_LastSeenSecondsAgoText(seconds) {
         var hours = Math.floor(seconds/(60*60));
         return "<span style='color:#b03030; font-weight:400'>Inactive (" + hours + "h)</span>";
     }
+    else {
+        var days = Math.floor(seconds/(24*60*60));
+        return "<span style='color:#b03030; font-weight:400'>Inactive (" + days + "d)</span>";
+    }
     return seconds;
 }
 

@@ -41,7 +41,7 @@ function CanoDeviceDetailsVarsPlot(params) {
     plotNode = new CanoPlotNode({
         title: "hi",
         vAxisFormat: "#",
-        width: 500,
+        width: 480,
         height: 90
     });
 

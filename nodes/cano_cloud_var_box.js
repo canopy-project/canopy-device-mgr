@@ -66,7 +66,7 @@ function CanoCloudVarBoxNode(params) {
             return "<span style='color:#ffc080'>" + Math.floor(secsAgo/(60*60)) + "h ago";
         }
         else {
-            return "<span style='color:#ff4040'>" + Math.floor(secsAgo/(24*60*60*60)) + "d ago";
+            return "<span style='color:#ff4040'>" + Math.floor(secsAgo/(24*60*60)) + "d ago";
         }
     }
 
