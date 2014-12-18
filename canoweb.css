@@ -68,6 +68,19 @@
     color:#ffffff;
 }
 
+.devmgr_cloudvar_plot_outer {
+    height:80px;
+    background: #ffffff;
+    border: 1px solid #d0d0d0;
+    margin-bottom: 8px;
+    border-radius: 5px;
+}
+
+.devmgr_cloudvar_plot_inner {
+    position: relative;
+    left:-20px;
+}
+
 .devmgr_topbar_outer {
     padding: 8px;
 }

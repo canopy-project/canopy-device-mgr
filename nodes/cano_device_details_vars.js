@@ -17,7 +17,8 @@ function CanoDeviceDetailsVarsNode(params) {
     var self=this,
         $me,
         device = null,
-        varNodes = []
+        varNodes = [],
+        plotNode
     ;
 
     $.extend(this, new CanoNode());
@@ -69,9 +70,17 @@ canopy_sync_blocking(ctx, -1);</div>\
             $me.html("");
             var numVars = device.Vars().Length();
             varNodes.length = 0;
+            plotNode.appendTo($me);
             for (var i = 0; i < numVars; i++) {
                 var varNode = new CanoCloudVarBoxNode({
-                    cloudvar: device.Vars().Var(i)
+                    cloudvar: device.Vars().Var(i),
+                    onHover: function(cloudvar) {
+                        cloudvar.FetchHistoricData({
+                            onSuccess: function(data) {
+                                plotNode.setTimeseriesData(data['samples']);
+                            }
+                        });
+                    }
                 });
                 $me.append(varNode.get$());
                 varNodes.push(varNode);
@@ -79,6 +88,8 @@ canopy_sync_blocking(ctx, -1);</div>\
             return;
         }
     }
+
+    plotNode = new CanoDeviceDetailsVarsPlot({});
 
     $me = $("<div>");
     this.refresh();
