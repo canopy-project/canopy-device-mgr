@@ -46,7 +46,7 @@ function CanoLoginFormNode(params) {
                 username: username,
                 password: password,
                 onSuccess: function() {
-                    window.location.replace("index_new.html");
+                    window.location.replace(params.redirect);
                 },
                 onError: function(reason) {
                     if (reason == "incorrect_username_or_password") {

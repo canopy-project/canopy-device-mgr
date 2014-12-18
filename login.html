@@ -101,7 +101,8 @@ var canopy = new CanopyClient({
 canopy.OnReady(function() {
     (new CanoLoginFormNode({
         canopyClient : canopy,
-        dispatcher: null
+        dispatcher: null,
+        redirect: "index.html"
     })).render($("#loginform"));
 
     (new CanoSignupFormNode({
@@ -111,7 +112,7 @@ canopy.OnReady(function() {
 
     if (canopy.IsLoggedIn()) {
         // User already logged in.  Redirect to device manager.
-        window.location.replace("index_new.html");
+        window.location.replace("index.html");
         return;
     } 
 });
