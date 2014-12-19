@@ -92,6 +92,6 @@ function CanoMainPageNode(params) {
         popupNode.appendTo($me);
     }
 
-    topbarNode.select(3, false);
+    topbarNode.select(0, false);
 
 }

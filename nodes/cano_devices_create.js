@@ -18,7 +18,8 @@ function CanoDevicesCreateNode(params) {
         $me,
         canopy = params.canopyClient,
         $deviceNameInput,
-        $quantityInput
+        $quantityInput,
+        $errorMsg
     ;
 
     $.extend(this, new CanoNode());
@@ -42,6 +43,16 @@ function CanoDevicesCreateNode(params) {
                 names.push(deviceName + i);
             }
 
+
+            var numDevices = canopy.me.Devices().length;
+            var quota = canopy.me.Quotas().devices;
+
+            if (quantity + numDevices > quota) {
+                $errorMsg.html("You currently have " + numDevices + " devices.  Creating " + quantity + " more would exceed your quota of " + quota + " devices.");
+                $errorMsg.slideDown();
+                return;
+            }
+
             canopy.CreateDevices({
                 deviceNames: names,
                 quantity: quantity,
@@ -61,6 +72,8 @@ function CanoDevicesCreateNode(params) {
         });
     }
 
+    $errorMsg = $("<div style='display:none; font-style:italic; color: #ff0000;'></div>");
+
     $me = CanopyUtil_Compose(["<div>\
         <div style='border-bottom:1px solid #a0a0a0; padding:16px;'>\
             Devices &rarr; Create Devices\
@@ -71,6 +84,7 @@ function CanoDevicesCreateNode(params) {
             </div>\
             <div style='font-size: 16px; color: #404040;'>\
                 This form allocates UUID and Secret Key pairs for you to use.\
+                ", $errorMsg, "\
             </div>\
             <div style='display:none; font-style: italic; color: #ff0000;' id=login_error></div>\
             <p>\
