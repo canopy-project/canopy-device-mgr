@@ -20,9 +20,7 @@ function CanoAppsPageNode(params) {
         dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
-        passwordNode,
-        profileNode,
-        upgradeNode,
+        appsListNode,
         mainNode
     ;
 
@@ -41,10 +39,10 @@ function CanoAppsPageNode(params) {
     }
 
     this.refresh = function() {
-        mainNode.select("profile");
+        mainNode.select("apps");
     }
 
-    sidebarNode = new CanoAccountSidebarNode({
+    sidebarNode = new CanoAppsSidebarNode({
         canopyClient : canopy,
         dispatcher: dispatcher
     });
@@ -59,14 +57,15 @@ function CanoAppsPageNode(params) {
         }
     })
 
-    passwordNode = new CanoAccountPasswordSectionNode({
-        canopyClient: canopy});
+    appsListNode = new CanoAppsListNode({
+        canopyClient: canopy
+    });
 
 
     mainNode = new CanoSwitcherNode({
         children: [ {
             name: "apps",
-            content: passwordNode
+            content: appsListNode
         } ],
         selectedIdx: 0
     });

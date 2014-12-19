@@ -80,6 +80,28 @@
     left:-20px;
 }
 
+.devmgr_generic_param_table {
+    border-top: 1px solid #d0d0d0;
+    font-size: 15px;
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+}
+
+.devmgr_generic_param_table td:nth-child(odd) {
+    font-weight: 400;
+    border-right: 1px solid #f0f0f0;
+}
+
+.devmgr_generic_param_table td:nth-child(even) {
+    font-size: 13px;
+    font-family: monospace;
+}
+.devmgr_generic_param_table td{
+    border-bottom: 1px solid #d0d0d0;
+    background: #ffffff;
+    padding: 8px;
+}
+
 .devmgr_topbar_outer {
     z-index: 1200;
     padding: 8px;
@@ -99,6 +121,15 @@
     width:120px;
     user-select: none;
     cursor: pointer;
+}
+
+.devmgr_topbar_item_not_selected:hover {
+    font-weight: 400;
+    display: inline-block;
+    width:120px;
+    user-select: none;
+    cursor: pointer;
+    color: #4080ff;
 }
 
 .devmgr_window_menu_outer {
