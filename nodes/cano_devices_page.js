@@ -53,13 +53,10 @@ function CanoDevicesPageNode(params) {
     }
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
         items: [ {
-            content: "By Group",
+            content: "Collections",
             value: "devices"
         }, {
-            content: "By Tag",
-            value: "devices"
-        }, {
-            content: "All",
+            content: "Device List",
             value: "apps"
         }],
     })
