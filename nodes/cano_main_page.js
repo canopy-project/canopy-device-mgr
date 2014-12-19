@@ -23,6 +23,7 @@ function CanoMainPageNode(params) {
         devicesNode,
         appsNode,
         accountNode,
+        analyticsNode,
         popupNode,
         switcherNode
     ;
@@ -57,6 +58,9 @@ function CanoMainPageNode(params) {
         canopyClient: canopy,
         dispatcher: dispatcher,
         onSelect: function(value) {
+            if (value == "analytics") {
+                setTimeout(function() {analyticsNode.drawCharts();}, 30);
+            }
             switcherNode.select(value);
         }
     });
@@ -76,13 +80,18 @@ function CanoMainPageNode(params) {
         dispatcher: dispatcher
     });
 
+    analyticsNode = new CanoAnalyticsPageNode({
+        canopyClient: canopy,
+        dispatcher: dispatcher
+    });
+
     switcherNode = new CanoSwitcherNode({
         children: [ {
             name: "devices",
             content: devicesNode
         }, {
             name: "analytics",
-            content: $("<div>analytics</div>")
+            content: analyticsNode
         }, {
             name: "apps",
             content: appsNode
@@ -96,8 +105,6 @@ function CanoMainPageNode(params) {
     $me = $("<div>");
     topbarNode.appendTo($me);
     switcherNode.appendTo($me);
-    accountNode.appendTo($me);
-    accountNode.refresh();
 
     var urlParams = CanopyUtil_GetURLParams();
     if (urlParams["activated"] == "true") {
