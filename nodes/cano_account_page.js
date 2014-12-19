@@ -22,6 +22,7 @@ function CanoAccountPageNode(params) {
         sidebarNode,
         passwordNode,
         profileNode,
+        upgradeNode,
         mainNode
     ;
 
@@ -70,13 +71,16 @@ function CanoAccountPageNode(params) {
     profileNode = new CanoAccountProfileSectionNode({
         canopyClient: canopy});
 
+    upgradeNode = new CanoAccountUpgradeSectionNode({
+        canopyClient: canopy});
+
     mainNode = new CanoSwitcherNode({
         children: [ {
             name: "profile",
             content: profileNode
         }, {
             name: "upgrade",
-            content: $("<div>Upgrade</div>")
+            content: upgradeNode
         }, {
             name: "password",
             content: passwordNode
@@ -87,6 +91,6 @@ function CanoAccountPageNode(params) {
     $me = CanopyUtil_Compose(["<div>\
         ", topbarSubmenuNode, "\
         ", sidebarNode, "\
-        &nbsp; <div style='padding:16px; margin-left: 244px; margin-top:18px'>", mainNode, "</div>\
+        &nbsp; <div style='padding:16px; margin-left: 260px; margin-top:18px'>", mainNode, "</div>\
     </div>"]);
 }

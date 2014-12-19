@@ -50,9 +50,16 @@ function CanoAccountSidebarNode(params) {
         dispatcher: dispatcher
     });
 
+    var numDevices = canopy.me.Devices().length;
+    var numDevicesQuota = 10;
+    var numDevicesPct = numDevices/numDevicesQuota;
+    if (numDevicesPct > 1.0)
+        numDevicesPct = 1.0;
+    var numDevicesPixels = Math.round(numDevicesPct*200);
+
     $me = CanopyUtil_Compose(["\
-<div style='z-index: 400; position:fixed; width: 250px; top: 90px; bottom:0px; background:#ffffff; color:#000000'>\
-    <div style='padding:8px; font-size: 16px; border-right:1px solid #f0f0f0;'>\
+<div style='z-index: 400; position:fixed; width: 250px; top: 89px; border-right:1px solid #d0d0d0; bottom:0px; background:#f8f8f8; color:#000000'>\
+    <div style='padding:16px; font-size: 16px; border-right:1px solid #f0f0f0;'>\
         <div class=ml>Quotas</div>\
         <table>\
             <tr>\
@@ -61,12 +68,12 @@ function CanoAccountSidebarNode(params) {
                     <table>\
                         <tr>\
                             <td>Devices:</td>\
-                            <td><b>0</b> of <b>10</b></td>\
+                            <td><b>" + numDevices + "</b> of <b>" + numDevicesQuota + "</b></td>\
                         </tr>\
                         <tr>\
                             <td colspan=2>\
                                 <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
-                                    <div style='height:10px; width:00px; background:#3060b0;'>\
+                                    <div style='height:10px; width:" + numDevicesPixels + "px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
                             </td>\
@@ -125,7 +132,7 @@ function CanoAccountSidebarNode(params) {
             </tr>\
         </table>\
     </div>\
-        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#ffffff; color:#000000'>\
+        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#f8f8f8; color:#000000'>\
             Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
         </div>\
 </div>"]);
