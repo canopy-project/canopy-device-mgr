@@ -33,6 +33,10 @@ function CanoAppsSidebarNode(params) {
         topbarNode.onLive();
         sidebarNode.onLive();
         mainNode.onLive();
+
+        $newAppBtn.off('click').on('click', function() {
+            alert("Creating new apps is not supported at this time");
+        });
     }
 
     topbarNode = new CanoTopbarNode({
@@ -57,11 +61,13 @@ function CanoAppsSidebarNode(params) {
         numDevicesPct = 1.0;
     var numDevicesPixels = Math.round(numDevicesPct*200);
 
+    var $newAppBtn = $("<input type='submit' value='NEW APP'>");
+
     $me = CanopyUtil_Compose(["\
 <div style='z-index: 400; position:fixed; width: 250px; top: 89px; border-right:0px solid #d0d0d0; bottom:0px; background:#ffffff; color:#000000'>\
     <div style='padding:16px; font-size: 16px; border-right:0px solid #f0f0f0;'>\
         Build apps for Canopy using OAuth 2.0 for authentication.<br>\
-        <br><br><input type='submit' value='NEW APP'></input>\
+        <br><br>", $newAppBtn, "\
     </div>\
     <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#ffffff; color:#000000'>\
         Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\

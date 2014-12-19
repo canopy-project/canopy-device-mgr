@@ -49,7 +49,7 @@ function CanoAppsPageNode(params) {
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
         items: [ {
-            content: "Apps",
+            content: "Credentials",
             value: "apps"
         }],
         onSelect: function(val) {

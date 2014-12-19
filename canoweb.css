@@ -104,19 +104,26 @@
 
 .devmgr_topbar_outer {
     z-index: 1200;
-    padding: 8px;
+    font-size: 18px;
 }
 
 .devmgr_topbar_item_selected {
     font-weight: 800;
     display: inline-block;
+    padding-top:11px;
+    padding-left:16px;
+    padding-bottom:8px;
     width:120px;
     user-select: none;
+    background: #505050;
     cursor: pointer;
 }
 
 .devmgr_topbar_item_not_selected {
     font-weight: 400;
+    padding-top:11px;
+    padding-left:16px;
+    padding-bottom:8px;
     display: inline-block;
     width:120px;
     user-select: none;
@@ -124,12 +131,39 @@
 }
 
 .devmgr_topbar_item_not_selected:hover {
+    color: #80c0ff;
+}
+
+.devmgr_topsubmenu_outer {
+    z-index: 1200;
+    font-size: 18px;
+}
+
+.devmgr_topsubmenu_item_selected {
+    font-weight: 800;
+    display: inline-block;
+    padding-top:11px;
+    padding-left:16px;
+    padding-bottom:8px;
+    width:120px;
+    user-select: none;
+    background: #d8d8d8;
+    cursor: pointer;
+}
+
+.devmgr_topsubmenu_item_not_selected {
     font-weight: 400;
+    padding-top:11px;
+    padding-left:16px;
+    padding-bottom:8px;
     display: inline-block;
     width:120px;
     user-select: none;
     cursor: pointer;
-    color: #4080ff;
+}
+
+.devmgr_topsubmenu_item_not_selected:hover {
+    color: #3060b0;
 }
 
 .devmgr_window_menu_outer {

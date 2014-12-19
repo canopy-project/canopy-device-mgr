@@ -34,9 +34,9 @@ function CanoTopbarSubmenuNode(params) {
     }
 
     optionNode = new CanoOptionNode({
-        outerClass: "devmgr_topbar_outer",
-        itemSelectedClass: "devmgr_topbar_item_selected",
-        itemNotSelectedClass: "devmgr_topbar_item_not_selected",
+        outerClass: "devmgr_topsubmenu_outer",
+        itemSelectedClass: "devmgr_topsubmenu_item_selected",
+        itemNotSelectedClass: "devmgr_topsubmenu_item_not_selected",
         items: params.items,
         onSelect: function(optionNode, idx, value) {
             params.onSelect(value);
