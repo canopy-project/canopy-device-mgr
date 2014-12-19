@@ -43,6 +43,7 @@ function CanoSwitcherNode(params) {
     }
 
     this.select = function(name) {
+        var i;
         for (i = 0; i < params.children.length; i++) {
             if (params.children[i].name == name) {
                 if (params.children[i].content.get$)
@@ -62,6 +63,7 @@ function CanoSwitcherNode(params) {
 
     $me = $("<div>");
 
+    var i;
     for (i = 0; i < params.children.length; i++) {
         if (params.children[i].content.get$) {
             params.children[i].content.appendTo($me);

@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-/*
- *       <-------------------1004--------------------------------->
- *       <---256----><--------492-------------><------256--------->
- *       padding: 6px
- */
 function CanoMainPageNode(params) {
     var self=this,
         $me,
@@ -26,8 +21,10 @@ function CanoMainPageNode(params) {
         dispatcher = params.dispatcher,
         topbarNode,
         devicesNode,
+        appsNode,
         accountNode,
-        popupNode
+        popupNode,
+        switcherNode
     ;
 
     $.extend(this, new CanoNode());
@@ -38,9 +35,9 @@ function CanoMainPageNode(params) {
 
     this.onLive = function() {
         topbarNode.onLive();
-        accountNode.onLive();
-        devicesNode.onLive();
         popupNode.onLive();
+        switcherNode.onLive();
+        switcherNode.select("devices");
 
         $("#activate_ok").off('click').on('click', function() {
                 popupNode.close();
@@ -60,14 +57,7 @@ function CanoMainPageNode(params) {
         canopyClient: canopy,
         dispatcher: dispatcher,
         onSelect: function(value) {
-            if (value == "devices") {
-                devicesNode.get$().show();
-                accountNode.get$().hide();
-            }
-            else if (value == "account") {
-                devicesNode.get$().hide();
-                accountNode.get$().show();
-            }
+            switcherNode.select(value);
         }
     });
 
@@ -76,16 +66,38 @@ function CanoMainPageNode(params) {
         dispatcher: dispatcher
     });
 
+    appsNode = new CanoAppsPageNode({
+        canopyClient: canopy,
+        dispatcher: dispatcher
+    });
+
     accountNode = new CanoAccountPageNode({
         canopyClient: canopy,
         dispatcher: dispatcher
     });
-    accountNode.get$().hide();
+
+    switcherNode = new CanoSwitcherNode({
+        children: [ {
+            name: "devices",
+            content: devicesNode
+        }, {
+            name: "analytics",
+            content: $("<div>analytics</div>")
+        }, {
+            name: "apps",
+            content: appsNode
+        }, {
+            name: "account",
+            content: accountNode
+        } ],
+        selectedIdx: 0
+    });
 
     $me = $("<div>");
     topbarNode.appendTo($me);
-    devicesNode.appendTo($me);
+    switcherNode.appendTo($me);
     accountNode.appendTo($me);
+    accountNode.refresh();
 
     var urlParams = CanopyUtil_GetURLParams();
     if (urlParams["activated"] == "true") {
@@ -93,5 +105,4 @@ function CanoMainPageNode(params) {
     }
 
     topbarNode.select(0, false);
-
 }

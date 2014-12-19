@@ -74,7 +74,7 @@ function CanoTopbarNode(params) {
             value: "devices"
         }, {
             content: "Analytics",
-            value: "devices"
+            value: "analytics"
         }, {
             content: "Apps",
             value: "apps"

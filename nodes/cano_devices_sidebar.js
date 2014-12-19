@@ -181,7 +181,7 @@ function CanoDevicesSidebarNode(params) {
     $neverConnected = $("<input type=checkbox>Never Connected (" + canopy.me.devices.NeverConnected().length + ")</input>");
     $newlyCreated = $("<input type=checkbox>Newly Created (" + canopy.me.devices.NewlyCreated().length + ")</input>");
     $me = CanopyUtil_Compose(["\
-        <div style='z-index: 400; position:fixed; left:16px; width: 234px; top: 48px; bottom:0px; background:#ffffff; color:#000000'>\
+        <div style='z-index: 400; position:fixed; left:16px; width: 234px; top: 90px; bottom:0px; background:#ffffff; color:#000000'>\
             <div style='padding:8px; font-size: 16px;'>\
                 <div class='ml'>Filter</div>\
                 ", $all, "\
