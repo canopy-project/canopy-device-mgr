@@ -38,7 +38,7 @@ function CanoAnalyticsHistogramWidgetNode(params) {
     var getData = function(varName) {
         var devices = canopy.me.Devices();
         var i;
-        var data = [["my_var2"]];
+        var data = [[varName]];
         for (i = 0; i < devices.length; i++) {
             var device = devices[i];
             if (!device.Vars())
@@ -65,6 +65,9 @@ function CanoAnalyticsHistogramWidgetNode(params) {
             legend: 'none',
             colors: ["#3060b0"],
             orientation: "horizontal",
+            bar: {
+                groupWidth: "75%"
+            },
             chartArea: {
                 top: 10,
                 left: 30,
@@ -73,7 +76,7 @@ function CanoAnalyticsHistogramWidgetNode(params) {
             },
             histogram: {
                 bucketSize: 1,
-                hideBucketItems: false
+                hideBucketItems: true
             }
         };
         var chart = new google.visualization.Histogram($chart[0]);

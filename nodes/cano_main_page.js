@@ -38,7 +38,7 @@ function CanoMainPageNode(params) {
         topbarNode.onLive();
         popupNode.onLive();
         switcherNode.onLive();
-        switcherNode.select("analytics");
+        switcherNode.select("devices");
 
         $("#activate_ok").off('click').on('click', function() {
                 popupNode.close();

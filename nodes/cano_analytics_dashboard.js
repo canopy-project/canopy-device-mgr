@@ -20,7 +20,8 @@ function CanoDashboardNode(params) {
         dispatcher = params.dispatcher,
         chartNode,
         chartNode2,
-        chartNode3
+        cloudVarHistograms = [],
+        $cloudVarHistograms
     ;
 
     $.extend(this, new CanoNode());
@@ -32,7 +33,6 @@ function CanoDashboardNode(params) {
     this.onLive = function() {
         chartNode.onLive();
         chartNode2.onLive();
-        chartNode3.onLive();
         this.refresh();
     }
 
@@ -40,9 +40,24 @@ function CanoDashboardNode(params) {
     }
 
     this.drawCharts = function() {
+        cloudVarHistograms.length = 0;
+
+        var cloudvars = canopy.me.Devices().CloudVarNames();
+
+        var i;
+        $cloudVarHistograms.html("");
+        for (i = 0; i < cloudvars.length; i++) {
+            var histogramNode = new CanoAnalyticsHistogramWidgetNode({
+                canopyClient: canopy,
+                varName: cloudvars[i]
+            });
+            cloudVarHistograms.push(histogramNode);
+            histogramNode.appendTo($cloudVarHistograms);
+            histogramNode.drawCharts();
+        }
+
         chartNode.drawCharts();
         chartNode2.drawCharts();
-        chartNode3.drawCharts();
     }
 
     chartNode = new CanoAnalyticsWidgetNode({
@@ -55,16 +70,13 @@ function CanoDashboardNode(params) {
         type: "Activity",
     });
 
-    chartNode3 = new CanoAnalyticsHistogramWidgetNode({
-        canopyClient: canopy,
-        varName: "my_var2",
-    });
+    $cloudVarHistograms = $("<div>");
 
     $me = CanopyUtil_Compose(["<div>\
             <div class=l style='margin-bottom:16px'>Connectivity</div>\
             ", chartNode, "\
             ", chartNode2, "\
             <div class=l style='margin-top:32px; margin-bottom:16px'>Cloud Vars</div>\
-            ", chartNode3, "\
+            ", $cloudVarHistograms, "\
     </div>"]);
 }
