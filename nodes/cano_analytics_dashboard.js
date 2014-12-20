@@ -17,7 +17,9 @@ function CanoDashboardNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
-        dispatcher = params.dispatcher
+        dispatcher = params.dispatcher,
+        chartNode,
+        chartNode2
     ;
 
     $.extend(this, new CanoNode());
@@ -27,6 +29,8 @@ function CanoDashboardNode(params) {
     }
 
     this.onLive = function() {
+        chartNode.onLive();
+        chartNode2.onLive();
         this.refresh();
     }
 
@@ -34,101 +38,24 @@ function CanoDashboardNode(params) {
     }
 
     this.drawCharts = function() {
-        if (!document.getElementById("piechart"))
-            return;
-
-        // chart 1
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Connected',     1],
-            ['Disconnected',      12],
-        ]);
-
-        var options = {
-            title: '',
-            width: 200,
-            height: 200,
-            fontName: "Arial",
-            legend: 'none',
-            pieSliceTextStyle: {
-                fontName: "Arial",
-                fontSize: 12
-            },
-            slices: [ {
-                color: "#70b060",
-            }, {
-                color: "#707070",
-            } ],
-            chartArea: {
-                top: "5%",
-                left: "5%",
-                width: "90%",
-                height: "90%"
-            }
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
-
-        // chart 2
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Active',     1],
-            ['Inactive',      3],
-            ['Newly Created',      10],
-        ]);
-
-        var options = {
-            title: '',
-            width: 200,
-            height: 200,
-            fontName: "Arial",
-            legend: 'none',
-            pieSliceTextStyle: {
-                fontName: "Arial",
-                fontSize: 12
-            },
-            slices: [ {
-                color: "#70b060",
-            }, {
-                color: "#707070",
-            }, {
-                color: "#3060b0",
-            } ],
-            chartArea: {
-                top: "5%",
-                left: "5%",
-                width: "90%",
-                height: "90%"
-            }
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
-
-        chart.draw(data, options);
+        chartNode.drawCharts();
+        chartNode2.drawCharts();
     }
 
+    chartNode = new CanoAnalyticsWidgetNode({
+        canopyClient: canopy,
+        type: "Websocket Connection",
+    });
+
+    chartNode2 = new CanoAnalyticsWidgetNode({
+        canopyClient: canopy,
+        type: "Activity",
+    });
+
     $me = CanopyUtil_Compose(["<div>\
-            <div style='vertical-align:top; display: inline-block; max-width:200; text-align:center'>\
-                Websocket Connection\
-                <br><div id=piechart style='display:inline-block; height:200px; width:200px;'></div>\
-                <br><div style='display: inline-block; font-weight: 400; font-size: 16px; text-align:left'>\
-                    <div style='color:#70b060'>&bull; Connected</div>\
-                    <div style='color:#707070'>&bull; Disconnected</div>\
-                </div>\
-            </div>\
-            <div style='margin-left:60px; vertical-align:top; display: inline-block; text-align:center'>\
-                Activity\
-                <br><div id=piechart2 style='display:inline-block; height:200px; width:200px;'>\
-                    <div style='display:inline-block; height:200px; width:200px;'>\
-                    </div>\
-                </div>\
-                <br><div style='display: inline-block; font-weight: 400; font-size: 16px; text-align:left'>\
-                    <div style='color:#70b060'>&bull; Active</div>\
-                    <div style='color:#707070'>&bull; Inactive</div>\
-                    <div style='color:#3060b0'>&bull; Newly Created</div>\
-                </div>\
-            </div>\
+            <div class=l style='margin-bottom:16px'>Connectivity</div>\
+            ", chartNode, "\
+            ", chartNode2, "\
+            <div class=l style='margin-top:16px; margin-bottom:16px'>Cloud Variables</div>\
     </div>"]);
 }
