@@ -20,8 +20,7 @@ function CanoDashboardNode(params) {
         dispatcher = params.dispatcher,
         chartNode,
         chartNode2,
-        chartNode3,
-        chartNode4
+        chartNode3
     ;
 
     $.extend(this, new CanoNode());
@@ -34,7 +33,6 @@ function CanoDashboardNode(params) {
         chartNode.onLive();
         chartNode2.onLive();
         chartNode3.onLive();
-        chartNode4.onLive();
         this.refresh();
     }
 
@@ -45,7 +43,6 @@ function CanoDashboardNode(params) {
         chartNode.drawCharts();
         chartNode2.drawCharts();
         chartNode3.drawCharts();
-        chartNode4.drawCharts();
     }
 
     chartNode = new CanoAnalyticsWidgetNode({
@@ -60,12 +57,7 @@ function CanoDashboardNode(params) {
 
     chartNode3 = new CanoAnalyticsHistogramWidgetNode({
         canopyClient: canopy,
-        type: "Fan Speed",
-    });
-
-    chartNode4 = new CanoAnalyticsHistogramWidgetNode({
-        canopyClient: canopy,
-        type: "Fan Speed",
+        varName: "my_var2",
     });
 
     $me = CanopyUtil_Compose(["<div>\
@@ -74,6 +66,5 @@ function CanoDashboardNode(params) {
             ", chartNode2, "\
             <div class=l style='margin-top:32px; margin-bottom:16px'>Cloud Vars</div>\
             ", chartNode3, "\
-            ", chartNode4, "\
     </div>"]);
 }

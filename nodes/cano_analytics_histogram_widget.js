@@ -35,35 +35,24 @@ function CanoAnalyticsHistogramWidgetNode(params) {
     this.refresh = function() {
     }
 
-    var getData = function(type) {
-        if (type == "Fan Speed") {
-            var numActive = canopy.me.Devices().Active().length;
-            var numInactive = canopy.me.Devices().Inactive().length;
-            var numNewlyCreated = canopy.me.Devices().NewlyCreated().length;
-            return {
-                data: google.visualization.arrayToDataTable([
-                    ["fan_speed"],
-                    [0],
-                    [0],
-                    [0],
-                    [0],
-                    [2],
-                    [3],
-                    [3],
-                    [3],
-                ]),
-                legend: "\
-                    <div style='color:#70b060'>&bull; Active (" + numActive + ")</div>\
-                    <div style='color:#707070'>&bull; Inactive (" + numInactive + ")</div>\
-                    <div style='color:#3060b0'>&bull; Newly Created (" + numNewlyCreated + ")</div>\
-                "
+    var getData = function(varName) {
+        var devices = canopy.me.Devices();
+        var i;
+        var data = [["my_var2"]];
+        for (i = 0; i < devices.length; i++) {
+            var device = devices[i];
+            if (!device.Vars())
+                continue;
+            if (device.Vars().Var(varName) != undefined) {
+                data.push([device.Vars().Var(varName).Value()]);
             }
-
         }
-        return null;
+        return {
+            data: google.visualization.arrayToDataTable(data),
+        }
     }
     this.drawCharts = function() {
-        v = getData(params.type);
+        v = getData(params.varName);
         if (v == null) {
             return;
         }
@@ -97,7 +86,7 @@ function CanoAnalyticsHistogramWidgetNode(params) {
     $legend = $("<div style='display: inline-block; font-weight: 400; font-size: 16px; text-align:left'>");
 
     $me = CanopyUtil_Compose(["<div style='vertical-align:top; display: inline-block; margin-right:40px; max-width:440px; text-align:center'>\
-        " + params.type + " (Current)\
+        " + params.varName + " (Current)\
         <br>", $chart, "\
     </div>"]);
 }
