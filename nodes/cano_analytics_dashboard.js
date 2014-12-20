@@ -19,7 +19,9 @@ function CanoDashboardNode(params) {
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
         chartNode,
-        chartNode2
+        chartNode2,
+        chartNode3,
+        chartNode4
     ;
 
     $.extend(this, new CanoNode());
@@ -31,6 +33,8 @@ function CanoDashboardNode(params) {
     this.onLive = function() {
         chartNode.onLive();
         chartNode2.onLive();
+        chartNode3.onLive();
+        chartNode4.onLive();
         this.refresh();
     }
 
@@ -40,6 +44,8 @@ function CanoDashboardNode(params) {
     this.drawCharts = function() {
         chartNode.drawCharts();
         chartNode2.drawCharts();
+        chartNode3.drawCharts();
+        chartNode4.drawCharts();
     }
 
     chartNode = new CanoAnalyticsWidgetNode({
@@ -52,10 +58,22 @@ function CanoDashboardNode(params) {
         type: "Activity",
     });
 
+    chartNode3 = new CanoAnalyticsHistogramWidgetNode({
+        canopyClient: canopy,
+        type: "Fan Speed",
+    });
+
+    chartNode4 = new CanoAnalyticsHistogramWidgetNode({
+        canopyClient: canopy,
+        type: "Fan Speed",
+    });
+
     $me = CanopyUtil_Compose(["<div>\
             <div class=l style='margin-bottom:16px'>Connectivity</div>\
             ", chartNode, "\
             ", chartNode2, "\
-            <div class=l style='margin-top:16px; margin-bottom:16px'>Cloud Variables</div>\
+            <div class=l style='margin-top:32px; margin-bottom:16px'>Cloud Vars</div>\
+            ", chartNode3, "\
+            ", chartNode4, "\
     </div>"]);
 }
