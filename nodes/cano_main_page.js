@@ -42,7 +42,7 @@ function CanoMainPageNode(params) {
 
         $("#activate_ok").off('click').on('click', function() {
                 popupNode.close();
-                window.location.replace("index_new.html");
+                window.location.replace("index.html");
         });
     }
 

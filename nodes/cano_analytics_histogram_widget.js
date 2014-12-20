@@ -36,6 +36,7 @@ function CanoAnalyticsHistogramWidgetNode(params) {
     }
 
     var getData = function(varName) {
+        console.log("Plotting");
         var devices = canopy.me.Devices();
         var i;
         var data = [[varName]];

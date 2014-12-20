@@ -3,6 +3,7 @@
 
 <head>
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
+    <script src="canoweb.conf.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="canopy-js-client/canopy.js"></script>
     <script src="nodes/cano.js"></script>
@@ -22,7 +23,7 @@
                 <a href='http://canopy.link'><div class='topbar-logo'>Canopy</div></a>
             </div>
             <div class='topbar-middle-part w400' style='color:#000000'>
-                Device Manager for 74.93.13.249
+                Device Manager <span id=host_title></span>
             </div>
             <div class='topbar-right-part' style='width:200px;'>&nbsp;
             </div>
@@ -93,10 +94,7 @@
 </body>
 <script>
 
-var canopy = new CanopyClient({
-    "cloud-host" : "74.93.13.249",
-    "http-port" : 8080
-});
+var canopy = new CanopyClient(gCanopyWebAppConfiguration);
 
 canopy.OnReady(function() {
     (new CanoLoginFormNode({
@@ -109,6 +107,8 @@ canopy.OnReady(function() {
         canopyClient : canopy,
         dispatcher: null
     })).render($("#signupform"));
+
+    $("#host_title").html(" for " + canopy.CloudHost());
 
     if (canopy.IsLoggedIn()) {
         // User already logged in.  Redirect to device manager.

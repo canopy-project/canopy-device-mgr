@@ -4,13 +4,13 @@ Possibilities:
 
 1) Already logged in.
     - Activate acct
-    - Redirect to index_new.html
+    - Redirect to index.html
     - Display message saying account has been activated.
 
 2) Not logged in.
     - Show username
     - Ask for password
-    - Then sign them in and redirect to index_new.html
+    - Then sign them in and redirect to index.html
 
 3) Signed in as a different user:
     - Ask for password
@@ -22,6 +22,7 @@ Possibilities:
 <head>
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="canoweb.conf.js"></script>
     <script src="canopy-js-client/canopy.js"></script>
     <script src="canopy_app_util.js"></script>
     <script src="nodes/cano.js"></script>
@@ -55,7 +56,7 @@ Possibilities:
                 <a href='http://canopy.link'><div class='topbar-logo'>Canopy</div></a>
             </div>
             <div class='topbar-middle-part w400' style='color:#000000'>
-                Device Manager for 74.93.13.249
+                Device Manager<span id=host_title></span>
             </div>
             <div class='topbar-right-part' style='width:200px;'>&nbsp;
             </div>
@@ -140,10 +141,7 @@ Possibilities:
 </body>
 <script>
 
-var canopy = new CanopyClient({
-    "cloud-host" : "dev02.canopy.link",
-    "http-port" : 80
-});
+var canopy = new CanopyClient(gCanopyWebAppConfiguration);
 
 canopy.OnReady(function() {
     urlParams = CanopyUtil_GetURLParams();
@@ -159,7 +157,7 @@ canopy.OnReady(function() {
                     "username" : urlParams["username"],
                     "code" : urlParams["code"],
                     onSuccess: function() {
-                        window.location.replace("index_new.html?activated=true");
+                        window.location.replace("index.html?activated=true");
                     }
                 });
             },
@@ -167,6 +165,8 @@ canopy.OnReady(function() {
             }
         });
     });
+
+    $("#host_title").html(" for " + canopy.CloudHost());
 
     if (canopy.IsLoggedIn()) {
         if (canopy.me.Username().value != urlParams["username"]) {
@@ -181,10 +181,9 @@ canopy.OnReady(function() {
         username: urlParams["username"],
         code: urlParams["code"],
         onSuccess: function() {
-            window.location.replace("index_new.html?activated=true");
+            window.location.replace("index.html?activated=true");
         },
         onError: function() {
-            //window.location.replace("login.html");
         }
     });
 });
