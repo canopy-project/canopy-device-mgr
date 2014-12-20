@@ -70,6 +70,8 @@ Possibilities:
             
             <div id=activate_current_username></div>
 
+            <div id=errormsg style='font-style:italic; color:#ff0000; display:none;'></div>
+
             <table cellpadding=16>
                 <tr>
                     <td>Username: </td>
@@ -148,6 +150,7 @@ canopy.OnReady(function() {
     $("#activate_username").html(urlParams["username"]);
 
     $("#activate_btn").off('click').on('click', function() {
+        $("#errormsg").slideUp();
         // sign in as new user
         canopy.Login({
             "username" : urlParams["username"],
@@ -162,6 +165,8 @@ canopy.OnReady(function() {
                 });
             },
             onError: function() {
+                $("#errormsg").html("Error activating account.");
+                $("#errormsg").slideDown();
             }
         });
     });
@@ -184,6 +189,8 @@ canopy.OnReady(function() {
             window.location.replace("index.html?activated=true");
         },
         onError: function() {
+            $("#errormsg").html("Error activating account");
+            $("#errormsg").slideDown();
         }
     });
 });

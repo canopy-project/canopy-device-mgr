@@ -24,7 +24,8 @@ function CanoAccountProfileSectionNode(params) {
         $emailInput,
         $errorMsg,
         $saveBtn,
-        $createOrgBtn
+        $createOrgBtn,
+        $emailConfirmed
     ;
 
     $.extend(this, new CanoNode());
@@ -56,12 +57,20 @@ function CanoAccountProfileSectionNode(params) {
     $saveBtn = $("<input type=submit value='SAVE'></input>");
     $createOrgBtn = $("<input type=submit value='CREATE NEW ORGANIZATION'></input>");
 
+    if (canopy.me.IsActivated()) {
+        $emailConfirmed = $("<span style='font-weight:400; color:#008000'>Yes</span>");
+    }
+    else {
+        $emailConfirmed = $("<span style='font-weight:400; color:#ff0000'>No</span>");
+    }
+
     $me = CanopyUtil_Compose(["<div>\
         <div style='font-size: 30px; font-weight:400'>\
             Profile for " + canopy.me.Username().value + "\
         </div>\
+        <br>Account Activated: ", $emailConfirmed, "\
         ", $errorMsg, "\
-        <br>\
+        <br><br>\
             Email address\
             <br>", $emailInput, "\
         <br><br>\

@@ -79,7 +79,7 @@ function CanoSignupFormNode(params) {
                 password: password,
                 confirmPassword: confirmPassword,
                 onSuccess: function() {
-                    window.location.replace("index_new.html");
+                    window.location.replace("index.html");
                 },
                 onError: function(reason) {
                     if (reason == "username_already_taken") {
