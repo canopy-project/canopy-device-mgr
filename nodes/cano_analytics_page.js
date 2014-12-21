@@ -21,7 +21,8 @@ function CanoAnalyticsPageNode(params) {
         topbarSubmenuNode,
         sidebarNode,
         dashboardNode,
-        mainNode
+        mainNode,
+        noDevicesNode
     ;
 
     $.extend(this, new CanoNode());
@@ -39,7 +40,12 @@ function CanoAnalyticsPageNode(params) {
     }
 
     this.refresh = function() {
-        mainNode.select("dashboard");
+        if (canopy.me.Devices().length > 0) {
+            mainNode.select("dashboard");
+        }
+        else {
+            mainNode.select("no_devices");
+        }
     }
 
     this.drawCharts = function() {
@@ -58,19 +64,23 @@ function CanoAnalyticsPageNode(params) {
             value: "dashboard"
         }],
         onSelect: function(val) {
-            mainNode.select(val);
+            self.refresh();
         }
     })
+
+    noDevicesNode = new CanoAnalyticsNoDevicesNode({});
 
     dashboardNode = new CanoDashboardNode({
         canopyClient: canopy
     });
 
-
     mainNode = new CanoSwitcherNode({
         children: [ {
             name: "dashboard",
-            content: dashboardNode
+            content: dashboardNode,
+        }, {
+            name: "no_devices",
+            content: noDevicesNode,
         } ],
         selectedIdx: 0
     });
@@ -78,7 +88,7 @@ function CanoAnalyticsPageNode(params) {
     $me = CanopyUtil_Compose(["<div>\
         ", topbarSubmenuNode, "\
         ", sidebarNode, "\
-        &nbsp; <div style='padding:16px; margin-left: 260px; margin-top:18px'>", mainNode, "</div>\
+        &nbsp; <div style='padding:16px; margin-left: 244px; margin-top:18px'>", mainNode, "</div>\
     </div>"]);
 
 }

@@ -46,14 +46,19 @@ function CanoDashboardNode(params) {
 
         var i;
         $cloudVarHistograms.html("");
-        for (i = 0; i < cloudvars.length; i++) {
-            var histogramNode = new CanoAnalyticsHistogramWidgetNode({
-                canopyClient: canopy,
-                varName: cloudvars[i]
-            });
-            cloudVarHistograms.push(histogramNode);
-            histogramNode.appendTo($cloudVarHistograms);
-            histogramNode.drawCharts();
+        if (cloudvars.length == 0) {
+            $cloudVarHistograms.html("No cloud variables have been created yet.");
+        }
+        else {
+            for (i = 0; i < cloudvars.length; i++) {
+                var histogramNode = new CanoAnalyticsHistogramWidgetNode({
+                    canopyClient: canopy,
+                    varName: cloudvars[i]
+                });
+                cloudVarHistograms.push(histogramNode);
+                histogramNode.appendTo($cloudVarHistograms);
+                histogramNode.drawCharts();
+            }
         }
 
         chartNode.drawCharts();
