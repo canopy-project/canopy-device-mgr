@@ -29,6 +29,12 @@ function CanoDeviceListNode(params) {
 
     this.onLive = function() {
     }
+    
+    this.onShow = function() {
+        $me.show();
+        if (params.onShow)
+            params.onShow();
+    }
 
     this.setFilter = function(filterName, newFilter) {
         priv.filter = newFilter;

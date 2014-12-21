@@ -72,12 +72,16 @@ function CanoDevicesCreateNode(params) {
         });
     }
 
+    this.onShow = function() {
+        $me.show();
+        if (params.onShow) {
+            params.onShow();
+        }
+    }
+
     $errorMsg = $("<div style='display:none; font-style:italic; color: #ff0000;'></div>");
 
     $me = CanopyUtil_Compose(["<div>\
-        <div style='border-bottom:1px solid #a0a0a0; padding:16px;'>\
-            Devices &rarr; Create Devices\
-        </div>\
         <div style='padding:16px;'>\
             <div style='font-size: 30px; font-weight:400'>\
                 Create Devices\
@@ -101,5 +105,4 @@ function CanoDevicesCreateNode(params) {
             </p>\
         </div>\
     </div>"]);
-
 }

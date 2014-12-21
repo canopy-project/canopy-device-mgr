@@ -52,6 +52,9 @@ function CanoTopbarNode(params) {
         optionNode.select(idx, skipcallbacks);
     }
 
+    this.refresh = function() {
+    }
+
     accountDropdownNode = new CanoAccountDropdown({
         canopyClient: canopy,
         dispatcher: dispatcher

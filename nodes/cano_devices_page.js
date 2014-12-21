@@ -52,6 +52,7 @@ function CanoDevicesPageNode(params) {
         deviceListNode.refresh();
     }
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        canopyClient: canopy,
         items: [ {
             content: "Collections",
             value: "devices"
@@ -76,6 +77,11 @@ function CanoDevicesPageNode(params) {
         canopyClient : canopy,
         onSelect: function(idx, device) {
             deviceDetailsNode.setDevice(device);
+        },
+        onShow: function() {
+            deviceDetailsNode.show();
+            sidebarNode.show();
+            topbarSubmenuNode.setBreadcrumb(null);
         }
     });
         
@@ -83,6 +89,11 @@ function CanoDevicesPageNode(params) {
         canopyClient : canopy,
         onCreateDeviceLink : function() {
             mainNode.select("create_device");
+        },
+        onShow: function() {
+            deviceDetailsNode.hide();
+            sidebarNode.hide();
+            topbarSubmenuNode.setBreadcrumb(["Welcome"]);
         }
     });
 
@@ -93,6 +104,16 @@ function CanoDevicesPageNode(params) {
         },
         onCancel: function() {
             self.refresh()
+        },
+        onShow: function() {
+            deviceDetailsNode.hide();
+            sidebarNode.hide();
+            if (canopy.me.Devices().length == 0) {
+                topbarSubmenuNode.setBreadcrumb(["Welcome", "Create Devices"]);
+            }
+            else {
+                topbarSubmenuNode.setBreadcrumb(["Devices", "Create Devices"]);
+            }
         }
     });
 
@@ -121,6 +142,6 @@ function CanoDevicesPageNode(params) {
         ", topbarSubmenuNode, "\
         ", sidebarNode, "\
         &nbsp; <div style='margin-left:244px; margin-top:18px'>", mainNode, "</div>\
-        <div style='z-index: 20; border:1px solid #d0d0d0; background:#f0f0f0; right: 16px; border-radius:5px; width:500px; position:absolute; top:108px;'>", deviceDetailsNode, "</div>\
+        ", deviceDetailsNode, "\
     </div>"]);
 }

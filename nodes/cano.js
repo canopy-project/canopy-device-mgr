@@ -28,9 +28,30 @@ function CanoNode() {
         return this;
     }
 
+    this.hide = function() {
+        if (this.onHide) {
+            this.onHide();
+        }
+        else {
+            this.get$().hide();
+        }
+    }
+
     this.prependTo = function($container) {
         $container.append(this.get$());
         this.onLive();
         return this;
+    }
+
+    this.show = function() {
+        if (this.onPreShow) {
+            this.onPreShow();
+        }
+        if (this.onShow) {
+            this.onShow();
+        }
+        else {
+            this.get$().show();
+        }
     }
 }
