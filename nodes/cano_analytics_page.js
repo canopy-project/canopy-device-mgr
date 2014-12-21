@@ -52,6 +52,7 @@ function CanoAnalyticsPageNode(params) {
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        canopyClient: canopy,
         items: [ {
             content: "Dashboard",
             value: "dashboard"

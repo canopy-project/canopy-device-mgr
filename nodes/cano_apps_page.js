@@ -48,6 +48,7 @@ function CanoAppsPageNode(params) {
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        canopyClient: canopy,
         items: [ {
             content: "Credentials",
             value: "apps"

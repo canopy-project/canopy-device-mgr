@@ -50,6 +50,7 @@ function CanoAccountPageNode(params) {
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        canopyClient : canopy,
         items: [ {
             content: "Profile",
             value: "profile"
