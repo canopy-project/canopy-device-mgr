@@ -17,19 +17,19 @@ function DizonDemoPageNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         smallHumPlotNode,
         smallTempPlotNode,
         bigHumPlotNode,
         bigTempPlotNode,
         device = null
     ;
-    for (var i = 0; i < canopy.devices.length; i++) {
-        if (canopy.devices[i].properties.speed) {
-            device = canopy.devices[i];
+    /*for (var i = 0; i < canopy.me.Devices().length; i++) {
+        if (canopy.me.Devices()[i].Vars().Var("fan_speed")) {
+            device = canopy.me.Devices()[i];
         }
-    }
+    }*/
 
+    device = canopy.me.Devices()['e6968460-f010-48ef-8e69-835543843b32'];
     $.extend(this, new CanoNode());
 
     this.get$ = function() {
@@ -63,9 +63,9 @@ function DizonDemoPageNode(params) {
         $("#instructions").hide();
 
         if (speed != oldSpeed) {
-            device.properties.speed.setTargetValue(speed, {
-                onError: function() {alert("oops");}
-            });
+            var cloudvar = device.Vars().Var("fan_speed");
+            cloudvar.Value(speed);
+            cloudvar.Save({ });
         }
     }
 
@@ -87,10 +87,10 @@ function DizonDemoPageNode(params) {
         $("#humidity").toggleClass("demo-icon-selected", showHumidityPlot);
 
         if (showTempPlot && showHumidityPlot) {
-            device.properties.temperature.fetchHistoricData({
+            device.Vars().Var("temperature").FetchHistoricData({
                 onSuccess: function(data) {
                     smallTempPlotNode.setTimeseriesData(data.samples);
-                    device.properties.humidity.fetchHistoricData({
+                    device.Vars().Var("humidity").FetchHistoricData({
                         onSuccess: function(hdata) {
                             smallHumPlotNode.setTimeseriesData(hdata.samples);
                             hideAll();
@@ -103,7 +103,7 @@ function DizonDemoPageNode(params) {
             });
         }
         else if (showTempPlot) {
-            device.properties.temperature.fetchHistoricData({
+            device.Vars().Var("temperature").FetchHistoricData({
                 onSuccess: function(data) {
                     bigTempPlotNode.setTimeseriesData(data.samples);
                     hideAll();
@@ -113,7 +113,7 @@ function DizonDemoPageNode(params) {
             });
         }
         else if (showHumidityPlot) {
-            device.properties.humidity.fetchHistoricData({
+            device.Vars().Var("humidity").FetchHistoricData({
                 onSuccess: function(data) {
                     bigHumPlotNode.setTimeseriesData(data.samples);
                     hideAll();
@@ -187,7 +187,7 @@ function DizonDemoPageNode(params) {
         bigTempPlotNode.appendTo($("#plotspot"));
         bigHumPlotNode.appendTo($("#plotspot"));
 
-        if (device.isConnected()) {
+        if (device.IsConnected()) {
             $("#connected").show();
             $("#disconnected").hide();
         }
@@ -201,8 +201,8 @@ function DizonDemoPageNode(params) {
         $me = $("<div>No smart fan device</div>");
         return;
     }
-    var temperature = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.temperature.value().v)/100 : '-';
-    var humidity = (device.properties.temperature.value() !== null) ? Math.round(100*device.properties.humidity.value().v) : '-';
+    var temperature = (device.Vars().Var("temperature").Value() !== null) ? Math.round(100*device.Vars().Var("temperature").Value())/100 : '-';
+    var humidity = (device.Vars().Var("humidity").Value() !== null) ? Math.round(100*device.Vars().Var("humidity").Value())/100 : '-';
     $me = $("<div class=center_channel style='padding-left:32px;'>\
         <br>\
         <br>\
@@ -210,7 +210,7 @@ function DizonDemoPageNode(params) {
         <!--span style='color:#a0a0a0;font-size:70px; font-weight:200'>dyzon</span-->\
         <div id=dyzon style='display:inline-block; color:#a0a0a0;font-size:70px; font-weight:200'>dyzon</div>\
         <span style='color:#000000;font-size:70px; font-weight:200'>AR06</span>\
-        <div id='settings' style='cursor: pointer; white-space:nowrap; float:right; solid #a0a0a0;line-height:1; text-align:right; padding-right:32px;'><br><span style='color:#808080;font-size:40px; font-weight:300'>" + device.friendlyName() + "</span><span style='font-size:30px'><br>" + "Greg's Office" + "</span></div>\
+        <div id='settings' style='cursor: pointer; white-space:nowrap; float:right; solid #a0a0a0;line-height:1; text-align:right; padding-right:32px;'><br><span style='color:#808080;font-size:40px; font-weight:300'>" + device.FriendlyName() + "</span><span style='font-size:30px'><br>" + "Greg's Office" + "</span></div>\
         <table cellspacing=0 cellpadding=0 width=100%><tr><td width=1 align=center valign=top style='padding-left:24px; font-size:20px;line-height:1; border-right:2px solid #d8d8d8; padding-right:24px;'>\
             <div id=connected>\
                 <br><br><img src=http://b.dryicons.com/images/icon_sets/pixelistica_blue_icons/png/64x64/approve.png>\
