@@ -72,7 +72,8 @@ function CanoCloudVarBoxNode(params) {
 
     var valueNode;
     if (params.cloudvar.Direction() == "out") {
-        valueNode = $("<span>" + params.cloudvar.Value() + "</span>");
+        var v = Math.round(10*params.cloudvar.Value())/10;
+        valueNode = $("<span>" + v + "</span>");
     }
     else {
         valueNode = valueEditNode;
