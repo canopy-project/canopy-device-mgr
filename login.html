@@ -4,8 +4,10 @@
 <head>
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
     <script src="canoweb.conf.js"></script>
+    <script>
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+    </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="canopy-js-client/canopy.js"></script>
     <script src="nodes/cano.js"></script>
     <script src="nodes/cano.js"></script>
     <script src="nodes/cano_login_form.js"></script>
