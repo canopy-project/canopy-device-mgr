@@ -15,6 +15,7 @@
     <script>
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
     </script>
+    <script src="canopy_app_util.js"></script>
     <script src="nodes/cano.js"></script>
     <script src="nodes/cano_account_dropdown.js"></script>
     <script src="nodes/cano_button.js"></script>
@@ -51,21 +52,16 @@
 
 <script>
 
-var gCanopy = new CanopyClient(gCanopyWebAppConfiguration);
-$(function() {
-    dispatcher = new CanowebDispatcher(gCanopy);
-    gCanopy.onReady(function() {
-        if (gCanopy.account) {
-            dispatcher.showPage("demo")
-        }
-        else {
-            dispatcher.showPage("login");
-        }
+var canopy = new CanopyClient(gCanopyWebAppConfiguration);
+var dispatcher = new CanowebDispatcher(canopy);
+canopy.OnReady(function() {
+    if (!canopy.IsLoggedIn()) {
+        // User already logged in.  Redirect to device manager.
+        window.location.replace("login.html");
+        return;
+    }
 
-        gCanopy.onLogout(function() {
-            dispatcher.showPage("login");
-        });
-    });
+    dispatcher.showPage("demo");
 });
 
 </script>
