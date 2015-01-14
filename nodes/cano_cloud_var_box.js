@@ -55,7 +55,12 @@ function CanoCloudVarBoxNode(params) {
     }
 
     this.timestampString = function() {
-        var secsAgo = Math.floor(params.cloudvar.TimestampSecondsAgo());
+        var secsAgo = params.cloudvar.TimestampSecondsAgo();
+        if (params.cloudvar.TimestampSecondsAgo() == undefined) {
+            // Variable has never been set
+            return "<span style='color:#50b0ff'>New Var</span>"
+        }
+        secsAgo = Math.floor(secsAgo);
         if (secsAgo < 60) {
             return "<span style='color:#80ff80'>Just now</span>";
         }
@@ -71,9 +76,13 @@ function CanoCloudVarBoxNode(params) {
     }
 
     var valueNode;
-    if (params.cloudvar.Direction() == "out") {
-        var v = Math.round(10*params.cloudvar.Value())/10;
-        valueNode = $("<span>" + v + "</span>");
+    if (params.cloudvar && params.cloudvar.Direction() == "out") {
+        if (params.cloudvar.Value() == undefined) {
+            valueNode = $("<span>?</span>");
+        } else {
+            var v = Math.round(10*params.cloudvar.Value())/10;
+            valueNode = $("<span>" + v + "</span>");
+        }
     }
     else {
         valueNode = valueEditNode;
@@ -82,7 +91,11 @@ function CanoCloudVarBoxNode(params) {
     hoverPlotNode = new CanoHoverPlotNode({});
 
     this.refresh = function() {
-        valueEditNode.setValue(params.cloudvar.Value(), true);
+        if (params.cloudvar.Value() != undefined) {
+            valueEditNode.setValue(params.cloudvar.Value(), true);
+        } else {
+            valueEditNode.setValue("?", true);
+        }
         $me.html(CanopyUtil_Compose(["<div class=devmgr_cloudvar_box_outer>\
             <div class='devmgr_cloudvar_box_top'>\
                 <div class=devmgr_cloudvar_box_value>\
