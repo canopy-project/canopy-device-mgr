@@ -47,7 +47,7 @@ function CanoLoginPageNode(canopy, dispatcher) {
     });
 
     $me = $("\
-        <div class=center_channel>\
+        <div>\
             <div class=cano-login_page-images-outer>\
             </div>\
             <div class=cano-login_page-dialogs-outer>\

@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function CanoAccountDropdown(params) {
+function CanoDevicesNoDevicesMsgNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        $logoutButton,
-        visible = false
+        $createDevicesBtn
     ;
 
     $.extend(this, new CanoNode());
@@ -29,34 +28,30 @@ function CanoAccountDropdown(params) {
     }
 
     this.onLive = function() {
-        $logoutButton.off('click').on('click', function(event) {
-            canopy.Logout({
-                onSuccess: function() {
-                    window.location.replace("login.html");
-                }
-            });
-            event.stopPropogation();
+        $createDevicesBtn.off("click").on("click", function() {
+            if (params.onCreateDeviceLink)
+                params.onCreateDeviceLink();
         });
     }
 
-    this.show = function() {
+    this.onShow = function() {
         $me.show();
-        visible = true;
-    }
-    this.hide = function() {
-        $me.hide();
-        visible = false;
-    }
-    this.isVisible = function() {
-        return visible;
+        if (params.onShow) {
+            params.onShow();
+        }
     }
 
-    $logoutButton = $("<a href='javascript:void(0);'>Logout</a>");
+    $createDevicesBtn = $("<input type=submit value='CREATE DEVICES'></input>");
 
-    $me = CanopyUtil_Compose(["<div class=cano-account_dropdown-outer>\
-        <div class=cano-account_dropdown-inner>\
-            ", $logoutButton, "\
-        </div>\
+    $me = CanopyUtil_Compose(["<div style='padding:16px'>\
+        <div class='l'>Welcome to the Canopy Device Manager</div>\
+        <p>\
+            You do not currently have access to any Canopy-enabled devices on this deployment.\
+        </p>\
+        <p>\
+            If you're a developer, you can start by creating devices.\
+        </p>\
+        <br>", $createDevicesBtn, "\
+        \
     </div>"]);
-    $me.hide();
 }

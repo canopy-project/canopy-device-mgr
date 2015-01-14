@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 function CanopyUtil_IsValidEmail(email) {
     /* http://davidcel.is/blog/2012/09/06/stop-validating-email-addresses-with-regex/ */
 
@@ -28,6 +29,41 @@ function CanopyUtil_GetURLParams() {
         params[decodeURIComponent(token[0])] = decodeURIComponent(token[1]);
     });
     return params;
+}
+
+function CanopyUtil_ConnectionStatusText(lastActivitySecondsAgo, connectionStatus) {
+    if (lastActivitySecondsAgo == null) {
+        return "-";
+    }
+    else {
+        if (connectionStatus == "connected")
+            return "<span style='color:#30b030; font-weight:400'>Connected</span>";
+        if (connectionStatus == "disconnected")
+            return "<span style='color:#b03030; font-weight:400'>Disconnected</span>";
+    }
+    return "unknown";
+}
+
+function CanopyUtil_LastSeenSecondsAgoText(seconds) {
+    if (seconds == null) {
+        return "<span style='color:#3060b0; font-weight:400'>Newly Created</span>"
+    }
+    if (seconds < 60) {
+        return "<span style='color:#30b030; font-weight:400'>Active</span>";
+    }
+    else if (seconds >= 60 && seconds < 60*60) {
+        var mins = Math.floor(seconds/60);
+        return "<span style='color:#a0a030; font-weight:400'>Inactive (" + mins + "m)</span>";
+    }
+    else if (seconds >= 60*60 && seconds < 24*60*60) {
+        var hours = Math.floor(seconds/(60*60));
+        return "<span style='color:#b03030; font-weight:400'>Inactive (" + hours + "h)</span>";
+    }
+    else {
+        var days = Math.floor(seconds/(24*60*60));
+        return "<span style='color:#b03030; font-weight:400'>Inactive (" + days + "d)</span>";
+    }
+    return seconds;
 }
 
 function CanopyUtil_Compose(segments) {

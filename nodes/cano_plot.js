@@ -13,6 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * params:
+ *  {
+ *      width: <int>,
+ *      height: <int>,
+ *      title: <string>
+ *      vAxisFormat: 
+ *  }
+ */
 function CanoPlotNode(origParams)
 {
     var self=this,
@@ -24,6 +34,8 @@ function CanoPlotNode(origParams)
     $.extend(this, new CanoNode());
 
     params = $.extend({}, {
+        width: 960,
+        height: 110
     }, origParams);
 
     this.get$ = function() {
@@ -39,11 +51,11 @@ function CanoPlotNode(origParams)
         dataArray.push([
             "Time",
             "Value"
-        ])
+        ]);
         for (i = 1; i < samples.length; i++) {
             t0 = Date.parse(samples[i-1].t);
             t1 = Date.parse(samples[i].t);
-            if (t1 - t0 > 200000)
+            if (t1 - t0 > 160000) // TODO: re-enable this?
             {
                 dataArray.push([
                     new Date(t0),
@@ -82,12 +94,13 @@ function CanoPlotNode(origParams)
             legend: { position: 'none' },
             fontName : "Source Sans Pro",
             fontSize : 12,
-            hAxis: {textStyle:{color:"black"}, format: "h:mm a", gridlines: {color: 'transparent'}},
-            vAxis: {textStyle:{color:"black"}, format: params.vAxisFormat, gridlines: {color: 'transparent'}},
-            chartArea:{left:50,top:10,width:900,height:80},
-            height: 110,
-            width: 960,
-            backgroundColor: '#f0f5ff',
+            hAxis: {baselineColor: "#d8d8d8", textStyle:{color:"black"}, format: "h:mm a", gridlines: {color: 'transparent'}},
+            vAxis: {baselineColor: "#000000", textStyle:{color:"black"}, format: params.vAxisFormat, gridlines: {color: 'transparent'}},
+            chartArea:{left:50,top:10,width:params.width-40,height:params.height-40},
+            lineWidth: 1,
+            height: params.height,
+            width: params.width,
+            backgroundColor: 'transparent',
         };
 
         var chart = new google.visualization.AreaChart($me[0]);
@@ -98,15 +111,15 @@ function CanoPlotNode(origParams)
 
     /* Load default data for testing */
     /*this.setTimeseriesData([
-        { t: 0, v: 0},
-        { t: 1, v: 5},
-        { t: 2, v: 8},
-        { t: 3, v: -5},
-        { t: 4, v: 3.4},
-        { t: 5, v: 9.4},
-        { t: 6, v: 4.2},
-        { t: 7, v: -1},
-        { t: 8, v: 1.5},
+        { t: "2014-08-06T08:01:47Z", v: 0},
+        { t: "2014-08-06T08:11:47Z", v: 5},
+        { t: "2014-08-06T08:21:47Z", v: 8},
+        { t: "2014-08-06T08:31:47Z", v: -5},
+        { t: "2014-08-06T08:41:47Z", v: 3.4},
+        { t: "2014-08-06T08:51:47Z", v: 9.4},
+        { t: "2014-08-06T09:01:47Z", v: 4.2},
+        { t: "2014-08-06T09:11:47Z", v: -1},
+        { t: "2014-08-06T09:21:47Z", v: 1.5},
     ]);*/
 }
 

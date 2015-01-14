@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function CanoAccountDropdown(params) {
+function CanoAnalyticsNoDevicesNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
-        $logoutButton,
-        visible = false
+        $createDevicesBtn
     ;
 
     $.extend(this, new CanoNode());
@@ -29,34 +28,24 @@ function CanoAccountDropdown(params) {
     }
 
     this.onLive = function() {
-        $logoutButton.off('click').on('click', function(event) {
-            canopy.Logout({
-                onSuccess: function() {
-                    window.location.replace("login.html");
-                }
-            });
-            event.stopPropogation();
-        });
     }
 
-    this.show = function() {
+    this.onShow = function() {
         $me.show();
-        visible = true;
-    }
-    this.hide = function() {
-        $me.hide();
-        visible = false;
-    }
-    this.isVisible = function() {
-        return visible;
+        if (params.onShow) {
+            params.onShow();
+        }
     }
 
-    $logoutButton = $("<a href='javascript:void(0);'>Logout</a>");
+    $createDevicesBtn = $("<input type=submit value='CREATE DEVICES'></input>");
 
-    $me = CanopyUtil_Compose(["<div class=cano-account_dropdown-outer>\
-        <div class=cano-account_dropdown-inner>\
-            ", $logoutButton, "\
-        </div>\
+    $me = CanopyUtil_Compose(["<div>\
+        <div class='l'>Not Enough Data</div>\
+        <p>\
+            There is currently not enough data to display analytics about your\
+            devices.  <br>Please come back after your devices have connected to the\
+            Canopy server.\
+        </p>\
+        \
     </div>"]);
-    $me.hide();
 }

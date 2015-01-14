@@ -4,14 +4,18 @@
 <head>
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script '3rdparty/jquery.ui.touch-punch.min.js'></script>
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script src="canoweb.conf.js"></script>
     <script>
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
     </script>
-    <script src="canopy-js-client/canopy.js"></script>
     <script src="canopy_app_util.js"></script>
     <script src="nodes/cano.js"></script>
+    <script src="nodes/demo/dizon.js"></script>
     <script src="nodes/cano_account_dropdown.js"></script>
     <script src="nodes/cano_account_page.js"></script>
     <script src="nodes/cano_account_password_section.js"></script>
@@ -68,7 +72,11 @@ canopy.OnReady(function() {
         return;
     }
 
-    dispatcher.showPage("main");
+    new DizonDemoPageNode({
+        canopyClient: canopy,
+        }).render($("#main"));
+
+
     /*var tmp = new CanoCloudVarBoxNode({
         cloudvar: canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0)
     });

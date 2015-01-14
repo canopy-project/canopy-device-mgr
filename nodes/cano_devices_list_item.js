@@ -30,6 +30,10 @@ function CanoDevicesListItemNode(params) {
     }
 
     this.onLive = function() {
+        $left.off("click").on("click", function() {
+            if (device.friendlyName() == "My Smart Fan")
+                window.open("demo.html", "_blank");
+        });
     }
 
     controlWidgetNode = new CanoDeviceControlWidgetNode({
@@ -37,7 +41,7 @@ function CanoDevicesListItemNode(params) {
         device: device
     });
 
-    if (device.friendlyName() != "SmartFan")
+    if (device.friendlyName() != "SmartFan" && device.friendlyName() != "My Smart Fan")
         $me = $("<div class=cano-devices_list_item-outer1>");
     else
         $me = $("<div class=cano-devices_list_item-outer2>");
