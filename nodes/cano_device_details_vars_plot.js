@@ -18,7 +18,8 @@
 function CanoDeviceDetailsVarsPlot(params) {
     var self=this,
         $me,
-        plotNode
+        plotNode,
+        $msg
     ;
 
     $.extend(this, new CanoNode());
@@ -35,7 +36,21 @@ function CanoDeviceDetailsVarsPlot(params) {
     }
 
     this.setTimeseriesData = function(data) {
-        plotNode.setTimeseriesData(data);
+        if (data == null) {
+            $msg.html("Hover over a cloud variable to see plot.</div>");
+            $msg.show();
+            plotNode.hide();
+        }
+        else if (data.length > 2) {
+            $msg.hide();
+            plotNode.show();
+            plotNode.setTimeseriesData(data);
+        } 
+        else {
+            $msg.html("Not enough data to show plot.");
+            $msg.show();
+            plotNode.hide();
+        }
     }
 
     plotNode = new CanoPlotNode({
@@ -45,9 +60,13 @@ function CanoDeviceDetailsVarsPlot(params) {
         height: 90
     });
 
+    $msg = $("<div style='font-size: 14px; padding:8px'> </div>");
+    this.setTimeseriesData(null);
+
     $me = CanopyUtil_Compose(["\
             <div class=devmgr_cloudvar_plot_outer>\
                 <div class=devmgr_cloudvar_plot_inner>\
+                    ", $msg, "\
                     ", plotNode, "\
                 </div>\
             </div>\

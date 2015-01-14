@@ -80,6 +80,9 @@ canopy_sync_blocking(ctx, -1);</div>\
                                 plotNode.setTimeseriesData(data['samples']);
                             }
                         });
+                    },
+                    onHoverOut: function(cloudvar) {
+                        plotNode.setTimeseriesData(null);
                     }
                 });
                 $me.append(varNode.get$());

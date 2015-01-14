@@ -88,8 +88,6 @@ function CanoCloudVarBoxNode(params) {
         valueNode = valueEditNode;
     }
 
-    hoverPlotNode = new CanoHoverPlotNode({});
-
     this.refresh = function() {
         if (params.cloudvar.Value() != undefined) {
             valueEditNode.setValue(params.cloudvar.Value(), true);

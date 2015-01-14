@@ -83,7 +83,7 @@ function CanoPlotNode(origParams)
                 }
             }
         }
-        this.drawChart();
+        setTimeout(function(){self.drawChart();}, 100);
     }
 
     this.drawChart = function() {
