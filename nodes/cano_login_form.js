@@ -75,7 +75,7 @@ function CanoLoginFormNode(params) {
             <input style='width:250px' id=login_password type=password></input>\
         </p>\
         <p>\
-            <input id=login_btn type=submit value='SIGN IN'></input>\
+            <input id=login_btn type=submit value='SIGN IN'></input><br> <a style='font-size: 13px' href='reset_password.html'>Forgot password?</a>\
         </p>\
     ");
 }
