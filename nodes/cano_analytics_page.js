@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Gregory Prisament
+ * Copyright 2014-2015 SimpleThings, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ function CanoAnalyticsPageNode(params) {
         topbarSubmenuNode,
         sidebarNode,
         dashboardNode,
+        mapsNode,
         mainNode,
         noDevicesNode
     ;
@@ -39,9 +40,12 @@ function CanoAnalyticsPageNode(params) {
         this.refresh();
     }
 
-    this.refresh = function() {
+    this.refresh = function(page) {
+        if (!page) {
+            page = "dashboard";
+        }
         if (canopy.me.Devices().length > 0) {
-            mainNode.select("dashboard");
+            mainNode.select(page);
         }
         else {
             mainNode.select("no_devices");
@@ -62,9 +66,12 @@ function CanoAnalyticsPageNode(params) {
         items: [ {
             content: "Dashboard",
             value: "dashboard"
+        }, {
+            content: "Maps",
+            value: "maps"
         }],
         onSelect: function(val) {
-            self.refresh();
+            self.refresh(val);
         }
     })
 
@@ -74,10 +81,17 @@ function CanoAnalyticsPageNode(params) {
         canopyClient: canopy
     });
 
+    mapsNode = new CanoAnalyticsMapNode({
+        canopyClient: canopy
+    });
+
     mainNode = new CanoSwitcherNode({
         children: [ {
             name: "dashboard",
             content: dashboardNode,
+        }, {
+            name: "maps",
+            content: mapsNode,
         }, {
             name: "no_devices",
             content: noDevicesNode,

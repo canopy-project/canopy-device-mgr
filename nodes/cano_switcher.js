@@ -29,6 +29,24 @@ function CanoSwitcherNode(params) {
 
     $.extend(this, new CanoNode());
 
+    var show = function(content) {
+        if (content.show) {
+            content.show();
+        }
+        else {
+            content.get$().show();
+        }
+    }
+
+    var hide = function(content) {
+        if (content.hide) {
+            content.hide();
+        }
+        else {
+            content.get$().hide();
+        }
+    }
+
     this.get$ = function() {
         return $me;
     }
@@ -46,10 +64,10 @@ function CanoSwitcherNode(params) {
         var i;
         for (i = 0; i < params.children.length; i++) {
             if (params.children[i].name == name) {
-                params.children[i].content.show();
+                show(params.children[i].content);
             }
             else {
-                params.children[i].content.hide();
+                hide(params.children[i].content);
             }
         }
     }
@@ -59,6 +77,6 @@ function CanoSwitcherNode(params) {
     var i;
     for (i = 0; i < params.children.length; i++) {
         params.children[i].content.appendTo($me);
-        params.children[i].content.hide();
+        hide(params.children[i].content);
     }
 }

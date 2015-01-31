@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+#map-canvas {
+    margin: 0; 
+    padding: 0;
+}
 .devmgr_cloudvar_box_bottom {
     font-weight: 400;
     font-size: 13px;
