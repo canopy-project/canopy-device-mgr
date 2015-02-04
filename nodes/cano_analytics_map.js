@@ -16,7 +16,9 @@
 function CanoAnalyticsMapNode(params) {
     var self=this,
         $me,
-        mapInitialized = false;
+        mapInitialized = false,
+        mapDevices,
+        map=null
     ;
 
     $.extend(this, new CanoNode());
@@ -32,6 +34,11 @@ function CanoAnalyticsMapNode(params) {
 
     }
 
+    // mapDevicesIn is list of Device objects
+    this.setMapDevices = function(mapDevicesIn) {
+        mapDevices = mapDevicesIn;
+    }
+
     this.show = function() {
         $me.show();
         if (!mapInitialized) {
@@ -40,12 +47,61 @@ function CanoAnalyticsMapNode(params) {
         }
     }
 
+    this.jumpTo = function(lat, lng) {
+        map.panTo(new google.maps.LatLng(lat, lng));
+    }
+
     this.drawMap = function() {
         var mapOptions = {
-            center: { lat: -34.397, lng: 150.644},
-            zoom: 8
+            center: { lat: 37.708333, lng: -122.280278},
+            zoom: 10,
+            streetViewControl: false
         };
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        // Add markers:
+        var i;
+        for (i = 0; i < mapDevices.length; i++) {
+            var lat = mapDevices[i].Vars().Var("latitude").Value();
+            var lng = mapDevices[i].Vars().Var("longitude").Value();
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng),
+                map: map,
+                title: mapDevices[i].FriendlyName()
+            });
+
+            // Add path
+            mapDevices[i].Vars().Var("latitude").FetchHistoricData({
+                onSuccess: function(device) {
+                    return function(latData) {
+                        if (latData.samples.length < 3)
+                            return;
+
+                        device.Vars().Var("longitude").FetchHistoricData( {
+                            onSuccess: function(lngData) {
+                                var i;
+                                path = [];
+                                console.log(latData);
+                                console.log(lngData);
+                                for (i = 0; i < lngData.samples.length; i++) {
+                                    if (latData.samples[i])
+                                        path.push(new google.maps.LatLng(latData.samples[i].v, lngData.samples[i].v));
+                                }
+                                myPath = new google.maps.Polyline({
+                                    path: path,
+                                    geodesic: true,
+                                    strokeColor: "#3060b0",
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 2,
+                                });
+                                myPath.setMap(map);
+                                
+                            }
+                        });
+                    }
+                }(mapDevices[i]),
+            })
+        }
     }
     $me = $("<div id=map-canvas style='position: absolute; bottom: 0px; top: 85px; border: 1px solid #c0c0c0; right: 0px; left: 260px;'></div>");
 }

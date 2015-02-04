@@ -108,6 +108,18 @@
     padding: 8px;
 }
 
+.devmgr_maps_device_item {
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 400;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.devmgr_maps_device_item:hover {
+    font-weight: 400;
+    color: #3060b0;
+}
+
 .devmgr_topbar_outer {
     z-index: 1200;
     font-size: 18px;

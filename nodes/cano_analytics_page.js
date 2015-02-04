@@ -56,9 +56,12 @@ function CanoAnalyticsPageNode(params) {
         dashboardNode.drawCharts();
     }
 
-    sidebarNode = new CanoAnalyticsSidebarNode({
+    sidebarNode = new CanoAnalyticsMapSidebarNode({
         canopyClient : canopy,
-        dispatcher: dispatcher
+        dispatcher: dispatcher,
+        onDeviceClicked: function(device) {
+            mapsNode.jumpTo(device.Vars().Var("latitude").Value(), device.Vars().Var("longitude").Value());
+        }
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
@@ -71,6 +74,10 @@ function CanoAnalyticsPageNode(params) {
             value: "maps"
         }],
         onSelect: function(val) {
+            if (val == "maps") {
+                var mapDevices = sidebarNode.getMapDevices();
+                mapsNode.setMapDevices(mapDevices);
+            }
             self.refresh(val);
         }
     })
