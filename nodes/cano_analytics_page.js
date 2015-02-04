@@ -20,6 +20,8 @@ function CanoAnalyticsPageNode(params) {
         dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
+        dashboardSidebarNode,
+        mapsNode,
         dashboardNode,
         mapsNode,
         mainNode,
@@ -46,9 +48,11 @@ function CanoAnalyticsPageNode(params) {
         }
         if (canopy.me.Devices().length > 0) {
             mainNode.select(page);
+            sidebarNode.select(page);
         }
         else {
             mainNode.select("no_devices");
+            sidebarNode.select("no_devices");
         }
     }
 
@@ -56,12 +60,16 @@ function CanoAnalyticsPageNode(params) {
         dashboardNode.drawCharts();
     }
 
-    sidebarNode = new CanoAnalyticsMapSidebarNode({
+    mapsSidebarNode = new CanoAnalyticsMapSidebarNode({
         canopyClient : canopy,
         dispatcher: dispatcher,
         onDeviceClicked: function(device) {
             mapsNode.jumpTo(device.Vars().Var("latitude").Value(), device.Vars().Var("longitude").Value());
         }
+    });
+    dashboardSidebarNode = new CanoAnalyticsSidebarNode({
+        canopyClient : canopy,
+        dispatcher: dispatcher,
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
@@ -75,7 +83,7 @@ function CanoAnalyticsPageNode(params) {
         }],
         onSelect: function(val) {
             if (val == "maps") {
-                var mapDevices = sidebarNode.getMapDevices();
+                var mapDevices = mapsSidebarNode.getMapDevices();
                 mapsNode.setMapDevices(mapDevices);
             }
             self.refresh(val);
@@ -90,6 +98,20 @@ function CanoAnalyticsPageNode(params) {
 
     mapsNode = new CanoAnalyticsMapNode({
         canopyClient: canopy
+    });
+
+    sidebarNode = new CanoSwitcherNode({
+        children: [ {
+            name: "dashboard",
+            content: dashboardSidebarNode
+        }, {
+            name: "maps",
+            content: mapsSidebarNode
+        }, {
+            name: "no_devices",
+            content: $("<div>")
+        } ],
+        selectedIdx: 0
     });
 
     mainNode = new CanoSwitcherNode({
