@@ -54,11 +54,8 @@ function CanoDevicesPageNode(params) {
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
         canopyClient: canopy,
         items: [ {
-            content: "Collections",
-            value: "devices"
-        }, {
             content: "Device List",
-            value: "apps"
+            value: "devices"
         }],
     })
 

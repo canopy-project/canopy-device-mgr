@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Gregory Prisament
+ * Copyright 2014-2015 SimpleThings, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@ function CanoAnalyticsPageNode(params) {
         dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
+        dashboardSidebarNode,
+        mapsNode,
         dashboardNode,
+        mapsNode,
         mainNode,
         noDevicesNode
     ;
@@ -39,12 +42,17 @@ function CanoAnalyticsPageNode(params) {
         this.refresh();
     }
 
-    this.refresh = function() {
+    this.refresh = function(page) {
+        if (!page) {
+            page = "dashboard";
+        }
         if (canopy.me.Devices().length > 0) {
-            mainNode.select("dashboard");
+            mainNode.select(page);
+            sidebarNode.select(page);
         }
         else {
             mainNode.select("no_devices");
+            sidebarNode.select("no_devices");
         }
     }
 
@@ -52,9 +60,16 @@ function CanoAnalyticsPageNode(params) {
         dashboardNode.drawCharts();
     }
 
-    sidebarNode = new CanoAnalyticsSidebarNode({
+    mapsSidebarNode = new CanoAnalyticsMapSidebarNode({
         canopyClient : canopy,
-        dispatcher: dispatcher
+        dispatcher: dispatcher,
+        onDeviceClicked: function(device) {
+            mapsNode.jumpTo(device.Vars().Var("latitude").Value(), device.Vars().Var("longitude").Value());
+        }
+    });
+    dashboardSidebarNode = new CanoAnalyticsSidebarNode({
+        canopyClient : canopy,
+        dispatcher: dispatcher,
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
@@ -62,9 +77,16 @@ function CanoAnalyticsPageNode(params) {
         items: [ {
             content: "Dashboard",
             value: "dashboard"
+        }, {
+            content: "Maps",
+            value: "maps"
         }],
         onSelect: function(val) {
-            self.refresh();
+            if (val == "maps") {
+                var mapDevices = mapsSidebarNode.getMapDevices();
+                mapsNode.setMapDevices(mapDevices);
+            }
+            self.refresh(val);
         }
     })
 
@@ -74,10 +96,31 @@ function CanoAnalyticsPageNode(params) {
         canopyClient: canopy
     });
 
+    mapsNode = new CanoAnalyticsMapNode({
+        canopyClient: canopy
+    });
+
+    sidebarNode = new CanoSwitcherNode({
+        children: [ {
+            name: "dashboard",
+            content: dashboardSidebarNode
+        }, {
+            name: "maps",
+            content: mapsSidebarNode
+        }, {
+            name: "no_devices",
+            content: $("<div>")
+        } ],
+        selectedIdx: 0
+    });
+
     mainNode = new CanoSwitcherNode({
         children: [ {
             name: "dashboard",
             content: dashboardNode,
+        }, {
+            name: "maps",
+            content: mapsNode,
         }, {
             name: "no_devices",
             content: noDevicesNode,
