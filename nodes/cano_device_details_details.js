@@ -37,7 +37,12 @@ function CanoDeviceDetailsDetailsNode(params) {
 
     locationNode = new CanoEditable({
         textClass: "devmgr_device_editable_location_text",
-        inputClass: "devmgr_device_editable_location_input"
+        inputClass: "devmgr_device_editable_location_input",
+        onChange: function(value) {
+            device.setSettings({
+                "locationNote": value
+            });
+        }
     });
 
     this.refresh = function() {
