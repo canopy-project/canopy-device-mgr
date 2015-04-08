@@ -5,7 +5,7 @@
     <script src="canoweb.conf.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script>
-        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptNewClientURL + '" type="text/javascript"><\/script>');
     </script>
 </head>
 
@@ -15,16 +15,16 @@
 
 <script>
 
-gCanopyWebAppConfiguration.skipUserDataFetch = true;
-var gCanopy = new CanopyClient(gCanopyWebAppConfiguration);
-$(function() {
-    gCanopy.onReady(function() {
-        gCanopy.logout({
-            onSuccess: function() {
-                $("#main").html("You've been successfully logged out.");
-            }
-        });
-    });
+var ctx = Canopy.initContext();
+var remote = ctx.initRemote({
+    "host" : gCanopyWebAppConfiguration.cloudHost
+});
+remote.logout().onDone(function(result, data) {
+    if (result == CANOPY_SUCCESS) {
+        $("#main").html("You've been successfully logged out.");
+    } else {
+        $("#main").html("Problem logging out");
+    }
 });
 </script>
 </html>
