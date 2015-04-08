@@ -5,7 +5,7 @@
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
     <script src="canoweb.conf.js"></script>
     <script>
-        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptNewClientURL + '" type="text/javascript"><\/script>');
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="nodes/cano.js"></script>
@@ -90,33 +90,33 @@
     </center>
 
     <center>
-            <br><div style='font-size:16px'>Copyright 2014-2015 SimpleThings, Inc.</div>
+            <br><div style='font-size:16px'>Copyright 2014-2015 Canopy Services, Inc.</div>
     </center>
 </div>
 </body>
 <script>
 
-var canopy = new CanopyClient(gCanopyWebAppConfiguration);
+Canopy.initUserClient({
+    "host" : gCanopyWebAppConfiguration.cloudHost,
+}).onDone(function(result, data) {
+    if (result == CANOPY_SUCCESS) {
+        // User already logged in.  Redirect to device manager.
+        window.location.replace("index.html");
+        return;
+    }
 
-canopy.OnReady(function() {
+    // TODO: confirm that not_logged_in error was the problem
+    $("#host_title").html(" for " + gCanopyWebAppConfiguration.cloudHost);
+
     (new CanoLoginFormNode({
-        canopyClient : canopy,
-        dispatcher: null,
+        remote: data.remote,
         redirect: "index.html"
     })).render($("#loginform"));
 
     (new CanoSignupFormNode({
-        canopyClient : canopy,
-        dispatcher: null
+        remote: data.remote,
+        redirect: "index.html"
     })).render($("#signupform"));
-
-    $("#host_title").html(" for " + canopy.CloudHost());
-
-    if (canopy.IsLoggedIn()) {
-        // User already logged in.  Redirect to device manager.
-        window.location.replace("index.html");
-        return;
-    } 
 });
 
 </script>
