@@ -9,8 +9,8 @@
     <script src="canoweb.conf.js"></script>
     <script>
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptNewClientURL + '" type="text/javascript"><\/script>');
     </script>
-    <script src="canopy-js-client/canopy.js"></script>
     <script src="canopy_app_util.js"></script>
     <script src="nodes/cano.js"></script>
     <script src="nodes/cano_account_dropdown.js"></script>
@@ -49,7 +49,6 @@
     <script src="nodes/cano_switcher.js"></script>
     <script src="nodes/cano_topbar.js"></script>
     <script src="nodes/cano_topbar_submenu.js"></script>
-    <script src="canoweb_dispatcher.js"></script>
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
     <link href='canoweb.css' rel='stylesheet' type='text/css'>
 </head>
@@ -60,30 +59,27 @@
 
 </body>
 <script>
-var canopy = new CanopyClient(gCanopyWebAppConfiguration);
 
-var dispatcher = new CanowebDispatcher(canopy);
-
-canopy.OnReady(function() {
-    if (!canopy.IsLoggedIn()) {
-        // User already logged in.  Redirect to device manager.
+Canopy.initUserClient({
+    // TODO: other settings?
+    "host" : gCanopyWebAppConfiguration.cloudHost,
+}).onDone(function(result, data) {
+    if (result != CANOPY_SUCCESS) {
+        // Error getting selfUser.  Probably not logged in.
         window.location.replace("login.html");
         return;
     }
 
-    dispatcher.showPage("main");
-    /*var tmp = new CanoCloudVarBoxNode({
-        cloudvar: canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0)
-    });
-    $("#main").html(tmp.get$());
-    tmp.onLive();
+    var canopy = new CanopyClient(gCanopyWebAppConfiguration);
 
-    canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0).FetchHistoricData({
-        onSuccess: function() {
-            alert("Done Fetching History");
-        }
-    });*/
+    canopy.OnReady(function() {
+        (new CanoMainPageNode({
+            canopyClient: canopy, 
+            user: data.user, 
+        })).render($("#main"));
+    });
 });
+
 </script>
 
 </html>
