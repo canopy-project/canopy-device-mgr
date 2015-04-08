@@ -54,7 +54,7 @@ function CanoMainPageNode(params) {
     });
 
     topbarNode = new CanoTopbarNode({
-        canopyClient: canopy,
+        user: params.user,
         onSelect: function(value) {
             if (value == "analytics") {
                 setTimeout(function() {analyticsNode.drawCharts();}, 30);

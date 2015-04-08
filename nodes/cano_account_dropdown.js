@@ -16,8 +16,6 @@
 function CanoAccountDropdown(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         $logoutButton,
         visible = false
     ;
@@ -30,10 +28,12 @@ function CanoAccountDropdown(params) {
 
     this.onLive = function() {
         $logoutButton.off('click').on('click', function(event) {
-            canopy.Logout({
-                onSuccess: function() {
-                    window.location.replace("login.html");
+            params.user.remote().logout().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("Unable to logout");
+                    return;
                 }
+                window.location.replace("login.html");
             });
             event.stopPropogation();
         });
