@@ -51,6 +51,9 @@ function CanoDashboardNode(params) {
         }
         else {
             for (i = 0; i < cloudvars.length; i++) {
+                // TODO: Giant hack for demo
+                if (cloudvars[i] == "air_pressure" || cloudvars[i] == "latitude" || cloudvars[i] == "longitude")
+                    continue;
                 var histogramNode = new CanoAnalyticsHistogramWidgetNode({
                     canopyClient: canopy,
                     varName: cloudvars[i]
