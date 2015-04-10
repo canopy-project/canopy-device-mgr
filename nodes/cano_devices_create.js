@@ -53,16 +53,17 @@ function CanoDevicesCreateNode(params) {
                 return;
             }
 
-            canopy.CreateDevices({
-                deviceNames: names,
-                quantity: quantity,
-                onSuccess: function() {
-                    if (params.onCreated)
-                        params.onCreated();
-                },
-                onError: function() {
+            params.user.createDevices({
+                names: names,
+                quantity: quantity
+            }).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
                     alert("Error creating device");
+                    return;
                 }
+
+                if (params.onCreated)
+                    params.onCreated();
             });
         });
 

@@ -65,6 +65,7 @@ function CanoMainPageNode(params) {
 
     devicesNode = new CanoDevicesPageNode({
         canopyClient: canopy,
+        user: params.user
     });
 
     appsNode = new CanoAppsPageNode({

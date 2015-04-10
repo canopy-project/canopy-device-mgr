@@ -17,7 +17,6 @@ function CanoDevicesPageNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         deviceListNode,
@@ -57,11 +56,10 @@ function CanoDevicesPageNode(params) {
             content: "Device List",
             value: "devices"
         }],
-    })
+    });
 
     sidebarNode = new CanoDevicesSidebarNode({
         canopyClient : canopy,
-        dispatcher: dispatcher,
         onCreateDeviceLink : function() {
             mainNode.select("create_device");
         },
@@ -96,6 +94,7 @@ function CanoDevicesPageNode(params) {
 
     createDeviceNode = new CanoDevicesCreateNode({
         canopyClient : canopy,
+        user : params.user,
         onCreated: function() {
             self.refresh()
         },
