@@ -17,6 +17,7 @@ function CanoDeviceDetailsDetailsNode(params) {
     var self=this,
         $me,
         device = null,
+        device2 = null,
         locationNode
     ;
 
@@ -32,7 +33,18 @@ function CanoDeviceDetailsDetailsNode(params) {
 
     this.setDevice = function(dev) {
         device = dev;
-        this.refresh();
+        /* TODO: Take in CanopyDevice object */
+
+        params.user.devices().get(device.UUID()
+        ).onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                alert("Error fetching device");
+                return;
+            }
+
+            device2 = data.device;
+            self.refresh();
+        });
     }
 
     locationNode = new CanoEditable({
@@ -49,7 +61,7 @@ function CanoDeviceDetailsDetailsNode(params) {
         if (device == null)
             return;
 
-        locationNode.setValue(device.LocationNote());
+        locationNode.setValue(device2.locationNote());
         var lastActivity = device.LastActivitySecondsAgo();
 
         $me.html(CanopyUtil_Compose(["\
@@ -76,7 +88,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + device.UUID() + "\
+                            " + device2.id() + "\
                         </div>\
                     </td>\
                 </tr>\
@@ -86,7 +98,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + device.SecretKey() + "\
+                            " + device2.secretKey() + "\
                         </div>\
                     </td>\
                 </tr>\

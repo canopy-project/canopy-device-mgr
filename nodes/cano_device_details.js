@@ -57,12 +57,6 @@ function CanoDeviceDetailsNode(params) {
         }, {
             content: "Cloud Vars",
             value: "vars"
-        }, {
-            content: "Notifications",
-            value: "notifs"
-        }, {
-            content: "Coding",
-            value: "notifs"
         }],
         onSelect: function(optionNode, idx, value) {
             switcherNode.select(value);
@@ -70,7 +64,9 @@ function CanoDeviceDetailsNode(params) {
         selectedIdx: 0
     });
 
-    detailsNode = new CanoDeviceDetailsDetailsNode({});
+    detailsNode = new CanoDeviceDetailsDetailsNode({
+        user: params.user
+    });
 
     varsNode = new CanoDeviceDetailsVarsNode({});
 

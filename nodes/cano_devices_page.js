@@ -70,6 +70,7 @@ function CanoDevicesPageNode(params) {
 
     deviceListNode = new CanoDeviceListNode({
         canopyClient : canopy,
+        user: params.user,
         onSelect: function(idx, device) {
             deviceDetailsNode.setDevice(device);
         },
@@ -114,6 +115,7 @@ function CanoDevicesPageNode(params) {
     });
 
     deviceDetailsNode = new CanoDeviceDetailsNode({
+        user: params.user,
         onDeviceModified: function() {
             deviceListNode.refresh();
         }

@@ -43,6 +43,9 @@ function CanoDeviceListNode(params) {
     }
 
     this.refresh = function() {
+        /*params.user.devices().getMany(0, 40).onDone(function(result, data) {
+            alert("result " + result);
+        });*/
         canopy.me.fetchDevices({
             onSuccess : function() {
                 var devices = canopy.me.Devices().Filter(priv.filter);
