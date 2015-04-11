@@ -17,7 +17,6 @@ function CanoDeviceDetailsDetailsNode(params) {
     var self=this,
         $me,
         device = null,
-        device2 = null,
         locationNode
     ;
 
@@ -33,26 +32,18 @@ function CanoDeviceDetailsDetailsNode(params) {
 
     this.setDevice = function(dev) {
         device = dev;
-        /* TODO: Take in CanopyDevice object */
-
-        params.user.devices().get(device.UUID()
-        ).onDone(function(result, data) {
-            if (result != CANOPY_SUCCESS) {
-                alert("Error fetching device");
-                return;
-            }
-
-            device2 = data.device;
-            self.refresh();
-        });
+        self.refresh();
     }
 
     locationNode = new CanoEditable({
         textClass: "devmgr_device_editable_location_text",
         inputClass: "devmgr_device_editable_location_input",
         onChange: function(value) {
-            device.setSettings({
-                "locationNote": value
+            device.locationNote(value);
+            device.syncWithRemote().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("Problem updating location note");
+                }
             });
         }
     });
@@ -61,8 +52,8 @@ function CanoDeviceDetailsDetailsNode(params) {
         if (device == null)
             return;
 
-        locationNode.setValue(device2.locationNote());
-        var lastActivity = device.LastActivitySecondsAgo();
+        locationNode.setValue(device.locationNote());
+        var lastActivity = device.lastActivitySecondsAgo();
 
         $me.html(CanopyUtil_Compose(["\
             <table cellspacing=0 cellpadding=8 class=devmgr_prop_table style='font-size:16px'>\
@@ -79,7 +70,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                         Websocket:\
                     </td>\
                     <td>\
-                        " + CanopyUtil_ConnectionStatusText(lastActivity, device.ConnectionStatus()) + "\
+                        " + CanopyUtil_ConnectionStatusText(lastActivity, device.websocketConnected() ? "connected" : "disconnected") + "\
                     </td>\
                 </tr>\
                 <tr>\
@@ -88,7 +79,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + device2.id() + "\
+                            " + device.id() + "\
                         </div>\
                     </td>\
                 </tr>\
@@ -98,7 +89,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + device2.secretKey() + "\
+                            " + device.secretKey() + "\
                         </div>\
                     </td>\
                 </tr>\

@@ -19,6 +19,7 @@ function CanoDeviceDetailsNode(params) {
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
         device = null,
+        device2 = null,
         switcherNode,
         optionNode,
         detailsNode,
@@ -42,9 +43,20 @@ function CanoDeviceDetailsNode(params) {
 
     this.setDevice = function(dev) {
         device = dev;
-        detailsNode.setDevice(dev);
-        varsNode.setDevice(dev);
-        this.refresh();
+        /* TODO: Take in CanopyDevice object */
+
+        params.user.devices().get(device.UUID()
+        ).onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                alert("Error fetching device");
+                return;
+            }
+
+            device2 = data.device;
+            detailsNode.setDevice(device2);
+            varsNode.setDevice(dev);
+            self.refresh();
+        });
     }
 
     optionNode = new CanoOptionNode({
@@ -86,9 +98,14 @@ function CanoDeviceDetailsNode(params) {
         textClass: "devmgr_device_editable_name_text",
         inputClass: "devmgr_device_editable_name_input",
         onChange: function(value) {
-            device.setSettings({friendlyName: value});
-            if (params.onDeviceModified)
-                params.onDeviceModified(device);
+            device2.name(value);
+            device2.syncWithRemote().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("Error updating name");
+                }
+                if (params.onDeviceModified)
+                    params.onDeviceModified(device);
+            });
         }
     });
 
