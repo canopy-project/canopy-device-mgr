@@ -54,7 +54,7 @@ function CanoDeviceDetailsNode(params) {
 
             device2 = data.device;
             detailsNode.setDevice(device2);
-            varsNode.setDevice(dev);
+            varsNode.setDevice(dev, device2);
             self.refresh();
         });
     }

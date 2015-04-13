@@ -18,17 +18,38 @@ function CanoCloudVarBoxNode(params) {
         $me,
         valueEditNode
     ;
+    function convertStringToValue(datatype, value) {
+        // TODO: handle other datatypes
+        if (datatype == "float32" 
+                || datatype == "float64") {
+            return parseFloat(value);
+        }
+        else if (datatype == "int8" 
+                || datatype == "int16"
+                || datatype == "int32"
+                || datatype == "uint8"
+                || datatype == "uint16"
+                || datatype == "uint32") {
+            return parseInt(value);
+        }
+        else if (datatype == "bool") {
+            return (value == "true") ? true : false;
+        }
+        return null;
+    }
+
 
     valueEditNode = new CanoEditable({
         onChange: function(value) {
-            params.cloudvar.Value(value);
-            params.cloudvar.Save({
-                onSuccess: function() {
-                    self.refresh();
-                },
-                onError: function() {
-                    self.refresh();
+            var cloudVar = params.cloudvar;
+            var device = params.cloudvar.device();
+
+            cloudVar.value(convertStringToValue(cloudVar.datatype(), value));
+            device.syncWithRemote().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("Error setting cloud variable value");
                 }
+                self.refresh();
             });
         },
         inputClass: "devmgr_cloudvar_box_input",
@@ -55,8 +76,8 @@ function CanoCloudVarBoxNode(params) {
     }
 
     this.timestampString = function() {
-        var secsAgo = params.cloudvar.TimestampSecondsAgo();
-        if (params.cloudvar.TimestampSecondsAgo() == undefined) {
+        var secsAgo = params.cloudvar.lastRemoteUpdateSecondsAgo();
+        if (params.cloudvar.lastRemoteUpdateSecondsAgo() == null) {
             // Variable has never been set
             return "<span style='color:#50b0ff'>New Var</span>"
         }
@@ -76,11 +97,11 @@ function CanoCloudVarBoxNode(params) {
     }
 
     var valueNode;
-    if (params.cloudvar && params.cloudvar.Direction() == "out") {
-        if (params.cloudvar.Value() == undefined) {
+    if (params.cloudvar && params.cloudvar.direction() == "out") {
+        if (params.cloudvar.value() == null) {
             valueNode = $("<span>?</span>");
         } else {
-            var v = Math.round(10*params.cloudvar.Value())/10;
+            var v = Math.round(10*params.cloudvar.value())/10;
             valueNode = $("<span>" + v + "</span>");
         }
     }
@@ -89,8 +110,8 @@ function CanoCloudVarBoxNode(params) {
     }
 
     this.refresh = function() {
-        if (params.cloudvar.Value() != undefined) {
-            valueEditNode.setValue(params.cloudvar.Value(), true);
+        if (params.cloudvar.value() != null) {
+            valueEditNode.setValue(params.cloudvar.value(), true);
         } else {
             valueEditNode.setValue("?", true);
         }
@@ -104,7 +125,7 @@ function CanoCloudVarBoxNode(params) {
                 </div>\
             </div>\
             <div class='devmgr_cloudvar_box_bottom'>\
-                " + params.cloudvar.Name() + "\
+                " + params.cloudvar.name() + "\
             </div>\
         </div>"]));
     }
