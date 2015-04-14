@@ -72,7 +72,13 @@ function CanoDevicesPageNode(params) {
         canopyClient : canopy,
         user: params.user,
         onSelect: function(idx, device) {
-            deviceDetailsNode.setDevice(device);
+            params.user.devices().get(device.UUID()).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    deviceDetailsNode.setDevice(null);
+                    return
+                }
+                deviceDetailsNode.setDevice(data.device);
+            });
         },
         onShow: function() {
             deviceDetailsNode.show();

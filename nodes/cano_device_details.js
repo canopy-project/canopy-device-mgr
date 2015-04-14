@@ -16,10 +16,7 @@
 function CanoDeviceDetailsNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         device = null,
-        device2 = null,
         switcherNode,
         optionNode,
         detailsNode,
@@ -43,20 +40,9 @@ function CanoDeviceDetailsNode(params) {
 
     this.setDevice = function(dev) {
         device = dev;
-        /* TODO: Take in CanopyDevice object */
-
-        params.user.devices().get(device.UUID()
-        ).onDone(function(result, data) {
-            if (result != CANOPY_SUCCESS) {
-                alert("Error fetching device");
-                return;
-            }
-
-            device2 = data.device;
-            detailsNode.setDevice(device2);
-            varsNode.setDevice(device2);
-            self.refresh();
-        });
+        detailsNode.setDevice(device);
+        varsNode.setDevice(device);
+        self.refresh();
     }
 
     optionNode = new CanoOptionNode({
@@ -98,8 +84,8 @@ function CanoDeviceDetailsNode(params) {
         textClass: "devmgr_device_editable_name_text",
         inputClass: "devmgr_device_editable_name_input",
         onChange: function(value) {
-            device2.name(value);
-            device2.syncWithRemote().onDone(function(result, data) {
+            device.name(value);
+            device.syncWithRemote().onDone(function(result, data) {
                 if (result != CANOPY_SUCCESS) {
                     alert("Error updating name");
                 }
@@ -112,7 +98,7 @@ function CanoDeviceDetailsNode(params) {
     this.refresh = function() {
         $me.html("");
         if (device != null) {
-            nameNode.setValue(device2.name(), true);
+            nameNode.setValue(device.name(), true);
             $me.append(CanopyUtil_Compose(["\
                 <div style='background:#f0f0f0; border-top-left-radius:5px; border-top-right-radius:5px; color:#000000; padding:8px;'>\
                     <div class='ml'>", nameNode, "</div>\
@@ -122,31 +108,6 @@ function CanoDeviceDetailsNode(params) {
                 </div>\
                 <div style='padding:8px'>\
                     ", switcherNode, "\
-                    <!--div style='font-size:14px; color:#808080; font-family:monospace'>" + device2.id() + "</div>\
-                    <div>\
-                        <br>Get started: REST\
-                        <pre class='code'>POST //ccs.canopy.link/di/" + device2.id() + "\n\
-    {\n\
-        \"sddl\" : { \"out float32 myvar\" : {} },\n\
-        \"vars\" : { \"myvar\" : 123.45 }\n\
-    }\
-                        </pre>\
-                        <br>Get started: C/C++\
-                        <pre class='code'>#include &lt;canopy.h&gt;\n\
-    \n\
-    int main(void) {\n\
-        CanopyContext ctx = canopy_init_context();\n\
-        canopy_set_opt(ctx, \n\
-            CANOPY_CLOUD_HOST : \"ccs.canopy.link\",\n\
-            CANOPY_DEVICE_UUID : \"" + device2.id() + "\",\n\
-            CANOPY_DEVICE_SECRET_KEY : \"" + device2.id() + "\"\n\
-        );\n\
-        canopy_var_init(ctx, \"out float32 myvar\");\n\
-        canopy_var_set_float32(ctx, \"myvar\", 123.45f);\n\
-        canopy_sync_blocking(ctx, 10000);\n\
-    }\n\
-                        </pre>\
-                    </div-->\
                 </div>\
                 "]));
         } else {

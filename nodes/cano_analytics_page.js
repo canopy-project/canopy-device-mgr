@@ -16,8 +16,6 @@
 function CanoAnalyticsPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         dashboardSidebarNode,
@@ -69,14 +67,12 @@ function CanoAnalyticsPageNode(params) {
     }
 
     mapsSidebarNode = new CanoAnalyticsMapSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher,
         onDeviceClicked: function(device) {
             mapsNode.jumpTo(device.varByName("latitude").value(), device.varByName("longitude").value());
         }
     });
+
     dashboardSidebarNode = new CanoAnalyticsSidebarNode({
-        dispatcher: dispatcher,
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
