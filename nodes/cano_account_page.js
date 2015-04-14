@@ -36,7 +36,7 @@ function CanoAccountPageNode(params) {
         sidebarNode.onLive();
         topbarSubmenuNode.onLive();
         mainNode.onLive();
-        
+
         this.refresh();
     }
 
@@ -67,10 +67,12 @@ function CanoAccountPageNode(params) {
     })
 
     passwordNode = new CanoAccountPasswordSectionNode({
-        canopyClient: canopy});
+        user: params.user
+    });
 
     profileNode = new CanoAccountProfileSectionNode({
-        canopyClient: canopy});
+        user: params.user
+    });
 
     upgradeNode = new CanoAccountUpgradeSectionNode();
 

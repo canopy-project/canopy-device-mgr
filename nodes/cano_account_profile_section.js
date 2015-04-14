@@ -16,8 +16,6 @@
 function CanoAccountProfileSectionNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         mainNode,
@@ -38,26 +36,25 @@ function CanoAccountProfileSectionNode(params) {
         $saveBtn.off('click').on('click', function() {
             $errorMsg.slideUp();
             $successMsg.slideUp();
-            canopy.me.UpdateProfile({
-                email: $emailInput.val(),
-                onSuccess: function() {
-                    $successMsg.slideDown();
-                },
-                onError: function() {
+            params.user.email($emailInput.val());
+            params.user.updateToRemote().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
                     $errorMsg.html("Error updating profile");
                     $errorMsg.slideDown();
+                    return;
                 }
+                $successMsg.slideDown();
             });
         });
     }
 
-    $emailInput = $("<input style='width:250px' type=text value='" + canopy.me.Email().value + "'></input>");
+    $emailInput = $("<input style='width:250px' type=text value='" + params.user.email()+ "'></input>");
     $errorMsg = $("<div style='display:none; font-style:italic; color: #ff0000;'></div>");
     $successMsg = $("<div style='display:none; font-style:italic; color: #008000;'>Saved!</div>");
     $saveBtn = $("<input type=submit value='SAVE'></input>");
     $createOrgBtn = $("<input type=submit value='CREATE NEW ORGANIZATION'></input>");
 
-    if (canopy.me.IsActivated()) {
+    if (params.user.isValidated()) {
         $emailConfirmed = $("<span style='font-weight:400; color:#008000'>Yes</span>");
     }
     else {
@@ -66,7 +63,7 @@ function CanoAccountProfileSectionNode(params) {
 
     $me = CanopyUtil_Compose(["<div>\
         <div style='font-size: 30px; font-weight:400'>\
-            Profile for " + canopy.me.Username().value + "\
+            Profile for " + params.user.username() + "\
         </div>\
         <br>Account Activated: ", $emailConfirmed, "\
         ", $errorMsg, "\

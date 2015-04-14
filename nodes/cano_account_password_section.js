@@ -16,8 +16,6 @@
 function CanoAccountPasswordSectionNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         mainNode,
@@ -38,18 +36,18 @@ function CanoAccountPasswordSectionNode(params) {
     this.onLive = function() {
         $saveBtn.off('click').on('click', function() {
             $passwordError.slideUp();
-            canopy.me.UpdateProfile({
+            params.user.changePassword({
                 oldPassword: $oldPasswordInput.val(),
                 newPassword: $newPasswordInput.val(),
-                confirmPassword: $confirmPasswordInput.val(),
-                onSuccess: function() {
-                    $saveBtn.hide();
-                    $successMsg.show();
-                },
-                onError: function() {
+                confirmPassword: $confirmPasswordInput.val()}
+            ).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
                     $passwordError.html("Error changing password");
                     $passwordError.slideDown();
+                    return;
                 }
+                $saveBtn.hide();
+                $successMsg.show();
             });
         });
     }
