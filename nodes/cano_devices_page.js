@@ -16,7 +16,6 @@
 function CanoDevicesPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
         topbarSubmenuNode,
         sidebarNode,
         deviceListNode,
@@ -42,13 +41,18 @@ function CanoDevicesPageNode(params) {
     }
 
     this.refresh = function() {
-        if (canopy.me.Devices().length == 0) {
-            mainNode.select("no_devices");
-        }
-        else {
-            mainNode.select("device_list");
-        }
-        deviceListNode.refresh();
+        params.user.devices().getMany(0, 10).onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                alert("problem");
+            }
+            if (data.devices.length == 0) {
+                mainNode.select("no_devices");
+            }
+            else {
+                mainNode.select("device_list");
+            }
+            deviceListNode.refresh();
+        });
     }
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
         user: params.user,
@@ -59,7 +63,7 @@ function CanoDevicesPageNode(params) {
     });
 
     sidebarNode = new CanoDevicesSidebarNode({
-        canopyClient : canopy,
+        user: params.user,
         onCreateDeviceLink : function() {
             mainNode.select("create_device");
         },
@@ -102,12 +106,17 @@ function CanoDevicesPageNode(params) {
         onShow: function() {
             deviceDetailsNode.hide();
             sidebarNode.hide();
-            if (canopy.me.Devices().length == 0) {
-                topbarSubmenuNode.setBreadcrumb(["Welcome", "Create Devices"]);
-            }
-            else {
-                topbarSubmenuNode.setBreadcrumb(["Devices", "Create Devices"]);
-            }
+            params.user.devices().count().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("problem");
+                }
+                if (data.count == 0) {
+                    topbarSubmenuNode.setBreadcrumb(["Welcome", "Create Devices"]);
+                }
+                else {
+                    topbarSubmenuNode.setBreadcrumb(["Devices", "Create Devices"]);
+                }
+            });
         }
     });
 
