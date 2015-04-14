@@ -17,7 +17,6 @@ function CanoDashboardNode(params) {
     var self=this,
         $me,
         canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         chartNode,
         chartNode2,
         cloudVarHistograms = [],
@@ -39,33 +38,54 @@ function CanoDashboardNode(params) {
     this.refresh = function() {
     }
 
-    this.drawCharts = function() {
-        cloudVarHistograms.length = 0;
-
-        var cloudvars = canopy.me.Devices().CloudVarNames();
-
-        var i;
-        $cloudVarHistograms.html("");
-        if (cloudvars.length == 0) {
-            $cloudVarHistograms.html("No cloud variables have been created yet.");
-        }
-        else {
-            for (i = 0; i < cloudvars.length; i++) {
-                // TODO: Giant hack for demo
-                if (cloudvars[i] == "air_pressure" || cloudvars[i] == "latitude" || cloudvars[i] == "longitude")
-                    continue;
-                var histogramNode = new CanoAnalyticsHistogramWidgetNode({
-                    canopyClient: canopy,
-                    varName: cloudvars[i]
-                });
-                cloudVarHistograms.push(histogramNode);
-                histogramNode.appendTo($cloudVarHistograms);
-                histogramNode.drawCharts();
+    function cloudVarNames(deviceList) {
+        var names = {};
+        var out = []
+        for (var i = 0; i < deviceList.length; i++) {
+            var cloudVars = deviceList[i].vars();
+            for (var j = 0; j < cloudVars.length; j++) {
+                if (names[cloudVars[j].name()] == undefined) {
+                    names[cloudVars[j].name()] = true;
+                    out.push(cloudVars[j].name());
+                }
             }
         }
+        return out;
+    }
 
-        chartNode.drawCharts();
-        chartNode2.drawCharts();
+    this.drawCharts = function() {
+        params.user.devices().getMany(0, 10).onDone(function(result, data) {
+            // TODO: Get data for all devices.
+            var deviceList = data.devices;
+
+            cloudVarHistograms.length = 0;
+
+            var cloudvars = cloudVarNames(deviceList);
+
+            var i;
+            $cloudVarHistograms.html("");
+            if (cloudvars.length == 0) {
+                $cloudVarHistograms.html("No cloud variables have been created yet.");
+            }
+            else {
+                for (i = 0; i < cloudvars.length; i++) {
+                    // TODO: Giant hack for demo
+                    if (cloudvars[i] == "air_pressure" || cloudvars[i] == "latitude" || cloudvars[i] == "longitude")
+                        continue;
+                    var histogramNode = new CanoAnalyticsHistogramWidgetNode({
+                        canopyClient: canopy,
+                        varName: cloudvars[i]
+                    });
+                    histogramNode.setDevices(deviceList);
+                    cloudVarHistograms.push(histogramNode);
+                    histogramNode.appendTo($cloudVarHistograms);
+                    histogramNode.drawCharts();
+                }
+            }
+
+            chartNode.drawCharts();
+            chartNode2.drawCharts();
+        });
     }
 
     chartNode = new CanoAnalyticsWidgetNode({

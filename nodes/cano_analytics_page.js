@@ -92,7 +92,8 @@ function CanoAnalyticsPageNode(params) {
     noDevicesNode = new CanoAnalyticsNoDevicesNode({});
 
     dashboardNode = new CanoDashboardNode({
-        canopyClient: canopy
+        canopyClient: canopy,
+        user: params.user
     });
 
     mapsNode = new CanoAnalyticsMapNode({

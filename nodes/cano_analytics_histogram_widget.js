@@ -19,7 +19,8 @@ function CanoAnalyticsHistogramWidgetNode(params) {
         canopy = params.canopyClient,
         dispatcher = params.dispatcher,
         $chart,
-        $legend
+        $legend,
+        devicesList = []
     ;
 
     $.extend(this, new CanoNode());
@@ -35,20 +36,27 @@ function CanoAnalyticsHistogramWidgetNode(params) {
     this.refresh = function() {
     }
 
+    this.setDevices = function(_devicesList) {
+        devicesList = _devicesList;
+    }
+
     var getData = function(varName) {
-        console.log("Plotting");
-        var devices = canopy.me.Devices();
-        var i;
+        console.log("Plotting " + varName);
         var data = [[varName]];
-        for (i = 0; i < devices.length; i++) {
-            var device = devices[i];
-            if (!device.Vars())
-                continue;
-            if (device.Vars().Var(varName) != undefined) {
-                data.push([device.Vars().Var(varName).Value()]);
+        var sampleCnt = 0;
+        for (var i = 0; i < devicesList.length; i++) {
+            var device = devicesList[i];
+            if (device.varByName(varName) != null) {
+                var value = device.varByName(varName).value();
+                if (value === undefined) {
+                    continue;
+                }
+                data.push([value]);
+                sampleCnt++;
             }
         }
         return {
+            sampleCnt: sampleCnt,
             data: google.visualization.arrayToDataTable(data),
         }
     }
@@ -80,10 +88,14 @@ function CanoAnalyticsHistogramWidgetNode(params) {
                 hideBucketItems: true
             }
         };
-        var chart = new google.visualization.Histogram($chart[0]);
-        chart.draw(v.data, options);
+        if (v.sampleCnt > 3) {
+            var chart = new google.visualization.Histogram($chart[0]);
+            chart.draw(v.data, options);
 
-        $legend.html(v.legend);
+            $legend.html(v.legend);
+        } else {
+            $me.hide();
+        }
     }
 
     $chart = $("<div style='display:inline-block; height:200px; width:440px;'></div>");
