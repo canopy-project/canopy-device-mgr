@@ -16,11 +16,9 @@
 function CanoAccountSidebarNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
-        topbarNode,
-        sidebarNode,
-        mainNode
+        $numDevices = $("<b>?</b>"),
+        $numDevicesQuota = $("<b>?</b>"),
+        $devicesBar = $("<div style='height:10px; width: 0px; background:#3060b0;'>")
     ;
 
     $.extend(this, new CanoNode());
@@ -30,32 +28,23 @@ function CanoAccountSidebarNode(params) {
     }
 
     this.onLive = function() {
-        topbarNode.onLive();
-        sidebarNode.onLive();
-        mainNode.onLive();
+        params.user.devices().count().onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                return;
+            }
+            var numDevices = data.count;
+            var numDevicesQuota = 10.0;
+            var numDevicesPct = numDevices/numDevicesQuota;
+            if (numDevicesPct > 1.0)
+                numDevicesPct = 1.0;
+            var numDevicesPixels = Math.round(numDevicesPct*200);
+
+            $numDevices.html(numDevices);
+            $numDevicesQuota.html(numDevicesQuota);
+            $devicesBar.css("width", (numDevicesPixels + "px"));
+        });
     }
 
-    topbarNode = new CanoTopbarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    sidebarNode = new CanoDevicesSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    mainNode = new CanoDevicesNoDevicesMsgNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    var numDevices = canopy.me.Devices().length;
-    var numDevicesQuota = 10;
-    var numDevicesPct = numDevices/numDevicesQuota;
-    if (numDevicesPct > 1.0)
-        numDevicesPct = 1.0;
-    var numDevicesPixels = Math.round(numDevicesPct*200);
 
     $me = CanopyUtil_Compose(["\
 <div style='z-index: 400; position:fixed; width: 250px; top: 89px; border-right:1px solid #d0d0d0; bottom:0px; background:#f8f8f8; color:#000000'>\
@@ -68,13 +57,12 @@ function CanoAccountSidebarNode(params) {
                     <table>\
                         <tr>\
                             <td>Devices:</td>\
-                            <td><b>" + numDevices + "</b> of <b>" + numDevicesQuota + "</b></td>\
+                            <td><b>", $numDevices, "</b> of <b>", $numDevicesQuota, "</b></td>\
                         </tr>\
                         <tr>\
                             <td colspan=2>\
                                 <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
-                                    <div style='height:10px; width:" + numDevicesPixels + "px; background:#3060b0;'>\
-                                    </div>\
+                                    ", $devicesBar, "\
                                 </div>\
                             </td>\
                         </tr>\

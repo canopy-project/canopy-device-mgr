@@ -45,8 +45,7 @@ function CanoAccountPageNode(params) {
     }
 
     sidebarNode = new CanoAccountSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
