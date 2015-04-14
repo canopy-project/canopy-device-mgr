@@ -21,7 +21,6 @@ function CanoAnalyticsPageNode(params) {
         topbarSubmenuNode,
         sidebarNode,
         dashboardSidebarNode,
-        mapsNode,
         dashboardNode,
         mapsNode,
         mainNode,
@@ -97,7 +96,8 @@ function CanoAnalyticsPageNode(params) {
     });
 
     mapsNode = new CanoAnalyticsMapNode({
-        canopyClient: canopy
+        canopyClient: canopy,
+        user: params.user
     });
 
     sidebarNode = new CanoSwitcherNode({

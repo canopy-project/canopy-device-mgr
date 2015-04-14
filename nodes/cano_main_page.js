@@ -78,6 +78,7 @@ function CanoMainPageNode(params) {
 
     analyticsNode = new CanoAnalyticsPageNode({
         canopyClient: canopy,
+        user: params.user
     });
 
     switcherNode = new CanoSwitcherNode({

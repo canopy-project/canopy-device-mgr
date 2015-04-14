@@ -54,7 +54,7 @@ function CanoDeviceDetailsNode(params) {
 
             device2 = data.device;
             detailsNode.setDevice(device2);
-            varsNode.setDevice(dev, device2);
+            varsNode.setDevice(device2);
             self.refresh();
         });
     }
@@ -112,7 +112,7 @@ function CanoDeviceDetailsNode(params) {
     this.refresh = function() {
         $me.html("");
         if (device != null) {
-            nameNode.setValue(device.FriendlyName(), true);
+            nameNode.setValue(device2.name(), true);
             $me.append(CanopyUtil_Compose(["\
                 <div style='background:#f0f0f0; border-top-left-radius:5px; border-top-right-radius:5px; color:#000000; padding:8px;'>\
                     <div class='ml'>", nameNode, "</div>\
@@ -122,10 +122,10 @@ function CanoDeviceDetailsNode(params) {
                 </div>\
                 <div style='padding:8px'>\
                     ", switcherNode, "\
-                    <!--div style='font-size:14px; color:#808080; font-family:monospace'>" + device.UUID() + "</div>\
+                    <!--div style='font-size:14px; color:#808080; font-family:monospace'>" + device2.id() + "</div>\
                     <div>\
                         <br>Get started: REST\
-                        <pre class='code'>POST //ccs.canopy.link/di/" + device.UUID() + "\n\
+                        <pre class='code'>POST //ccs.canopy.link/di/" + device2.id() + "\n\
     {\n\
         \"sddl\" : { \"out float32 myvar\" : {} },\n\
         \"vars\" : { \"myvar\" : 123.45 }\n\
@@ -138,8 +138,8 @@ function CanoDeviceDetailsNode(params) {
         CanopyContext ctx = canopy_init_context();\n\
         canopy_set_opt(ctx, \n\
             CANOPY_CLOUD_HOST : \"ccs.canopy.link\",\n\
-            CANOPY_DEVICE_UUID : \"" + device.UUID() + "\",\n\
-            CANOPY_DEVICE_SECRET_KEY : \"" + device.UUID() + "\"\n\
+            CANOPY_DEVICE_UUID : \"" + device2.id() + "\",\n\
+            CANOPY_DEVICE_SECRET_KEY : \"" + device2.id() + "\"\n\
         );\n\
         canopy_var_init(ctx, \"out float32 myvar\");\n\
         canopy_var_set_float32(ctx, \"myvar\", 123.45f);\n\

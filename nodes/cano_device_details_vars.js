@@ -17,7 +17,6 @@ function CanoDeviceDetailsVarsNode(params) {
     var self=this,
         $me,
         device = null,
-        device2 = null,
         varNodes = [],
         plotNode
     ;
@@ -35,17 +34,18 @@ function CanoDeviceDetailsVarsNode(params) {
         }
     }
 
-    this.setDevice = function(dev, dev2) {
+    this.setDevice = function(dev) {
         device = dev;
-        device2 = dev2;
         this.refresh();
     }
 
     this.refresh = function() {
-        if (device == null || device2 == null)
+        if (device == null) {
             return;
+        }
 
-        if (device2.vars().length == 0) {
+        console.log(device);
+        if (device.vars().length == 0) {
             // no cloud variables
             $me.html("<div style='font-size:17px'>This device does not have any Cloud Variables.\
             <p>\
@@ -56,7 +56,7 @@ function CanoDeviceDetailsVarsNode(params) {
             return;
         } else {
             $me.html("");
-            var cloudVars = device2.vars();
+            var cloudVars = device.vars();
             varNodes.length = 0;
             plotNode.appendTo($me);
             for (var i = 0; i < cloudVars.length; i++) {

@@ -62,45 +62,58 @@ function CanoAnalyticsMapNode(params) {
         // Add markers:
         var i;
         for (i = 0; i < mapDevices.length; i++) {
-            var lat = mapDevices[i].Vars().Var("latitude").Value();
-            var lng = mapDevices[i].Vars().Var("longitude").Value();
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat, lng),
-                map: map,
-                title: mapDevices[i].FriendlyName()
-            });
+            params.user.devices().get(mapDevices[i].UUID()
+            ).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("Error fetching device");
+                    return;
+                }
+                var dev2 = data.device;
+                var latVar = dev2.varByName("latitude");
+                var lngVar = dev2.varByName("longitude");
+                var lat = latVar.value();
+                var lng = lngVar.value();
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    map: map,
+                    title: dev2.name()
+                });
 
-            // Add path
-            mapDevices[i].Vars().Var("latitude").FetchHistoricData({
-                onSuccess: function(device) {
-                    return function(latData) {
-                        if (latData.samples.length < 3)
+                // Add path
+                _tmp = function(_latVar, _lngVar) {
+                    _latVar.historicData().onDone(function(result, latData) {
+                        if (result != CANOPY_SUCCESS) {
                             return;
+                        }
+                        if (latData.samples.length < 2) {
+                            return;
+                        }
 
-                        device.Vars().Var("longitude").FetchHistoricData( {
-                            onSuccess: function(lngData) {
-                                var i;
-                                path = [];
-                                console.log(latData);
-                                console.log(lngData);
-                                for (i = 0; i < lngData.samples.length; i++) {
-                                    if (latData.samples[i])
-                                        path.push(new google.maps.LatLng(latData.samples[i].v, lngData.samples[i].v));
-                                }
-                                myPath = new google.maps.Polyline({
-                                    path: path,
-                                    geodesic: true,
-                                    strokeColor: "#3060b0",
-                                    strokeOpacity: 0.8,
-                                    strokeWeight: 2,
-                                });
-                                myPath.setMap(map);
-                                
+                        _lngVar.historicData().onDone(function(result, lngData) {
+                            if (result != CANOPY_SUCCESS) {
+                                return
                             }
+                            var i;
+                            path = [];
+                            console.log(latData);
+                            console.log(lngData);
+                            for (i = 0; i < lngData.samples.length; i++) {
+                                if (latData.samples[i])
+                                    path.push(new google.maps.LatLng(latData.samples[i].v, lngData.samples[i].v));
+                            }
+                            path.push(new google.maps.LatLng(_latVar.value(), lngVar.value()));
+                            myPath = new google.maps.Polyline({
+                                path: path,
+                                geodesic: true,
+                                strokeColor: "#3060b0",
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                            });
+                            myPath.setMap(map);
                         });
-                    }
-                }(mapDevices[i]),
-            })
+                    });
+                }(latVar, lngVar);
+            });
         }
     }
     $me = $("<div id=map-canvas style='position: absolute; bottom: 0px; top: 85px; border: 1px solid #c0c0c0; right: 0px; left: 260px;'></div>");
