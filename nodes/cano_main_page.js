@@ -69,12 +69,10 @@ function CanoMainPageNode(params) {
     });
 
     appsNode = new CanoAppsPageNode({
-        canopyClient: canopy,
         user: params.user
     });
 
     accountNode = new CanoAccountPageNode({
-        canopyClient: canopy,
         user: params.user
     });
 

@@ -16,8 +16,6 @@
 function CanoAccountPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         passwordNode,
