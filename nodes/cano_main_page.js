@@ -17,7 +17,6 @@
 function CanoMainPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
         topbarNode,
         devicesNode,
         appsNode,
@@ -64,7 +63,6 @@ function CanoMainPageNode(params) {
     });
 
     devicesNode = new CanoDevicesPageNode({
-        canopyClient: canopy,
         user: params.user
     });
 

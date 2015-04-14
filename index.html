@@ -8,7 +8,6 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRMz0xxBvCrYp4K_iYu1ncN8lHM6ITnYY"></script>
     <script src="canoweb.conf.js"></script>
     <script>
-        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptNewClientURL + '" type="text/javascript"><\/script>');
     </script>
     <script src="canopy_app_util.js"></script>
@@ -70,14 +69,9 @@ Canopy.initUserClient({
         return;
     }
 
-    var canopy = new CanopyClient(gCanopyWebAppConfiguration);
-
-    canopy.OnReady(function() {
-        (new CanoMainPageNode({
-            canopyClient: canopy, 
-            user: data.user, 
-        })).render($("#main"));
-    });
+    (new CanoMainPageNode({
+        user: data.user, 
+    })).render($("#main"));
 });
 
 </script>
