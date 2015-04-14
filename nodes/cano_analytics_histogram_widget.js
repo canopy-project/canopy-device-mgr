@@ -16,8 +16,6 @@
 function CanoAnalyticsHistogramWidgetNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         $chart,
         $legend,
         devicesList = []

@@ -83,7 +83,9 @@ function CanoDashboardNode(params) {
                 }
             }
 
+            chartNode.setDevices(deviceList);
             chartNode.drawCharts();
+            chartNode2.setDevices(deviceList);
             chartNode2.drawCharts();
         });
     }
