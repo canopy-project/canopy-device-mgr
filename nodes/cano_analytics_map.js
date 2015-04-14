@@ -62,7 +62,7 @@ function CanoAnalyticsMapNode(params) {
         // Add markers:
         var i;
         for (i = 0; i < mapDevices.length; i++) {
-            params.user.devices().get(mapDevices[i].UUID()
+            params.user.devices().get(mapDevices[i].id()
             ).onDone(function(result, data) {
                 if (result != CANOPY_SUCCESS) {
                     alert("Error fetching device");

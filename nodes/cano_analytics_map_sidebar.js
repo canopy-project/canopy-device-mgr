@@ -16,10 +16,9 @@
 function CanoAnalyticsMapSidebarNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         $list,
-        mapDevices = []
+        mapDevices = [],
+        devicesList = []
     ;
 
     $.extend(this, new CanoNode());
@@ -32,15 +31,18 @@ function CanoAnalyticsMapSidebarNode(params) {
         this.refresh();
     }
 
+    this.setDevices = function(_devicesList) {
+        devicesList = _devicesList;
+    }
+
     this.refresh = function() {
-        var devices = canopy.me.Devices();
+        var devices = devicesList;
         mapDevices.length = 0;
         $list.html("");
         var i;
         for (i = 0; i < devices.length; i++) {
             var device = devices[i];
-            var vars = device.Vars();
-            if (vars && vars.Var("latitude") && vars.Var("longitude")) {
+            if (device.varByName("latitude") && device.varByName("longitude")) {
                 mapDevices.push(device);
             }
         }
@@ -57,7 +59,7 @@ function CanoAnalyticsMapSidebarNode(params) {
         }
 
         for (i = 0; i < mapDevices.length; i++) {
-            $btn = $("<div class=devmgr_maps_device_item><img src='https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=0.5' align=top></img> " + mapDevices[i].FriendlyName() + "</div>");
+            $btn = $("<div class=devmgr_maps_device_item><img src='https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png&scale=0.5' align=top></img> " + mapDevices[i].name() + "</div>");
             $btn.off("click").on("click", function(dev) {
                     return function() {
                         if (params.onDeviceClicked)
