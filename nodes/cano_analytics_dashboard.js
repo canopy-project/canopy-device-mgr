@@ -16,7 +16,6 @@
 function CanoDashboardNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
         chartNode,
         chartNode2,
         cloudVarHistograms = [],
@@ -73,7 +72,6 @@ function CanoDashboardNode(params) {
                     if (cloudvars[i] == "air_pressure" || cloudvars[i] == "latitude" || cloudvars[i] == "longitude")
                         continue;
                     var histogramNode = new CanoAnalyticsHistogramWidgetNode({
-                        canopyClient: canopy,
                         varName: cloudvars[i]
                     });
                     histogramNode.setDevices(deviceList);
@@ -91,12 +89,10 @@ function CanoDashboardNode(params) {
     }
 
     chartNode = new CanoAnalyticsWidgetNode({
-        canopyClient: canopy,
         type: "Websocket Connection",
     });
 
     chartNode2 = new CanoAnalyticsWidgetNode({
-        canopyClient: canopy,
         type: "Activity",
     });
 

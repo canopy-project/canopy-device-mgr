@@ -23,9 +23,8 @@
  */
 function CanoSwitcherNode(params) {
     var self=this,
-        $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher;
+        $me
+    ;
 
     $.extend(this, new CanoNode());
 

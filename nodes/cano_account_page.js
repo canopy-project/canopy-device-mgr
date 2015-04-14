@@ -72,8 +72,7 @@ function CanoAccountPageNode(params) {
     profileNode = new CanoAccountProfileSectionNode({
         canopyClient: canopy});
 
-    upgradeNode = new CanoAccountUpgradeSectionNode({
-        canopyClient: canopy});
+    upgradeNode = new CanoAccountUpgradeSectionNode();
 
     mainNode = new CanoSwitcherNode({
         children: [ {

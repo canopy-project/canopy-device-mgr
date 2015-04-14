@@ -67,7 +67,6 @@ function CanoAnalyticsPageNode(params) {
         }
     });
     dashboardSidebarNode = new CanoAnalyticsSidebarNode({
-        canopyClient : canopy,
         dispatcher: dispatcher,
     });
 
@@ -92,12 +91,10 @@ function CanoAnalyticsPageNode(params) {
     noDevicesNode = new CanoAnalyticsNoDevicesNode({});
 
     dashboardNode = new CanoDashboardNode({
-        canopyClient: canopy,
         user: params.user
     });
 
     mapsNode = new CanoAnalyticsMapNode({
-        canopyClient: canopy,
         user: params.user
     });
 
