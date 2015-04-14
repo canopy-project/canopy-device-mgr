@@ -51,7 +51,7 @@ function CanoDevicesPageNode(params) {
         deviceListNode.refresh();
     }
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        canopyClient: canopy,
+        user: params.user,
         items: [ {
             content: "Device List",
             value: "devices"

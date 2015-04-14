@@ -16,8 +16,6 @@
 function CanoTopbarSubmenuNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         accountDropdownNode,
         $username,
         optionNode,
@@ -67,7 +65,7 @@ function CanoTopbarSubmenuNode(params) {
         selectedIdx: 0
     });
 
-    var username = canopy ? canopy.me.Username().value : "-";
+    var username = (params.user !== undefined) ? params.user.username() : "-";
 
     $leftSection = $("\
         <div style='z-index:1000; position:fixed; border-bottom:1px solid #d0d0d0; top:44px; left:0px; width:250px; height: 44px; background:#f0f0f0; border-bottom-left-radius:0px; border-left:0px solid #d0d0d0; color:#ffffff'>\

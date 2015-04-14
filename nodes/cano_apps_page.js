@@ -43,6 +43,7 @@ function CanoAppsPageNode(params) {
     sidebarNode = new CanoAppsSidebarNode({ });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
+        user: params.user,
         items: [ {
             content: "Credentials",
             value: "apps"
