@@ -16,8 +16,6 @@
 function CanoDevicesNoDevicesMsgNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         $createDevicesBtn
     ;
 

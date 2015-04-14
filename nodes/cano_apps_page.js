@@ -16,8 +16,6 @@
 function CanoAppsPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         appsListNode,
@@ -42,13 +40,9 @@ function CanoAppsPageNode(params) {
         mainNode.select("apps");
     }
 
-    sidebarNode = new CanoAppsSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
+    sidebarNode = new CanoAppsSidebarNode({ });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        canopyClient: canopy,
         items: [ {
             content: "Credentials",
             value: "apps"
@@ -58,9 +52,7 @@ function CanoAppsPageNode(params) {
         }
     })
 
-    appsListNode = new CanoAppsListNode({
-        canopyClient: canopy
-    });
+    appsListNode = new CanoAppsListNode({ });
 
 
     mainNode = new CanoSwitcherNode({
