@@ -58,23 +58,6 @@ function CanoLoginFormNode(params) {
                     $("#login_error").slideDown();
                 }
             });
-
-            /*canopy.Login({
-                username: username,
-                password: password,
-                onSuccess: function() {
-                    window.location.replace(params.redirect);
-                },
-                onError: function(reason) {
-                    if (reason == "incorrect_username_or_password") {
-                        $("#login_error").html("Incorrect username or password.");
-                    }
-                    else {
-                        $("#login_error").html("Oops... Error signing in.");
-                    }
-                    $("#login_error").slideDown();
-                }
-            });*/
         });
     }
 
