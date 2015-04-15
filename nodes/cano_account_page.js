@@ -16,8 +16,6 @@
 function CanoAccountPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         passwordNode,
@@ -36,7 +34,7 @@ function CanoAccountPageNode(params) {
         sidebarNode.onLive();
         topbarSubmenuNode.onLive();
         mainNode.onLive();
-        
+
         this.refresh();
     }
 
@@ -45,12 +43,11 @@ function CanoAccountPageNode(params) {
     }
 
     sidebarNode = new CanoAccountSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        canopyClient : canopy,
+        user: params.user,
         items: [ {
             content: "Profile",
             value: "profile"
@@ -67,13 +64,14 @@ function CanoAccountPageNode(params) {
     })
 
     passwordNode = new CanoAccountPasswordSectionNode({
-        canopyClient: canopy});
+        user: params.user
+    });
 
     profileNode = new CanoAccountProfileSectionNode({
-        canopyClient: canopy});
+        user: params.user
+    });
 
-    upgradeNode = new CanoAccountUpgradeSectionNode({
-        canopyClient: canopy});
+    upgradeNode = new CanoAccountUpgradeSectionNode();
 
     mainNode = new CanoSwitcherNode({
         children: [ {

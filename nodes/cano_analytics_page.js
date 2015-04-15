@@ -16,14 +16,12 @@
 function CanoAnalyticsPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         dashboardSidebarNode,
-        mapsNode,
         dashboardNode,
         mapsNode,
+        mapsSidebarNode,
         mainNode,
         noDevicesNode
     ;
@@ -46,14 +44,22 @@ function CanoAnalyticsPageNode(params) {
         if (!page) {
             page = "dashboard";
         }
-        if (canopy.me.Devices().length > 0) {
-            mainNode.select(page);
-            sidebarNode.select(page);
-        }
-        else {
-            mainNode.select("no_devices");
-            sidebarNode.select("no_devices");
-        }
+        params.user.devices().getMany(0, 10).onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                alert("Problemo");
+                return;
+            }
+            if (data.devices.length > 0) {
+                mainNode.select(page);
+                sidebarNode.select(page);
+                mapsSidebarNode.setDevices(data.devices);
+                mapsSidebarNode.refresh();
+            }
+            else {
+                mainNode.select("no_devices");
+                sidebarNode.select("no_devices");
+            }
+        });
     }
 
     this.drawCharts = function() {
@@ -61,19 +67,16 @@ function CanoAnalyticsPageNode(params) {
     }
 
     mapsSidebarNode = new CanoAnalyticsMapSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher,
         onDeviceClicked: function(device) {
-            mapsNode.jumpTo(device.Vars().Var("latitude").Value(), device.Vars().Var("longitude").Value());
+            mapsNode.jumpTo(device.varByName("latitude").value(), device.varByName("longitude").value());
         }
     });
+
     dashboardSidebarNode = new CanoAnalyticsSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher,
     });
 
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        canopyClient: canopy,
+        user: params.user,
         items: [ {
             content: "Dashboard",
             value: "dashboard"
@@ -93,11 +96,11 @@ function CanoAnalyticsPageNode(params) {
     noDevicesNode = new CanoAnalyticsNoDevicesNode({});
 
     dashboardNode = new CanoDashboardNode({
-        canopyClient: canopy
+        user: params.user
     });
 
     mapsNode = new CanoAnalyticsMapNode({
-        canopyClient: canopy
+        user: params.user
     });
 
     sidebarNode = new CanoSwitcherNode({

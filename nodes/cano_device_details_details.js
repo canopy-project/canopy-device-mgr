@@ -32,15 +32,18 @@ function CanoDeviceDetailsDetailsNode(params) {
 
     this.setDevice = function(dev) {
         device = dev;
-        this.refresh();
+        self.refresh();
     }
 
     locationNode = new CanoEditable({
         textClass: "devmgr_device_editable_location_text",
         inputClass: "devmgr_device_editable_location_input",
         onChange: function(value) {
-            device.setSettings({
-                "locationNote": value
+            device.locationNote(value);
+            device.syncWithRemote().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("Problem updating location note");
+                }
             });
         }
     });
@@ -49,8 +52,8 @@ function CanoDeviceDetailsDetailsNode(params) {
         if (device == null)
             return;
 
-        locationNode.setValue(device.LocationNote());
-        var lastActivity = device.LastActivitySecondsAgo();
+        locationNode.setValue(device.locationNote());
+        var lastActivity = device.lastActivitySecondsAgo();
 
         $me.html(CanopyUtil_Compose(["\
             <table cellspacing=0 cellpadding=8 class=devmgr_prop_table style='font-size:16px'>\
@@ -67,7 +70,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                         Websocket:\
                     </td>\
                     <td>\
-                        " + CanopyUtil_ConnectionStatusText(lastActivity, device.ConnectionStatus()) + "\
+                        " + CanopyUtil_ConnectionStatusText(lastActivity, device.websocketConnected() ? "connected" : "disconnected") + "\
                     </td>\
                 </tr>\
                 <tr>\
@@ -76,7 +79,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + device.UUID() + "\
+                            " + device.id() + "\
                         </div>\
                     </td>\
                 </tr>\
@@ -86,7 +89,7 @@ function CanoDeviceDetailsDetailsNode(params) {
                     </td>\
                     <td>\
                         <div style='font-size:14px; font-family:monospace'>\
-                            " + device.SecretKey() + "\
+                            " + device.secretKey() + "\
                         </div>\
                     </td>\
                 </tr>\

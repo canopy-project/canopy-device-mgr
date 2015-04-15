@@ -16,8 +16,6 @@
 function CanoDevicesPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarSubmenuNode,
         sidebarNode,
         deviceListNode,
@@ -43,25 +41,29 @@ function CanoDevicesPageNode(params) {
     }
 
     this.refresh = function() {
-        if (canopy.me.Devices().length == 0) {
-            mainNode.select("no_devices");
-        }
-        else {
-            mainNode.select("device_list");
-        }
-        deviceListNode.refresh();
+        params.user.devices().getMany(0, 10).onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                alert("problem");
+            }
+            if (data.devices.length == 0) {
+                mainNode.select("no_devices");
+            }
+            else {
+                mainNode.select("device_list");
+            }
+            deviceListNode.refresh();
+        });
     }
     topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        canopyClient: canopy,
+        user: params.user,
         items: [ {
             content: "Device List",
             value: "devices"
         }],
-    })
+    });
 
     sidebarNode = new CanoDevicesSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher,
+        user: params.user,
         onCreateDeviceLink : function() {
             mainNode.select("create_device");
         },
@@ -71,7 +73,7 @@ function CanoDevicesPageNode(params) {
     });
 
     deviceListNode = new CanoDeviceListNode({
-        canopyClient : canopy,
+        user: params.user,
         onSelect: function(idx, device) {
             deviceDetailsNode.setDevice(device);
         },
@@ -83,7 +85,6 @@ function CanoDevicesPageNode(params) {
     });
         
     noDevicesNode = new CanoDevicesNoDevicesMsgNode({
-        canopyClient : canopy,
         onCreateDeviceLink : function() {
             mainNode.select("create_device");
         },
@@ -95,7 +96,7 @@ function CanoDevicesPageNode(params) {
     });
 
     createDeviceNode = new CanoDevicesCreateNode({
-        canopyClient : canopy,
+        user : params.user,
         onCreated: function() {
             self.refresh()
         },
@@ -105,16 +106,22 @@ function CanoDevicesPageNode(params) {
         onShow: function() {
             deviceDetailsNode.hide();
             sidebarNode.hide();
-            if (canopy.me.Devices().length == 0) {
-                topbarSubmenuNode.setBreadcrumb(["Welcome", "Create Devices"]);
-            }
-            else {
-                topbarSubmenuNode.setBreadcrumb(["Devices", "Create Devices"]);
-            }
+            params.user.devices().count().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("problem");
+                }
+                if (data.count == 0) {
+                    topbarSubmenuNode.setBreadcrumb(["Welcome", "Create Devices"]);
+                }
+                else {
+                    topbarSubmenuNode.setBreadcrumb(["Devices", "Create Devices"]);
+                }
+            });
         }
     });
 
     deviceDetailsNode = new CanoDeviceDetailsNode({
+        user: params.user,
         onDeviceModified: function() {
             deviceListNode.refresh();
         }

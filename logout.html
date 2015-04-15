@@ -15,16 +15,16 @@
 
 <script>
 
-gCanopyWebAppConfiguration.skipUserDataFetch = true;
-var gCanopy = new CanopyClient(gCanopyWebAppConfiguration);
-$(function() {
-    gCanopy.onReady(function() {
-        gCanopy.logout({
-            onSuccess: function() {
-                $("#main").html("You've been successfully logged out.");
-            }
-        });
-    });
+var ctx = Canopy.initContext();
+var remote = ctx.initRemote({
+    "host" : gCanopyWebAppConfiguration.cloudHost
+});
+remote.logout().onDone(function(result, data) {
+    if (result == CANOPY_SUCCESS) {
+        $("#main").html("You've been successfully logged out.");
+    } else {
+        $("#main").html("Problem logging out");
+    }
 });
 </script>
 </html>

@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * Params has:
+ *      remote - CanopyRemote object
+ *      redirect - String URL
+ */
 function CanoSignupFormNode(params) {
     var self=this,
-        $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher;
+        $me
+    ;
 
     $.extend(this, new CanoNode());
 
@@ -73,23 +78,25 @@ function CanoSignupFormNode(params) {
                 return;
             }
 
-            canopy.CreateAccount({
+            params.remote.createUser({
                 username: username,
                 email: email,
-                password: password,
-                confirmPassword: confirmPassword,
-                onSuccess: function() {
-                    window.location.replace("index.html");
-                },
-                onError: function(reason) {
-                    if (reason == "username_already_taken") {
+                password: password
+            }).onDone(function(result, data) {
+                if (result == CANOPY_SUCCESS) {
+                    window.location.replace(params.redirect);
+                } else {
+                    // TODO: handle various errors
+                    /*if (reason == "username_already_taken") {
                         $("#signup_error").html("Username already taken");
                         $("#signup_error").slideDown();
                     }
                     else {
                         $("#signup_error").html("Oops... Error creating account");
                         $("#signup_error").slideDown();
-                    }
+                    }*/
+                    $("#signup_error").html("Oops... Error creating account");
+                    $("#signup_error").slideDown();
                 }
             });
         });

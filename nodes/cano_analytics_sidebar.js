@@ -15,12 +15,7 @@
  */
 function CanoAnalyticsSidebarNode(params) {
     var self=this,
-        $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
-        topbarNode,
-        sidebarNode,
-        mainNode
+        $me
     ;
 
     $.extend(this, new CanoNode());
@@ -30,44 +25,18 @@ function CanoAnalyticsSidebarNode(params) {
     }
 
     this.onLive = function() {
-        topbarNode.onLive();
-        sidebarNode.onLive();
-        mainNode.onLive();
-
-        $newAppBtn.off('click').on('click', function() {
+        $newReportBtn.off('click').on('click', function() {
             alert("Creating new reports is not supported at this time");
         });
     }
 
-    topbarNode = new CanoTopbarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    sidebarNode = new CanoDevicesSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    mainNode = new CanoDevicesNoDevicesMsgNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    var numDevices = canopy.me.Devices().length;
-    var numDevicesQuota = 10;
-    var numDevicesPct = numDevices/numDevicesQuota;
-    if (numDevicesPct > 1.0)
-        numDevicesPct = 1.0;
-    var numDevicesPixels = Math.round(numDevicesPct*200);
-
-    var $newAppBtn = $("<input type='submit' value='NEW REPORT'>");
+    var $newReportBtn = $("<input type='submit' value='NEW REPORT'>");
 
     $me = CanopyUtil_Compose(["\
 <div style='z-index: 400; position:fixed; width: 250px; top: 89px; border-right:0px solid #d0d0d0; bottom:0px; background:#ffffff; color:#000000'>\
     <div style='padding:16px; font-size: 16px; border-right:0px solid #f0f0f0;'>\
         Gain insights about how your devices are used.<br>\
-        <br><br>", $newAppBtn, "\
+        <br><br>", $newReportBtn, "\
     </div>\
     <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#ffffff; color:#000000'>\
         Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\

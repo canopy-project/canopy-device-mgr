@@ -16,7 +16,6 @@
 function CanoDevicesCreateNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
         $deviceNameInput,
         $quantityInput,
         $errorMsg
@@ -44,25 +43,18 @@ function CanoDevicesCreateNode(params) {
             }
 
 
-            var numDevices = canopy.me.Devices().length;
-            var quota = canopy.me.Quotas().devices;
-
-            if (quantity + numDevices > quota) {
-                $errorMsg.html("You currently have " + numDevices + " devices.  Creating " + quantity + " more would exceed your quota of " + quota + " devices.");
-                $errorMsg.slideDown();
-                return;
-            }
-
-            canopy.CreateDevices({
-                deviceNames: names,
-                quantity: quantity,
-                onSuccess: function() {
-                    if (params.onCreated)
-                        params.onCreated();
-                },
-                onError: function() {
+            /* TODO: enforce quotas server-side */
+            params.user.createDevices({
+                names: names,
+                quantity: quantity
+            }).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
                     alert("Error creating device");
+                    return;
                 }
+
+                if (params.onCreated)
+                    params.onCreated();
             });
         });
 

@@ -16,10 +16,9 @@
 function CanoAnalyticsWidgetNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         $chart,
         $legend
+        devicesList = []
     ;
 
     $.extend(this, new CanoNode());
@@ -35,37 +34,64 @@ function CanoAnalyticsWidgetNode(params) {
     this.refresh = function() {
     }
 
+    this.setDevices = function(_devicesList) {
+        devicesList = _devicesList;
+    }
+
+    function computeStats(deviceList) {
+        var out = {
+            numConnected: 0,
+            numDisconnected: 0,
+
+            numActive: 0,
+            numInactive: 0,
+            numNewlyCreated: 0,
+        };
+        for (i = 0; i < deviceList.length; i++) {
+            if (deviceList[i].websocketConnected()) {
+                out.numConnected++;
+            } else {
+                out.numDisconnected++;
+            }
+
+            if (deviceList[i].isNewlyCreated() == null) {
+                out.numNewlyCreated++;
+            } else if (deviceList[i].isActive()) {
+                out.numActive++;
+            } else {
+                out.numInactive++;
+            }
+        }
+        return out;
+    }
+
     var getData = function(type) {
+        var stats = computeStats(devicesList);
         if (type == "Websocket Connection") {
-            var numConnected = canopy.me.Devices().Connected().length;
-            var numDisconnected = canopy.me.Devices().Disconnected().length;
             return {
                 data: google.visualization.arrayToDataTable([
                     ['Value', 'Num Devices'],
-                    ['Connected', numConnected],
-                    ['Disconnected', numDisconnected]
+                    ['Connected', stats.numConnected],
+                    ['Disconnected', stats.numDisconnected]
                 ]),
                 legend: "\
-                    <div style='color:#70b060'>&bull; Connected (" + numConnected + ")</div>\
-                    <div style='color:#707070'>&bull; Disconnected (" + numDisconnected + ")</div>\
+                    <div style='color:#70b060'>&bull; Connected (" + stats.numConnected + ")</div>\
+                    <div style='color:#707070'>&bull; Disconnected (" + stats.numDisconnected + ")</div>\
                 "
             }
         }
         if (type == "Activity") {
-            var numActive = canopy.me.Devices().Active().length;
-            var numInactive = canopy.me.Devices().Inactive().length;
-            var numNewlyCreated = canopy.me.Devices().NewlyCreated().length;
             return {
                 data: google.visualization.arrayToDataTable([
                     ['Value', 'Num Devices'],
-                    ['Active', numActive],
-                    ['Inactive', numInactive],
-                    ['Newly Created', numNewlyCreated]
+                    ['Active', stats.numActive],
+                    ['Inactive', stats.numInactive],
+                    ['Newly Created', stats.numNewlyCreated]
                 ]),
                 legend: "\
-                    <div style='color:#70b060'>&bull; Active (" + numActive + ")</div>\
-                    <div style='color:#707070'>&bull; Inactive (" + numInactive + ")</div>\
-                    <div style='color:#3060b0'>&bull; Newly Created (" + numNewlyCreated + ")</div>\
+                    <div style='color:#70b060'>&bull; Active (" + stats.numActive + ")</div>\
+                    <div style='color:#707070'>&bull; Inactive (" + stats.numInactive + ")</div>\
+                    <div style='color:#3060b0'>&bull; Newly Created (" + stats.numNewlyCreated + ")</div>\
                 "
             }
 

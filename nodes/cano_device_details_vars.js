@@ -40,45 +40,34 @@ function CanoDeviceDetailsVarsNode(params) {
     }
 
     this.refresh = function() {
-        if (device == null)
+        if (device == null) {
             return;
+        }
 
-        if (!device.Vars() || device.Vars().Length() == 0) {
+        console.log(device);
+        if (device.vars().length == 0) {
             // no cloud variables
             $me.html("<div style='font-size:17px'>This device does not have any Cloud Variables.\
             <p>\
-                <b>(C/C++) Create a Cloud Variable with:</b>\
-                <div class=code>canopy_var_init(ctx, \"inout float32 my_var\");\n\
-canopy_var_set_float32(ctx, \"my_var\", 123.45f);\n\
-canopy_sync_blocking(ctx, -1);</div>\
-            </p>\
-            <p>\
-                <b>(REST) Create a Cloud Variable with:</b>\
-                <div class=code>POST /api/device/" + device.UUID() + "\n\
-{\n\
-    \"sddl\" : {\n\
-        \"inout float32 my_var\" : {},\n\
-    },\n\
-    \"vars\" : {\n\
-        \"my_var\" : 123.45\n\
-    }\n\
-}\
-                </div>\
+                To create a Cloud Variable using the REST API, see here: <br><a \
+                href='http://canopy.link/devzone/restapi/#declare_cloud_variables'> \
+                <b>REST API: Declare Cloud Variables</b></a> \
             </p></div>");
             return;
         } else {
             $me.html("");
-            var numVars = device.Vars().Length();
+            var cloudVars = device.vars();
             varNodes.length = 0;
             plotNode.appendTo($me);
-            for (var i = 0; i < numVars; i++) {
+            for (var i = 0; i < cloudVars.length; i++) {
                 var varNode = new CanoCloudVarBoxNode({
-                    cloudvar: device.Vars().Var(i),
+                    cloudvar: cloudVars[i],
                     onHover: function(cloudvar) {
-                        cloudvar.FetchHistoricData({
-                            onSuccess: function(data) {
-                                plotNode.setTimeseriesData(data['samples']);
+                        cloudvar.historicData().onDone(function(result, data) {
+                            if (result != CANOPY_SUCCESS) {
+                                alert("Problem fetching historic data");
                             }
+                            plotNode.setTimeseriesData(data['samples']);
                         });
                     },
                     onHoverOut: function(cloudvar) {

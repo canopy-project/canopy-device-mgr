@@ -17,8 +17,6 @@
 function CanoMainPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         topbarNode,
         devicesNode,
         appsNode,
@@ -55,8 +53,7 @@ function CanoMainPageNode(params) {
     });
 
     topbarNode = new CanoTopbarNode({
-        canopyClient: canopy,
-        dispatcher: dispatcher,
+        user: params.user,
         onSelect: function(value) {
             if (value == "analytics") {
                 setTimeout(function() {analyticsNode.drawCharts();}, 30);
@@ -66,23 +63,19 @@ function CanoMainPageNode(params) {
     });
 
     devicesNode = new CanoDevicesPageNode({
-        canopyClient: canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
     appsNode = new CanoAppsPageNode({
-        canopyClient: canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
     accountNode = new CanoAccountPageNode({
-        canopyClient: canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
     analyticsNode = new CanoAnalyticsPageNode({
-        canopyClient: canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
     switcherNode = new CanoSwitcherNode({

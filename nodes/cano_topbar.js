@@ -16,8 +16,6 @@
 function CanoTopbarNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
         accountDropdownNode,
         $username,
         optionNode
@@ -56,15 +54,12 @@ function CanoTopbarNode(params) {
     }
 
     accountDropdownNode = new CanoAccountDropdown({
-        canopyClient: canopy,
-        dispatcher: dispatcher
+        user: params.user
     });
 
-    //$username = $("<a href='javascript:void(0);'>" + canopy.account.username() + "</a>");
-    if (canopy.IsLoggedIn()) {
-        $username = $("<a href='javascript:void(0);' style='color:#ffffff; font-weight:400'>" + canopy.me.Username().value + "</a>");
-    }
-    else {
+    if (params.user) {
+        $username = $("<a href='javascript:void(0);' style='color:#ffffff; font-weight:400'>" + params.user.username() + "</a>");
+    } else {
         $username = $("");
     }
 

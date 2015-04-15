@@ -27,24 +27,6 @@ Possibilities:
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
     </script>
     <script src="canopy_app_util.js"></script>
-    <script src="nodes/cano.js"></script>
-    <script src="nodes/cano_topbar.js"></script>
-    <script src="nodes/cano_account_page.js"></script>
-    <script src="nodes/cano_account_sidebar.js"></script>
-    <script src="nodes/cano_device_list.js"></script>
-    <script src="nodes/cano_device_details.js"></script>
-    <script src="nodes/cano_device_details_details.js"></script>
-    <script src="nodes/cano_device_details_vars.js"></script>
-    <script src="nodes/cano_devices_page.js"></script>
-    <script src="nodes/cano_devices_sidebar.js"></script>
-    <script src="nodes/cano_devices_create.js"></script>
-    <script src="nodes/cano_account_dropdown.js"></script>
-    <script src="nodes/cano_device_no_devices_msg.js"></script>
-    <script src="nodes/cano_editable.js"></script>
-    <script src="nodes/cano_main_page.js"></script>
-    <script src="nodes/cano_option.js"></script>
-    <script src="nodes/cano_switcher.js"></script>
-    <script src="canoweb_dispatcher.js"></script>
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
     <link href='canoweb.css' rel='stylesheet' type='text/css'>
 </head>
@@ -145,55 +127,63 @@ Possibilities:
 </body>
 <script>
 
-var canopy = new CanopyClient(gCanopyWebAppConfiguration);
-
-canopy.OnReady(function() {
-    urlParams = CanopyUtil_GetURLParams();
+Canopy.initUserClient({
+    // TODO: other settings?
+    "host" : gCanopyWebAppConfiguration.cloudHost,
+}).onDone(function(result, data) {
+    var urlParams = CanopyUtil_GetURLParams();
     $("#activate_username").html(urlParams["username"]);
+    $("#host_title").html(" for " + gCanopyWebAppConfiguration.cloudHost);
+
+    if (result == CANOPY_SUCCESS) {
+        if (data.user.username() == urlParams["username"]) {
+            // Already logged in.  Activate account and redirect.
+            data.user.validate({
+                "username": urlParams["username"],
+                "code": urlParams["code"]
+            }).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    $("#errormsg").html("Error activating account");
+                    $("#errormsg").slideDown();
+                    return;
+                }
+                window.location.replace("index.html?activated=true");
+            });
+        }
+        if (data.user.username() != urlParams["username"]) {
+            // Logged in as different user.
+            // Display notice and require password.
+            $("#activate_current_username").html("<div style='width:400px; font-size:14px;'>\
+                <br>You are currently signed in as <b>" + data.user.username() + "</b>.\
+                By clicking <b>Activate</b> you will be signed out and signed in as <b>" + urlParams['username'] + "</b>.<br></div>");
+        }
+    }
 
     $("#activate_btn").off('click').on('click', function() {
         $("#errormsg").slideUp();
         // sign in as new user
-        canopy.Login({
+        data.remote.login({
             "username" : urlParams["username"],
-            "password" : $("#activate_password").val(),
-            onSuccess: function() {
-                canopy.ActivateAccount({
-                    "username" : urlParams["username"],
-                    "code" : urlParams["code"],
-                    onSuccess: function() {
-                        window.location.replace("index.html?activated=true");
-                    }
-                });
-            },
-            onError: function() {
-                $("#errormsg").html("Error activating account.");
+            "password" : $("#activate_password").val()
+        }).onDone(function(result, loginData) {
+
+            if (result != CANOPY_SUCCESS) {
+                $("#errormsg").html("Error logging in");
                 $("#errormsg").slideDown();
             }
+
+            loginData.user.validate({
+                "username": urlParams["username"],
+                "code": urlParams["code"]
+            }).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    $("#errormsg").html("Error activating account");
+                    $("#errormsg").slideDown();
+                    return;
+                }
+                window.location.replace("index.html?activated=true");
+            });
         });
-    });
-
-    $("#host_title").html(" for " + canopy.CloudHost());
-
-    if (canopy.IsLoggedIn()) {
-        if (canopy.me.Username().value != urlParams["username"]) {
-            $("#activate_current_username").html("<div style='width:400px; font-size:14px;'>\
-                <br>You are currently signed in as <b>" + canopy.me.Username().value + "</b>.\
-                By clicking <b>Activate</b> you will be signed out and signed in as <b>" + urlParams['username'] + "</b>.<br></div>");
-            return;
-        }
-    }
-
-    canopy.ActivateAccount({
-        username: urlParams["username"],
-        code: urlParams["code"],
-        onSuccess: function() {
-            window.location.replace("index.html?activated=true");
-        },
-        onError: function() {
-            $("#errormsg").html("Error activating account");
-            $("#errormsg").slideDown();
-        }
     });
 });
 </script>
