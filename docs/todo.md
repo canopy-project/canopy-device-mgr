@@ -5,8 +5,6 @@ v15.05.01
 - Device List: Pagination
 - Device List: Sorting
 - Responsive Design
-- Remove "Notifications" Tab
-- Remove "Coding" Tab
 - Hide "Secret Key" once activated 
 - Download secret keys
 - Realtime refresh
@@ -18,7 +16,8 @@ v15.05.01
 - Sharing/Permissions
 - With large creation, disable the "Create button" until response comes back.
 - Numbers when creating devices should be 0-padded.
-- App selection
+- App dropdown selection
 - Canopy Enterprise -> Canopy Device Manager
+- It now says "websocket: unknown"
 
 - Pagination in device response
