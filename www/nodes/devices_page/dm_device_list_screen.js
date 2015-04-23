@@ -19,6 +19,7 @@
  *
  *  PARAMS:
  *      params.user -- Optional CanopyUser object
+ *      params.onCreateDeviceRequest
  *
  *  METHODS:
  *      setUser
@@ -46,7 +47,9 @@ function DmDeviceListScreen(params) {
         sidebarNode = new CanoDevicesSidebarNode({
             user: params.user,
             onCreateDeviceLink : function() {
-                mainNode.select("create_device");
+                if (params.onCreateDeviceRequest) {
+                    params.onCreateDeviceRequest();
+                }
             },
             onFilterChange : function(filterName, filter) {
                 deviceListNode.setFilter(filterName, filter);
@@ -96,7 +99,8 @@ function DmDeviceListScreen(params) {
         if (live) {
             sidebarNode.onLive();
             deviceDetailsNode.onLive();
-            deviceListNode.refresh().onLive();
+            deviceListNode.refresh();
+            deviceListNode.onLive();
         }
     }
 }

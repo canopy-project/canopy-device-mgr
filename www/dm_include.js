@@ -43,6 +43,7 @@ function includeCssFile(filename) {
     );
 }
 
+includeJsFile("/nodes/devices_page/dm_create_devices_screen.js");
 includeJsFile("/nodes/devices_page/dm_device_list_screen.js");
 includeJsFile("/nodes/devices_page/dm_devices_page.js");
 

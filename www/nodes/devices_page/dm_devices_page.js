@@ -56,7 +56,10 @@ function DmDevicesPage(params) {
         });
 
         deviceListScreen = new DmDeviceListScreen({
-            user: user
+            user: user,
+            onCreateDeviceRequest: function() {
+                switcher.select("create_device").refresh();
+            }
         });
 
         noDevicesNode = new CanoDevicesNoDevicesMsgNode({
@@ -68,34 +71,38 @@ function DmDevicesPage(params) {
             }
         });
 
-        createDeviceNode = new CanoDevicesCreateNode({
+        createDeviceNode = new DmCreateDevicesScreen({
             user : params.user,
             onCreated: function() {
-                self.refresh()
+                switcher.select("device_list").refresh();
             },
             onCancel: function() {
-                self.refresh()
+                switcher.select("device_list").refresh();
             },
-            onShow: function() {
-                params.user.devices().count().onDone(function(result, data) {
-                    if (result != CANOPY_SUCCESS) {
-                        alert("problem");
-                    }
-                    if (data.count == 0) {
-                        menu.setBreadcrumb(["Welcome", "Create Devices"]).refresh();
-                    }
-                    else {
-                        menu.setBreadcrumb(["Devices", "Create Devices"]).refresh();
-                    }
-                });
-            }
         });
 
         switcher = new CuiSwitcher({
             children: {
-                "create_device": new CuiWrapper(createDeviceNode),
+                "create_device": createDeviceNode,
                 "no_devices": new CuiWrapper(noDevicesNode),
                 "device_list": deviceListScreen,
+            },
+            onSelect: function(name) {
+                if (name == "device_list") {
+                    menu.setBreadcrumb(null).refresh();
+                } else if (name == "create_device") {
+                    params.user.devices().count().onDone(function(result, data) {
+                        if (result != CANOPY_SUCCESS) {
+                            alert("problem");
+                        }
+                        if (data.count == 0) {
+                            menu.setBreadcrumb(["Welcome", "Create Devices"]).refresh();
+                        }
+                        else {
+                            menu.setBreadcrumb(["Devices", "Create Devices"]).refresh();
+                        }
+                    });
+                }
             },
             default: "device_list"
         });
@@ -110,8 +117,11 @@ function DmDevicesPage(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        if (dirty("user")) {
-        }
+        user.devices().count().onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                alert("problem");
+            }
+        });
 
         cuiRefresh([menu, canvas], live);
     }
