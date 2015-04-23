@@ -17,7 +17,6 @@
 function CanoMainPageNode(params) {
     var self=this,
         $me,
-        topbarNode,
         devicesNode,
         appsNode,
         accountNode,
@@ -26,6 +25,8 @@ function CanoMainPageNode(params) {
         switcherNode
     ;
 
+    var topbar;
+
     $.extend(this, new CanoNode());
 
     this.get$ = function() {
@@ -33,8 +34,8 @@ function CanoMainPageNode(params) {
     }
 
     this.onLive = function() {
-        topbarNode.onLive();
         popupNode.onLive();
+        topbar.live();
         switcherNode.onLive();
         switcherNode.select("devices");
 
@@ -52,14 +53,30 @@ function CanoMainPageNode(params) {
         content: $msgContent
     });
 
-    topbarNode = new CanoTopbarNode({
-        user: params.user,
+    topbar = new CuiTopbar({
+        appName: "Device Manager",
+        cssClass: "cui_default",
+        items: [{
+            content: "Devices",
+            value: "devices"
+        }, {
+            content: "Analytics",
+            value: "analytics"
+        }, {
+            content: "Apps",
+            value: "apps"
+        }, {
+            content: "Account",
+            value: "account",
+        }],
         onSelect: function(value) {
             if (value == "analytics") {
                 setTimeout(function() {analyticsNode.drawCharts();}, 30);
             }
             switcherNode.select(value);
-        }
+        },
+        showAppDropdown: true,
+        user: params.user,
     });
 
     devicesNode = new CanoDevicesPageNode({
@@ -96,13 +113,11 @@ function CanoMainPageNode(params) {
     });
 
     $me = $("<div>");
-    topbarNode.appendTo($me);
+    topbar.get$().appendTo($me);
     switcherNode.appendTo($me);
 
     var urlParams = CanopyUtil_GetURLParams();
     if (urlParams["activated"] == "true") {
         popupNode.appendTo($me);
     }
-
-    topbarNode.select(0, false);
 }

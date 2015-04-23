@@ -16,7 +16,7 @@
 function CanoAnalyticsPageNode(params) {
     var self=this,
         $me,
-        topbarSubmenuNode,
+        topbarSubmenu,
         sidebarNode,
         dashboardSidebarNode,
         dashboardNode,
@@ -34,7 +34,7 @@ function CanoAnalyticsPageNode(params) {
 
     this.onLive = function() {
         sidebarNode.onLive();
-        topbarSubmenuNode.onLive();
+        topbarSubmenu.live();
         mainNode.onLive();
         
         this.refresh();
@@ -75,8 +75,9 @@ function CanoAnalyticsPageNode(params) {
     dashboardSidebarNode = new CanoAnalyticsSidebarNode({
     });
 
-    topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        user: params.user,
+    topbarSubmenu = new CuiTopbar({
+        appName: params.user.username(),
+        cssClass: "cui_default cui_topbar_submenu",
         items: [ {
             content: "Dashboard",
             value: "dashboard"
@@ -90,8 +91,9 @@ function CanoAnalyticsPageNode(params) {
                 mapsNode.setMapDevices(mapDevices);
             }
             self.refresh(val);
-        }
-    })
+        },
+        showAppDropdown: false,
+    });
 
     noDevicesNode = new CanoAnalyticsNoDevicesNode({});
 
@@ -132,7 +134,7 @@ function CanoAnalyticsPageNode(params) {
     });
 
     $me = CanopyUtil_Compose(["<div>\
-        ", topbarSubmenuNode, "\
+        ", topbarSubmenu, "\
         ", sidebarNode, "\
         &nbsp; <div style='padding:16px; margin-left: 244px; margin-top:18px'>", mainNode, "</div>\
     </div>"]);

@@ -16,7 +16,7 @@
 function CanoDevicesPageNode(params) {
     var self=this,
         $me,
-        topbarSubmenuNode,
+        topbarSubmenu,
         sidebarNode,
         deviceListNode,
         noDevicesNode,
@@ -32,6 +32,7 @@ function CanoDevicesPageNode(params) {
     }
 
     this.onLive = function() {
+        topbarSubmenu.live();
         sidebarNode.onLive();
         mainNode.onLive();
         deviceDetailsNode.onLive();
@@ -54,12 +55,15 @@ function CanoDevicesPageNode(params) {
             deviceListNode.refresh();
         });
     }
-    topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        user: params.user,
+
+    topbarSubmenu = new CuiTopbar({
+        appName: params.user.username(),
+        cssClass: "cui_default cui_topbar_submenu",
         items: [ {
             content: "Device List",
             value: "devices"
         }],
+        showAppDropdown: false,
     });
 
     sidebarNode = new CanoDevicesSidebarNode({
@@ -80,7 +84,7 @@ function CanoDevicesPageNode(params) {
         onShow: function() {
             deviceDetailsNode.show();
             sidebarNode.show();
-            topbarSubmenuNode.setBreadcrumb(null);
+            topbarSubmenu.setBreadcrumb(null).refresh();
         }
     });
         
@@ -91,7 +95,7 @@ function CanoDevicesPageNode(params) {
         onShow: function() {
             deviceDetailsNode.hide();
             sidebarNode.hide();
-            topbarSubmenuNode.setBreadcrumb(["Welcome"]);
+            topbarSubmenu.setBreadcrumb(["Welcome"]).refresh();
         }
     });
 
@@ -111,10 +115,10 @@ function CanoDevicesPageNode(params) {
                     alert("problem");
                 }
                 if (data.count == 0) {
-                    topbarSubmenuNode.setBreadcrumb(["Welcome", "Create Devices"]);
+                    topbarSubmenu.setBreadcrumb(["Welcome", "Create Devices"]).refresh();
                 }
                 else {
-                    topbarSubmenuNode.setBreadcrumb(["Devices", "Create Devices"]);
+                    topbarSubmenu.setBreadcrumb(["Devices", "Create Devices"]).refresh();
                 }
             });
         }
@@ -143,7 +147,7 @@ function CanoDevicesPageNode(params) {
     mainNode.select("device_list");
 
     $me = CanopyUtil_Compose(["<div>\
-        ", topbarSubmenuNode, "\
+        ", topbarSubmenu, "\
         ", sidebarNode, "\
         &nbsp; <div style='margin-left:244px; margin-top:18px'>", mainNode, "</div>\
         ", deviceDetailsNode, "\
