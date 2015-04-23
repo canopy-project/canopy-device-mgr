@@ -27,16 +27,28 @@
 function DmDevicesPage(params) {
     cuiInitNode(this);
     this.markDirty("user");
+    var self = this;
 
     var user = params.user;
 
     var canvas;
     var menu;
     var switcher;
+    var numDevices;
 
     var deviceListScreen;
-    var noDevicesNode;
-    var createDevicesNode;
+    var noDevicesScreen;
+    var createDevicesScreen;
+
+    function selectPage(name) {
+        if (name == "device_list") {
+            if (numDevices == 0) {
+                switcher.select("no_devices").refresh();
+            } else {
+                switcher.select("device_list").refresh();
+            }
+        }
+    }
 
     this.setUser = function(_user) {
         user = _user;
@@ -62,46 +74,40 @@ function DmDevicesPage(params) {
             }
         });
 
-        noDevicesNode = new CanoDevicesNoDevicesMsgNode({
-            onCreateDeviceLink : function() {
-                mainNode.select("create_device");
+        noDevicesScreen = new DmNoDevicesScreen({
+            onCreateDeviceRequest : function() {
+                switcher.select("create_device").refresh();
             },
-            onShow: function() {
-                menu.setBreadcrumb(["Welcome"]).refresh();
-            }
         });
 
-        createDeviceNode = new DmCreateDevicesScreen({
+        createDeviceScreen = new DmCreateDevicesScreen({
             user : params.user,
             onCreated: function() {
-                switcher.select("device_list").refresh();
+                self.markDirty("user");
+                switcher.select("device_list");
+                self.refresh();
             },
             onCancel: function() {
-                switcher.select("device_list").refresh();
+                selectPage("device_list");
             },
         });
 
         switcher = new CuiSwitcher({
             children: {
-                "create_device": createDeviceNode,
-                "no_devices": new CuiWrapper(noDevicesNode),
+                "create_device": createDeviceScreen,
+                "no_devices": noDevicesScreen,
                 "device_list": deviceListScreen,
             },
             onSelect: function(name) {
                 if (name == "device_list") {
                     menu.setBreadcrumb(null).refresh();
                 } else if (name == "create_device") {
-                    params.user.devices().count().onDone(function(result, data) {
-                        if (result != CANOPY_SUCCESS) {
-                            alert("problem");
-                        }
-                        if (data.count == 0) {
-                            menu.setBreadcrumb(["Welcome", "Create Devices"]).refresh();
-                        }
-                        else {
-                            menu.setBreadcrumb(["Devices", "Create Devices"]).refresh();
-                        }
-                    });
+                    if (numDevices == 0) {
+                        menu.setBreadcrumb(["Welcome", "Create Devices"]).refresh();
+                    }
+                    else {
+                        menu.setBreadcrumb(["Devices", "Create Devices"]).refresh();
+                    }
                 }
             },
             default: "device_list"
@@ -117,12 +123,15 @@ function DmDevicesPage(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        user.devices().count().onDone(function(result, data) {
-            if (result != CANOPY_SUCCESS) {
-                alert("problem");
-            }
-        });
-
+        if (dirty("user") && user) {
+            user.devices().count().onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("problem");
+                }
+                numDevices = data.count;
+                selectPage("device_list");
+            });
+        }
         cuiRefresh([menu, canvas], live);
     }
 }

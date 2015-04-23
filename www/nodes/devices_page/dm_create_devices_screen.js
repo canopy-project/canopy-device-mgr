@@ -86,7 +86,7 @@ function DmCreateDevicesScreen(params) {
 
         cancelBtn = new CuiButton({
             content: "CANCEL",
-            cssClass: "cui_default",
+            cssClass: "cui_default cui_gray",
             onClick: function() {
                 if (params.onCancel)
                     params.onCancel();

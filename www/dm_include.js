@@ -46,6 +46,7 @@ function includeCssFile(filename) {
 includeJsFile("/nodes/devices_page/dm_create_devices_screen.js");
 includeJsFile("/nodes/devices_page/dm_device_list_screen.js");
 includeJsFile("/nodes/devices_page/dm_devices_page.js");
+includeJsFile("/nodes/devices_page/dm_no_devices_screen.js");
 
 includeJsFile("/nodes/main/dm_main.js");
 
