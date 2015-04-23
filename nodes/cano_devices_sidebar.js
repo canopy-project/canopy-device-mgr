@@ -177,8 +177,8 @@ function CanoDevicesSidebarNode(params) {
     $newlyCreatedLabel = CanopyUtil_Compose(["<label>", $newlyCreated, "Newly Created</label>"]);
 
     $me = CanopyUtil_Compose(["\
-        <div style='z-index: 400; position:fixed; left:16px; width: 234px; top: 90px; bottom:0px; background:#ffffff; color:#000000'>\
-            <div style='padding:8px; font-size: 16px;'>\
+        <div style='padding:16px;'>\
+            <div style=''>\
                 <div class='ml'>Filter</div>\
                 ", $all, "\
                 <br>", $activated, "\

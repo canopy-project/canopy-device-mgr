@@ -16,7 +16,6 @@
 function CanoDevicesPageNode(params) {
     var self=this,
         $me,
-        topbarSubmenu,
         sidebarNode,
         deviceListNode,
         noDevicesNode,
@@ -24,6 +23,9 @@ function CanoDevicesPageNode(params) {
         deviceDetailsNode,
         mainNode
     ;
+
+    var canvas;
+    var topbarSubmenu;
 
     $.extend(this, new CanoNode());
 
@@ -33,6 +35,7 @@ function CanoDevicesPageNode(params) {
 
     this.onLive = function() {
         topbarSubmenu.live();
+        canvas.live();
         sidebarNode.onLive();
         mainNode.onLive();
         deviceDetailsNode.onLive();
@@ -130,7 +133,7 @@ function CanoDevicesPageNode(params) {
             deviceListNode.refresh();
         }
     });
-
+    
     mainNode = new CanoSwitcherNode({
         children: [{
             name: "create_device",
@@ -143,13 +146,25 @@ function CanoDevicesPageNode(params) {
             content: deviceListNode,
         }]
     });
-
     mainNode.select("device_list");
+
+    var layout = new CuiHSplit3Layout({
+        cssClass: "",
+        left: sidebarNode.get$(),
+        middle: mainNode.get$(),
+        right: deviceDetailsNode.get$(),
+
+        leftSize: "280px",
+        rightSize: "680px",
+    });
+
+    canvas = new CuiCanvas({
+        preceededBy: topbarSubmenu,
+        contents: layout
+    });
 
     $me = CanopyUtil_Compose(["<div>\
         ", topbarSubmenu, "\
-        ", sidebarNode, "\
-        &nbsp; <div style='margin-left:244px; margin-top:18px'>", mainNode, "</div>\
-        ", deviceDetailsNode, "\
+        ", canvas, "\
     </div>"]);
 }

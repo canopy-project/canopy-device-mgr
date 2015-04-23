@@ -82,7 +82,7 @@ function CanoDeviceListNode(params) {
             var devices = filterDevices(priv.filter, data.devices);
             $me.html("<div>Showing <i>" + priv.filterName + "</i> <span style='color:#808080'>(" + devices.length + " of " + devices.length + ")</span></div>");
 
-            $table = $("<table class=devmgr_device_table cellspacing=0 cellpadding=8 width=50% style='font-size:16px'>\
+            $table = $("<table class=devmgr_device_table cellspacing=0 cellpadding=8 width=100% style='font-size:16px'>\
                 <tr>\
                     <th align=left>\
                         UUID\
