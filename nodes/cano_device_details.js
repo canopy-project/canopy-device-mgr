@@ -119,7 +119,7 @@ function CanoDeviceDetailsNode(params) {
         this.onLive();
     }
 
-    $me = $("<div style='z-index: 20; border:1px solid #d0d0d0; background:#f0f0f0; right: 16px; border-radius:5px; width:500px; position:absolute; top:108px;'></div>");
+    $me = $("<div style='z-index: 20; border:1px solid #d0d0d0; background:#f0f0f0; right: 16px; border-radius:5px; width:500px; position:absolute; top:16px;'></div>");
     this.refresh();
 }
 
