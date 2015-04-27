@@ -56,7 +56,7 @@ function DmMain(params) {
             user: user
         });
 
-        analyticsPage = new CanoAnalyticsPageNode({
+        analyticsPage = new DmAnalyticsPage({
             user: user
         });
 
@@ -82,7 +82,6 @@ function DmMain(params) {
                 switcher.select(value).refresh();
                 appsPage.onLive();
                 accountPage.onLive();
-                analyticsPage.onLive();
             },
             user: user,
             showAppDropdown: true,
@@ -91,7 +90,7 @@ function DmMain(params) {
         switcher = new CuiSwitcher({
             children: {
                 "devices" : devicesPage,
-                "visualization" : new CuiWrapper(analyticsPage.get$()),
+                "visualization" : analyticsPage,
                 "apps" : new CuiWrapper(appsPage.get$()),
                 "account" : new CuiWrapper(accountPage.get$()),
             },
@@ -117,7 +116,6 @@ function DmMain(params) {
         cuiRefresh([topbar, switcher], live);
         appsPage.onLive();
         accountPage.onLive();
-        analyticsPage.onLive();
     }
 
     this.onSetupCallbacks = function($me) {

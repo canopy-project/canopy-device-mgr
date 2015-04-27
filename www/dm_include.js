@@ -43,6 +43,10 @@ function includeCssFile(filename) {
     );
 }
 
+includeJsFile("/nodes/analytics_page/dm_aggregate_screen.js");
+includeJsFile("/nodes/analytics_page/dm_analytics_page.js");
+includeJsFile("/nodes/analytics_page/dm_maps_screen.js");
+
 includeJsFile("/nodes/devices_page/dm_create_devices_screen.js");
 includeJsFile("/nodes/devices_page/dm_device_list_screen.js");
 includeJsFile("/nodes/devices_page/dm_devices_page.js");
