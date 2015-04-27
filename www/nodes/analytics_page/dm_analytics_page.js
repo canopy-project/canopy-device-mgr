@@ -109,6 +109,12 @@ function DmAnalyticsPage(params) {
 
     this.onRefresh = function($me, dirty, live) {
         if (dirty("user") && user) {
+            user.devices().getMany(0, 10).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    alert("problem");
+                }
+                mapsScreen.setMapDevices(data.devices).refresh();
+            });
             /*user.devices().count().onDone(function(result, data) {
                 if (result != CANOPY_SUCCESS) {
                     alert("problem");
