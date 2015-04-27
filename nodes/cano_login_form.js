@@ -50,13 +50,20 @@ function CanoLoginFormNode(params) {
                 username: username,
                 password: password
             }).onDone(function(result, data) {
-                if (result == CANOPY_SUCCESS) {
-                    window.location.replace(params.redirect);
-                } else {
-                    // TODO: Say proper reason
-                    $("#login_error").html("Oops... Error signing in.");
+                if (result != CANOPY_SUCCESS) {
+                    var msg;
+                    if (data.error_msg) {
+                        msg = data.error_msg;
+                    } else if (result == CANOPY_ERROR_INCORRECT_USERNAME_OR_PASSWORD) {
+                        msg = "Incorrect username or password";
+                    } else {
+                        msg = "Oops.  An error occurred.";
+                    }
+                    $("#login_error").html(msg);
                     $("#login_error").slideDown();
+                    return;
                 }
+                window.location.replace(params.redirect);
             });
         });
     }

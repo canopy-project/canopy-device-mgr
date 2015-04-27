@@ -63,7 +63,7 @@ function CanoSignupFormNode(params) {
                 return;
             }
             if (password == "") {
-                $("#signup_error").html("Passowrd required.");
+                $("#signup_error").html("Password required.");
                 $("#signup_error").slideDown();
                 return;
             }
@@ -91,6 +91,8 @@ function CanoSignupFormNode(params) {
                         msg = "Sorry, that username is not available";
                     } else if (result == CANOPY_ERROR_EMAIL_TAKEN) {
                         msg = "That email address already has a Canopy account";
+                    } else {
+                        msg = "Oops.  An error occurred.";
                     }
                     $("#signup_error").html(msg);
                     $("#signup_error").slideDown();

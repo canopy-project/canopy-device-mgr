@@ -1,6 +1,5 @@
 v15.05.01
 
-- Helpful login/create-acct errors
 - Device List: Pagination
 - Device List: Sorting
 - Responsive Design
@@ -20,3 +19,4 @@ v15.05.01
 - It now says "websocket: unknown"
 
 - Pagination in device response
+- Helpful error responses on Password Reset page, Account Activation page, etc.
