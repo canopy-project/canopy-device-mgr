@@ -32,7 +32,6 @@ function DmMain(params) {
 
     var devicesPage;
     var analyticsPage;
-    var appsPage;
     var accountPage;
 
     var user = params.user;
@@ -45,10 +44,6 @@ function DmMain(params) {
 
     this.onConstruct = function() {
         devicesPage = new DmDevicesPage({
-            user: user
-        });
-
-        appsPage = new CanoAppsPageNode({
             user: user
         });
 
@@ -70,9 +65,6 @@ function DmMain(params) {
                 content: "Visualization",
                 value: "visualization"
             }, {
-                content: "Apps",
-                value: "apps"
-            }, {
                 content: "Account",
                 value: "account"
             } ],
@@ -80,18 +72,16 @@ function DmMain(params) {
             navStateName: "page",
             onSelect: function(value) {
                 switcher.select(value).refresh();
-                appsPage.onLive();
                 accountPage.onLive();
             },
             user: user,
-            showAppDropdown: true,
+            showAppDropdown: false,
         });
 
         switcher = new CuiSwitcher({
             children: {
                 "devices" : devicesPage,
                 "visualization" : analyticsPage,
-                "apps" : new CuiWrapper(appsPage.get$()),
                 "account" : new CuiWrapper(accountPage.get$()),
             },
             default: "devices",
@@ -114,7 +104,6 @@ function DmMain(params) {
             }
         }
         cuiRefresh([topbar, switcher], live);
-        appsPage.onLive();
         accountPage.onLive();
     }
 
