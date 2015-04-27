@@ -1,6 +1,5 @@
 v15.05.01
 
-- SimpleThings -> Canopy Services, Inc.
 - Helpful login/create-acct errors
 - Device List: Pagination
 - Device List: Sorting
