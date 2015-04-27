@@ -31,7 +31,6 @@ function DmAccountPage(params) {
     var sidebar;
     var switcher;
     var profileScreen;
-    var upgradeScreen;
     var passwordScreen;
     
     this.onConstruct = function() {
@@ -41,9 +40,6 @@ function DmAccountPage(params) {
             items: [ {
                 content: "Profile",
                 value: "profile"
-            }, {
-                content: "Upgrade",
-                value: "upgrade"
             }, {
                 content: "Password",
                 value: "password"
@@ -66,18 +62,14 @@ function DmAccountPage(params) {
             user: params.user
         });
 
-        upgradeScreen = new CanoAccountUpgradeSectionNode();
-
         switcher = new CuiSwitcher({
             children: {
                 "profile": new CuiWrapper(profileScreen.get$()),
-                "upgrade": new CuiWrapper(upgradeScreen.get$()),
                 "password": new CuiWrapper(passwordScreen.get$())
             },
             default: "profile",
             onSelect: function() {
                 profileScreen.onLive();
-                upgradeScreen.onLive();
                 passwordScreen.onLive();
             }
         });
@@ -93,7 +85,6 @@ function DmAccountPage(params) {
 
     this.onRefresh = function($me, dirty, live) {
         profileScreen.onLive();
-        upgradeScreen.onLive();
         passwordScreen.onLive();
         sidebar.onLive();
         cuiRefresh([menu, sidebar, switcher], live);

@@ -65,7 +65,7 @@ function CanoAccountProfileSectionNode(params) {
         <div style='font-size: 30px; font-weight:400'>\
             Profile for " + params.user.username() + "\
         </div>\
-        <br>Account Activated: ", $emailConfirmed, "\
+        <br>Email Confirmed: ", $emailConfirmed, "\
         ", $errorMsg, "\
         <br><br>\
             Email address\
