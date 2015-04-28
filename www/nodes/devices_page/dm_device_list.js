@@ -29,7 +29,8 @@ function DmDeviceList(params) {
     cuiInitNode(this);
     var self = this;
 
-    var pageControl;
+    var navBar;
+    var canvas;
 
     var deviceQuery;
     var _deviceQuery;
@@ -40,23 +41,26 @@ function DmDeviceList(params) {
 
     this.onConstruct = function() {
 
-        pageControl = new CuiPageControl({
-            cssClass: "cui_default",
+        $deviceList = $("<div>");
+
+        navBar = new DmDeviceListNavBar({
             onPageChange: function(page) {
                 self.markDirty().refresh();
             }
         });
 
-        pageControl.setItemsPerPage(30);
+        var $container = $("<div>");
 
-        $deviceList = $("<div>");
+        canvas = new CuiCanvas({
+            preceededBy: navBar,
+            relativeTo: $container,
+            contents: $deviceList,
+        });
 
-        return [
-            "<div class='dm_padded_content'>",
-                pageControl,
-                $deviceList,
-            "</div>"
-        ];
+
+        $container.html(cuiCompose([navBar, canvas]));
+
+        return $container;
     }
 
     function constructTable(devices) {
@@ -126,14 +130,14 @@ function DmDeviceList(params) {
         }
 
         if (refresh) {
-            var start = pageControl.startIdx();
-            var count = pageControl.numItemsPerPage();
+            var start = navBar.startIdx();
+            var count = navBar.numItemsPerPage();
             deviceQuery.count().onDone(function(result, data) {
                 if (result != CANOPY_SUCCESS) {
                     alert("Problem fetching device count: " + data.errorMsg);
                     return;
                 }
-                pageControl.setNumItems(data.count).refresh();
+                navBar.setNumItems(data.count).refresh();
                 deviceQuery.getMany(start, count).onDone(function(result, data) {
                     if (result != CANOPY_SUCCESS) {
                         alert("Problem fetching devices: " + data.errorMsg);
@@ -144,6 +148,6 @@ function DmDeviceList(params) {
             });
         }
 
-        cuiRefresh([pageControl], live);
+        cuiRefresh([navBar, canvas], live);
     }
 }

@@ -46,7 +46,7 @@
 table.dm_devices_page.dm_device_table{
     width: 100%;
     max-width: 800px;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
 }
 
@@ -72,6 +72,13 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
     background: #f0f0f0;
 }
 
+.dm_devices_page.dm_device_list_nav_bar {
+    border: 1px solid #ff0000;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    background: #ffffff;
+}
+
 .dm_devices_page.cui_hsplit_layout .cui_hsplit_layout.cui_cell.cui_right {
-    overflow: auto;
 }
