@@ -177,7 +177,7 @@ function CanoDevicesSidebarNode(params) {
     $newlyCreatedLabel = CanopyUtil_Compose(["<label>", $newlyCreated, "Newly Created</label>"]);
 
     $me = CanopyUtil_Compose(["\
-        <div style='padding:16px;'>\
+        <div class='dm_devices_page dm_filter_list'>\
             <div style=''>\
                 <div class='ml'>Filter</div>\
                 ", $all, "\
@@ -193,7 +193,7 @@ function CanoDevicesSidebarNode(params) {
                 <br>", $disconnectedLabel, "\
             </div>\
         </div>\
-        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#ffffff; color:#000000'>\
+        <div class='dm_devices_page dm_sidebar_bottom'>\
             ", $createDevice, "<br><br>\
             Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
         </div>\

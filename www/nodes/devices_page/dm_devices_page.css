@@ -13,7 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 .dm_devices_page.dm_filter_list {
-    font-size: 18px;
+    padding: 16px;
+}
+
+.dm_devices_page.dm_filter_list, 
+.dm_devices_page.dm_filter_list input,
+.dm_devices_page.dm_filter_list label {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.dm_devices_page.dm_filter_list input,
+.dm_devices_page.dm_filter_list label {
+    cursor: pointer;
+}
+
+/*.dm_devices_page .cui_hsplit_layout{
+    overflow: auto;
+}*/
+
+.dm_devices_page.dm_sidebar_bottom {
+    padding: 16px;
+    text-align: center;
+    z-index: 500; 
+    color:#000000;
+    position: absolute;
+    bottom: 0px;
+    background: #ffffff;
 }

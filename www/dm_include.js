@@ -57,5 +57,5 @@ includeJsFile("/nodes/devices_page/dm_no_devices_screen.js");
 
 includeJsFile("/nodes/main/dm_main.js");
 
-//includeCssFile("/nodes/devices_page/ts_device_lookup_screen.css");
+includeCssFile("/nodes/devices_page/dm_devices_page.css");
 
