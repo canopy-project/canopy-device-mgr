@@ -62,7 +62,7 @@ function DmMain(params) {
                 content: "Devices",
                 value: "devices"
             }, {
-                content: "Visualization",
+                content: "Visualize",
                 value: "visualization"
             }, {
                 content: "Account",
