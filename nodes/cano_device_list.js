@@ -44,12 +44,19 @@ function filterDevices(options, devices) {
     }
     return filteredDevices;
 }
+
 function CanoDeviceListNode(params) {
     var self=this,
         $me,
         priv = {filterName: "All", filter:  {}},
         selectedDevice = null
     ;
+
+    var pageControl = new CuiPageControl({
+        cssClass: "cui_default",
+        numItems: 483,
+        itemsPerPage: 80,
+    });
 
     $.extend(this, new CanoNode());
 
@@ -58,6 +65,7 @@ function CanoDeviceListNode(params) {
     }
 
     this.onLive = function() {
+        pageControl.live();
     }
     
     this.onShow = function() {
@@ -78,7 +86,7 @@ function CanoDeviceListNode(params) {
                 alert("problem");
                 return;
             }
-            
+
             var devices = filterDevices(priv.filter, data.devices);
             $me.html("<div>Showing <i>" + priv.filterName + "</i> <span style='color:#808080'>(" + devices.length + " of " + devices.length + ")</span></div>");
 
@@ -127,6 +135,8 @@ function CanoDeviceListNode(params) {
                 $table.append($row);
             }
             $me.append($table);
+            $me.append("<BR>");
+            $me.append(pageControl.get$());
 
             self.onLive();
         });

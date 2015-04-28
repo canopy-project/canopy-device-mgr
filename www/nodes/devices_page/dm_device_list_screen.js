@@ -56,7 +56,7 @@ function DmDeviceListScreen(params) {
             }
         });
 
-        deviceListNode = new CanoDeviceListNode({
+        deviceListNode = new DmDeviceList({
             user: params.user,
             onSelect: function(idx, device) {
                 deviceDetailsNode.setDevice(device);
@@ -67,6 +67,8 @@ function DmDeviceListScreen(params) {
                 menu.setBreadcrumb(null).refresh();
             }
         });
+
+        deviceListNode.setDeviceQuery(params.user.devices());
             
         deviceDetailsNode = new CanoDeviceDetailsNode({
             user: params.user,
@@ -76,9 +78,10 @@ function DmDeviceListScreen(params) {
         });
 
         layout = new CuiHSplitLayout({
+            cssClass: "dm_devices_page",
             left: sidebarNode.get$(),
-            right: deviceListNode.get$(),
-            leftSize: "240px"
+            right: deviceListNode,
+            leftSize: "220px"
         });
         
         /*layout = new CuiHSplit3Layout({
@@ -105,8 +108,7 @@ function DmDeviceListScreen(params) {
         if (live) {
             sidebarNode.onLive();
             deviceDetailsNode.onLive();
-            deviceListNode.refresh();
-            deviceListNode.onLive();
+            deviceListNode.refresh(live);
         }
     }
 }

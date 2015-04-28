@@ -42,3 +42,36 @@
     bottom: 0px;
     background: #ffffff;
 }
+
+table.dm_devices_page.dm_device_table{
+    width: 100%;
+    max-width: 800px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+table.dm_devices_page.dm_device_table .selected td {
+    background: #fafac0;
+    font-weight: 400;
+}
+
+table.dm_devices_page.dm_device_table th {
+    font-weight: 400;
+    background: #ffffff;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+table.dm_devices_page.dm_device_table td {
+    border-bottom: 1px solid #d0d0d0;
+}
+
+table.dm_devices_page.dm_device_table tr:nth-child(even) {
+    background: #f4f4f4;
+}
+table.dm_devices_page.dm_device_table tr:nth-child(odd) {
+    background: #f0f0f0;
+}
+
+.dm_devices_page.cui_hsplit_layout .cui_hsplit_layout.cui_cell.cui_right {
+    overflow: auto;
+}
