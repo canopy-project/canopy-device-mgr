@@ -29,10 +29,6 @@
     cursor: pointer;
 }
 
-/*.dm_devices_page .cui_hsplit_layout{
-    overflow: auto;
-}*/
-
 .dm_devices_page.dm_sidebar_bottom {
     padding: 16px;
     text-align: center;
@@ -45,7 +41,6 @@
 
 table.dm_devices_page.dm_device_table{
     width: 100%;
-    max-width: 800px;
     font-size: 15px;
     cursor: pointer;
 }
@@ -73,7 +68,6 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
 }
 
 .dm_devices_page.dm_device_list_nav_bar {
-    max-width: 800px;
     padding-bottom:4px;
     padding-top:8px;
 }
@@ -87,5 +81,43 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
 .dm_devices_page .cui_canvas {
     border-top: 1px solid #d0d0d0;
 }
-.dm_devices_page.cui_hsplit_layout .cui_hsplit_layout.cui_cell.cui_right {
+
+.dm_device_details.dm_title {
+    font-size: 26px;
+    padding: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-top: 4px solid #40b040;
+}
+
+.dm_device_details.dm_id {
+    background: #d0d0d0;
+    color: #000000;
+    font-weight: 400;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 16px;
+}
+
+.dm_device_details.dm_cloud_vars {
+    padding: 16px;
+    background: #d0d0d0;
+    white-space:nowrap;
+    overflow: auto;
+}
+
+.dm_device_details .cui_cloudvar {
+}
+
+.dm_device_details .cui_cloudvar_value {
+    font-size: 22px;
+}
+
+.dm_device_details.dm_contents td {
+    font-size: 16px;
+    padding: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #d8d8d8;
+    white-space: nowrap;
 }

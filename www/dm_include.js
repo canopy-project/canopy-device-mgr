@@ -51,6 +51,7 @@ includeJsFile("/nodes/analytics_page/dm_maps_screen.js");
 includeJsFile("/nodes/analytics_page/dm_maps_sidebar.js");
 
 includeJsFile("/nodes/devices_page/dm_create_devices_screen.js");
+includeJsFile("/nodes/devices_page/dm_device_details.js");
 includeJsFile("/nodes/devices_page/dm_device_list.js");
 includeJsFile("/nodes/devices_page/dm_device_list_nav_bar.js");
 includeJsFile("/nodes/devices_page/dm_device_list_screen.js");

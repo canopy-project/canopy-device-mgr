@@ -56,13 +56,29 @@ function DmDeviceListScreen(params) {
             }
         });
 
+        deviceDetailsNode = new DmDeviceDetails({
+            user: params.user,
+            onDeviceModified: function() {
+                deviceListNode.refresh();
+            }
+        });
+
+
+        $deviceDetailsWindow = cuiCompose([
+            "<div style='position:fixed; right:24px; width:360px; top:125px; z-index:10000; background:#ffffff; border: 1px solid #a0a0a0; box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);'>",
+                deviceDetailsNode,
+            "</div>",
+        ]);
+
+        $deviceDetailsWindow.hide();
+
         deviceListNode = new DmDeviceList({
             user: params.user,
             onSelect: function(idx, device) {
-                deviceDetailsNode.setDevice(device);
+                $deviceDetailsWindow.show();
+                deviceDetailsNode.setDevice(device).refresh();
             },
             onShow: function() {
-                deviceDetailsNode.show();
                 sidebarNode.show();
                 menu.setBreadcrumb(null).refresh();
             }
@@ -70,20 +86,25 @@ function DmDeviceListScreen(params) {
 
         deviceListNode.setDeviceQuery(params.user.devices());
             
-        deviceDetailsNode = new CanoDeviceDetailsNode({
-            user: params.user,
-            onDeviceModified: function() {
-                deviceListNode.refresh();
-            }
-        });
-
-        layout = new CuiHSplitLayout({
-            cssClass: "dm_devices_page",
-            left: sidebarNode.get$(),
-            right: deviceListNode,
-            leftSize: "220px"
+        innerLayout = new CuiHSplitLayout({
+            left: deviceListNode,
+            right: cuiCompose([
+                $deviceDetailsWindow,
+                "<div style='position:absolute; top:0px; background: #ffffff; border-left: 1px solid #a0a0a0;bottom:0px; width:100%'>",
+                    "<div style='font-size:22px;padding:16px;'>",
+                        "ThingSee0",
+                    "</div>",
+                "</div>",
+            ]),
+            rightSize: "3px"
         });
         
+        layout = new CuiHSplitLayout({
+            left: sidebarNode.get$(),
+            right: innerLayout,
+            leftSize: "220px"
+        });
+
         /*layout = new CuiHSplit3Layout({
             cssClass: "",
             left: sidebarNode.get$(),
@@ -103,11 +124,10 @@ function DmDeviceListScreen(params) {
         if (dirty("user")) {
         }
 
-        cuiRefresh([layout], live);
+        cuiRefresh([layout, deviceDetailsNode], live);
 
         if (live) {
             sidebarNode.onLive();
-            deviceDetailsNode.onLive();
             deviceListNode.refresh(live);
         }
     }

@@ -93,6 +93,9 @@ function DmDeviceList(params) {
                 <th align=left>\
                     Cloud Vars\
                 </th>\
+                <th align=left width=1>\
+                    <div style='display:inline-block; width:320px; height:1px'>\
+                </th>\
             </tr>\
         </table>");
 
@@ -116,6 +119,8 @@ function DmDeviceList(params) {
                 </td>\
                 <td>\
                     " + device.vars().length + "\
+                </td>\
+                <td align=left width=1>\
                 </td>\
             </tr>");
             $row.off('click').on('click', function(idx, device) {
@@ -165,5 +170,8 @@ function DmDeviceList(params) {
         }
 
         cuiRefresh([navBar, canvas], live);
+    }
+
+    this.onSetupCallbacks = function() {
     }
 }
