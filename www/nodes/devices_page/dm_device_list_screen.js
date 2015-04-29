@@ -52,7 +52,7 @@ function DmDeviceListScreen(params) {
                 }
             },
             onFilterChange : function(filterName, filter) {
-                deviceListNode.setFilter(filterName, filter);
+                deviceListNode.setFilterName(filterName).refresh();
             }
         });
 

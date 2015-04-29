@@ -37,6 +37,12 @@ function DmDeviceList(params) {
 
     this.setDeviceQuery = function(__deviceQuery) {
         _deviceQuery = __deviceQuery;
+        return this;
+    }
+
+    this.setFilterName = function(__filterName) {
+        navBar.setFilterName(__filterName);
+        return this;
     }
 
     this.onConstruct = function() {
@@ -46,7 +52,8 @@ function DmDeviceList(params) {
         navBar = new DmDeviceListNavBar({
             onPageChange: function(page) {
                 self.markDirty().refresh();
-            }
+            },
+            filterName: "All",
         });
 
         var $container = $("<div>");

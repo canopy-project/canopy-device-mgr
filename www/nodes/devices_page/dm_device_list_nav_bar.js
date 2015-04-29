@@ -51,6 +51,7 @@ function DmDeviceListNavBar(params) {
     this.setFilterName = function(_filterName) {
         filterName = _filterName;
         this.markDirty();
+        return this;
     }
 
     this.onConstruct = function() {
@@ -69,12 +70,12 @@ function DmDeviceListNavBar(params) {
 
         return [
             "<div style='padding-top: 8px; padding-bottom:4px; max-width:800px;'>",
-                "<div style='display: inline-block; width:50%; text-align: left'>",
+                "<div style='display: inline-block; width:70%; text-align: left'>",
                     "<div style='padding-left: 8px'>",
                         $filterName,
                     "</div>",
                 "</div>",
-                "<div style='display: inline-block; width:50%; text-align: right'>",
+                "<div style='display: inline-block; width:30%; text-align: right'>",
                     "<div style='padding-right: 8px'>",
                         pageControl,
                     "</div>",
