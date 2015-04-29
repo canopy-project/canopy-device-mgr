@@ -1,4 +1,8 @@
 v15.05.01
+- FIX timeseries plots
+- Realtime update
+- FIX filters
+- FIX editable text.
 
 - Device List: Filtering
 - Device List: Sorting

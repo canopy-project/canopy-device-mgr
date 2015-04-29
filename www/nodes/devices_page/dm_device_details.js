@@ -35,6 +35,7 @@ function DmDeviceDetails(params) {
     var $contents;
     var $id;
     var $cloudvars;
+    var plot;
 
     this.setDevice = function(__device) {
         _device = __device;
@@ -42,6 +43,11 @@ function DmDeviceDetails(params) {
     }
 
     this.onConstruct = function() {
+        plot = new CuiCloudVarPlot({
+            height: 100,
+            autoRefreshInterval: 5000,
+        });
+
         $title = $("<div class='dm_device_details dm_title'></div>");
 
         $id = $("<div class='dm_device_details dm_id'></div>");
@@ -57,6 +63,7 @@ function DmDeviceDetails(params) {
                 "<div style='padding-left:8px; font-weight:400; font-size:16px'>Cloud Variables</div>",
                 $cloudvars,
                 "<div style='padding-left:8px; font-weight:400; font-size:16px'>bagel_mode channel darkness avg_rssi humidity temperature station_cnt</div>",
+                plot,
                 "<br><br>",
             "</div>"
         ];
@@ -135,10 +142,12 @@ function DmDeviceDetails(params) {
                         $cloudvars.append(cloudVar.get$());
                         cloudVar.live();
                     }
+                    plot.setCloudVar(device.vars()[0]).refresh(live);
                 }
             } else {
                 $title.html("Select a device");
             }
         }
+        cuiRefresh([], live);
     }
 }
