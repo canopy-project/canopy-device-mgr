@@ -121,3 +121,58 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
     border-bottom: 1px solid #d8d8d8;
     white-space: nowrap;
 }
+
+td.dm_device_table.dm_uuid {
+    width: 270px;
+}
+
+.dm_device_table td,
+.dm_device_table th {
+    white-space:nowrap;
+    padding: 8px;
+}
+
+@media (min-width : 1260px) {
+    .dm_invisible_above_1260w {
+        visibility: hidden;
+    }
+}
+
+@media (max-width : 1150px) {
+    .dm_device_table td {
+        white-space:nowrap;
+        padding: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+}
+
+.dm_devices_page.dm_device_details_window {
+    position:fixed; 
+    right:24px; 
+    width:360px; 
+    top:125px; 
+    z-index:10000; 
+    background:#ffffff; 
+    border: 1px solid #a0a0a0; 
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width : 1024px) {
+    .dm_hide_below_1024w {
+        display: none !important;
+    }
+    .dm_devices_page.dm_device_details_window {
+        left:228px; 
+        right:8px; 
+        width: auto;
+        bottom:16px; 
+        top: auto;
+        height: 255px; 
+        overflow: auto;
+    }
+    .dm_devices_page .cui_canvas {
+        bottom: 284px;
+        border-bottom: 1px solid #a0a0a0;
+    }
+}

@@ -1,6 +1,6 @@
 v15.05.01
 
-- Device List: Pagination
+- Device List: Filtering
 - Device List: Sorting
 - Responsive Design
 - Realtime refresh
@@ -9,7 +9,6 @@ v15.05.01
 - Support "friendly_name_base" when creating devices
 - With large creation, disable the "Create button" until response comes back.
 - Numbers when creating devices should be 0-padded.
-- App dropdown selection
 - Helpful error responses on Password Reset page, Account Activation page, etc.
 
 POSTPONED
@@ -19,3 +18,4 @@ POSTPONED
 - App Registration
 - Hide "Secret Key" once activated 
 - Download secret keys
+- App dropdown selection

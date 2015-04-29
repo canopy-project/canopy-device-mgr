@@ -74,7 +74,7 @@ function DmDeviceList(params) {
     }
 
     function constructTable(_devices) {
-        $table = $("<table border=0 class='dm_devices_page dm_device_table' cellspacing=0 cellpadding=8>\
+        $table = $("<table border=0 class='dm_devices_page dm_device_table' cellspacing=0>\
             <tr>\
                 <th align=left>\
                     UUID\
@@ -93,8 +93,8 @@ function DmDeviceList(params) {
                 <th align=left>\
                     Cloud Vars\
                 </th>\
-                <th align=left width=1>\
-                    <div style='display:inline-block; width:320px; height:1px'>\
+                <th align=left class='dm_hide_below_1024w' width=1>\
+                    <div style='display:inline-block; width:368px; height:1px'>\
                 </th>\
             </tr>\
         </table>");
@@ -104,9 +104,9 @@ function DmDeviceList(params) {
             var lastActivity = device.lastActivitySecondsAgo();
             var selected = (selectedDevice && (selectedDevice.id() == device.id())) ? "class=selected" : "";
             $row = $("<tr " + selected + ">\
-                <td width=10% nowrap style='overflow: hidden; font-size:12px; font-family:monospace'><div style='position:relative; vertical-align=text-baseline;'><div style='display: inline-block;position:absolute;'>" + device.id() + "</div>&nbsp;</div></td>\
-                <td width=10 style='padding-left:0px'>\
-                <div style='font-weight:300'>...</div>\
+                <td class='dm_device_table dm_uuid' nowrap style='overflow: hidden; font-size:12px; font-family:monospace'><div style='position:relative; vertical-align=text-baseline;'><div style='display: inline-block;position:absolute;'>" + device.id() + "</div>&nbsp;</div></td>\
+                <td width=1 style='padding-left:0px'>\
+                    <div class='dm_invisible_above_1260w' style='font-weight:300'>...</div>\
                 </td>\
                 <td>\
                     " + device.name() + "\
@@ -120,7 +120,7 @@ function DmDeviceList(params) {
                 <td>\
                     " + device.vars().length + "\
                 </td>\
-                <td align=left width=1>\
+                <td class='dm_hide_below_1024w' align=left width=1>\
                 </td>\
             </tr>");
             $row.off('click').on('click', function(idx, device) {

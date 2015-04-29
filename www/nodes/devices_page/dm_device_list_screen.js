@@ -65,7 +65,7 @@ function DmDeviceListScreen(params) {
 
 
         $deviceDetailsWindow = cuiCompose([
-            "<div style='position:fixed; right:24px; width:360px; top:125px; z-index:10000; background:#ffffff; border: 1px solid #a0a0a0; box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);'>",
+            "<div class='dm_devices_page dm_device_details_window'>",
                 deviceDetailsNode,
             "</div>",
         ]);
@@ -86,22 +86,9 @@ function DmDeviceListScreen(params) {
 
         deviceListNode.setDeviceQuery(params.user.devices());
             
-        innerLayout = new CuiHSplitLayout({
-            left: deviceListNode,
-            right: cuiCompose([
-                $deviceDetailsWindow,
-                "<div style='position:absolute; top:0px; background: #ffffff; border-left: 1px solid #a0a0a0;bottom:0px; width:100%'>",
-                    "<div style='font-size:22px;padding:16px;'>",
-                        "ThingSee0",
-                    "</div>",
-                "</div>",
-            ]),
-            rightSize: "3px"
-        });
-        
         layout = new CuiHSplitLayout({
             left: sidebarNode.get$(),
-            right: innerLayout,
+            right: cuiCompose([deviceListNode, $deviceDetailsWindow]),
             leftSize: "220px"
         });
 
