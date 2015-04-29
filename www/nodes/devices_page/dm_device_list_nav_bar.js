@@ -19,14 +19,20 @@
  *
  *  PARAMS:
  *
+ *      .filterName
+ *
  *  METHODS:
  *
  */
 function DmDeviceListNavBar(params) {
     cuiInitNode(this);
+    this.markDirty();
+
     var self = this;
 
     var pageControl;
+    var filterName = (params.filterName ? params.filterName : "");
+    var $filterName;
 
     this.startIdx = function() {
         return pageControl.startIdx();
@@ -37,7 +43,14 @@ function DmDeviceListNavBar(params) {
     }
 
     this.setNumItems = function(count) {
-        return pageControl.setNumItems(count);
+        this.markDirty();
+        pageControl.setNumItems(count);
+        return this;
+    }
+
+    this.setFilterName = function(_filterName) {
+        filterName = _filterName;
+        this.markDirty();
     }
 
     this.onConstruct = function() {
@@ -47,20 +60,36 @@ function DmDeviceListNavBar(params) {
                 if (params.onPageChange) {
                     params.onPageChange(page);
                 }
+                self.markDirty().refresh();
             },
             itemsPerPage: 30
         });
 
+        $filterName = $("<div class='dm_device_list_nav_bar dm_filter_name'></div>");
+
         return [
             "<div style='padding-top: 8px; padding-bottom:4px; max-width:800px;'>",
-                "<div style='text-align: right'>",
-                    pageControl,
+                "<div style='display: inline-block; width:50%; text-align: left'>",
+                    "<div style='padding-left: 8px'>",
+                        $filterName,
+                    "</div>",
+                "</div>",
+                "<div style='display: inline-block; width:50%; text-align: right'>",
+                    "<div style='padding-right: 8px'>",
+                        pageControl,
+                    "</div>",
                 "</div>",
             "</div>"
         ];
     }
 
     this.onRefresh = function($me, dirty, live) {
+        if (dirty()) {
+            $filterName.html("Showing <i>" + filterName + "</i><b> " +
+                (pageControl.startIdx()+1) + "-" + (pageControl.endIdx()) + 
+                " of " + pageControl.numItems() + "</b>"
+            );
+        }
         cuiRefresh([pageControl], live);
     }
 }

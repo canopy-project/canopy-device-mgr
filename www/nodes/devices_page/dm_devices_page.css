@@ -80,5 +80,11 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
     background: #ffffff;
 }
 
+.dm_device_list_nav_bar.dm_filter_name{
+    font-size: 16px;
+    color: #404040;
+    letter-spacing: 0.5px;
+}
+
 .dm_devices_page.cui_hsplit_layout .cui_hsplit_layout.cui_cell.cui_right {
 }
