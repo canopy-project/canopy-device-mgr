@@ -150,7 +150,8 @@ td.dm_device_table.dm_uuid {
 .dm_devices_page.dm_device_details_window {
     position:fixed; 
     right:24px; 
-    width:360px; 
+    min-width:360px; 
+    width: 30%;
     top:125px; 
     z-index:10000; 
     background:#ffffff; 

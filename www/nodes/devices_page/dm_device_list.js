@@ -93,8 +93,8 @@ function DmDeviceList(params) {
                 <th align=left>\
                     Cloud Vars\
                 </th>\
-                <th align=left class='dm_hide_below_1024w' width=1>\
-                    <div style='display:inline-block; width:368px; height:1px'>\
+                <th align=left class='dm_hide_below_1024w' width=40%>\
+                    <div style='display:inline-block; min-width:368px; height:1px'>\
                 </th>\
             </tr>\
         </table>");
@@ -120,7 +120,7 @@ function DmDeviceList(params) {
                 <td>\
                     " + device.vars().length + "\
                 </td>\
-                <td class='dm_hide_below_1024w' align=left width=1>\
+                <td class='dm_hide_below_1024w' align=left width=40%>\
                 </td>\
             </tr>");
             $row.off('click').on('click', function(idx, device) {
