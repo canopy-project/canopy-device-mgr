@@ -44,7 +44,6 @@ function CanoDeviceDetailsVarsNode(params) {
             return;
         }
 
-        console.log(device);
         if (device.vars().length == 0) {
             // no cloud variables
             $me.html("<div style='font-size:17px'>This device does not have any Cloud Variables.\

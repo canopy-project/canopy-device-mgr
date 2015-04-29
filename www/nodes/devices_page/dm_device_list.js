@@ -31,9 +31,12 @@ function DmDeviceList(params) {
 
     var navBar;
     var canvas;
+    var selectedDevice = null;
 
     var deviceQuery;
     var _deviceQuery;
+
+    var devices;
 
     this.setDeviceQuery = function(__deviceQuery) {
         _deviceQuery = __deviceQuery;
@@ -51,7 +54,7 @@ function DmDeviceList(params) {
 
         navBar = new DmDeviceListNavBar({
             onPageChange: function(page) {
-                self.markDirty().refresh();
+                self.markDirty("page").refresh();
             },
             filterName: "All",
         });
@@ -70,7 +73,7 @@ function DmDeviceList(params) {
         return $container;
     }
 
-    function constructTable(devices) {
+    function constructTable(_devices) {
         $table = $("<table border=0 class='dm_devices_page dm_device_table' cellspacing=0 cellpadding=8>\
             <tr>\
                 <th align=left>\
@@ -93,15 +96,14 @@ function DmDeviceList(params) {
             </tr>\
         </table>");
 
-        for (var i = 0; i < devices.length; i++) {
-            var device = devices[i];
+        for (var i = 0; i < _devices.length; i++) {
+            var device = _devices[i];
             var lastActivity = device.lastActivitySecondsAgo();
-            var selectedDevice = null;
             var selected = (selectedDevice && (selectedDevice.id() == device.id())) ? "class=selected" : "";
             $row = $("<tr " + selected + ">\
                 <td width=10% nowrap style='overflow: hidden; font-size:12px; font-family:monospace'><div style='position:relative; vertical-align=text-baseline;'><div style='display: inline-block;position:absolute;'>" + device.id() + "</div>&nbsp;</div></td>\
                 <td width=10 style='padding-left:0px'>\
-                <div style=''>...</div>\
+                <div style='font-weight:300'>...</div>\
                 </td>\
                 <td>\
                     " + device.name() + "\
@@ -119,8 +121,10 @@ function DmDeviceList(params) {
             $row.off('click').on('click', function(idx, device) {
                 return function() {
                     selectedDevice = device;
-                    params.onSelect(idx, device);
-                    self.refresh();
+                    if (params.onSelect) {
+                        params.onSelect(idx, device);
+                    }
+                    self.markDirty("table").refresh();
                 }
             }(i, device));
             $table.append($row);
@@ -129,7 +133,7 @@ function DmDeviceList(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        var refresh = dirty();
+        var refresh = dirty("page");
 
         if (deviceQuery != _deviceQuery) {
             refresh = true;
@@ -151,8 +155,13 @@ function DmDeviceList(params) {
                         return;
                     }
                     $deviceList.html(constructTable(data.devices));
+                    devices = data.devices;
                 });
             });
+        } else if (dirty("table")) {
+            // TODO: it is very inefficient to regenerate the whole table all
+            // the time.
+            $deviceList.html(constructTable(devices));
         }
 
         cuiRefresh([navBar, canvas], live);

@@ -69,7 +69,7 @@ function DmDeviceListNavBar(params) {
         $filterName = $("<div class='dm_device_list_nav_bar dm_filter_name'></div>");
 
         return [
-            "<div style='padding-top: 8px; padding-bottom:4px; max-width:800px;'>",
+            "<div class='dm_devices_page dm_device_list_nav_bar'>",
                 "<div style='display: inline-block; width:70%; text-align: left'>",
                     "<div style='padding-left: 8px'>",
                         $filterName,

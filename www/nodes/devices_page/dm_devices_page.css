@@ -73,11 +73,9 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
 }
 
 .dm_devices_page.dm_device_list_nav_bar {
-    border: 1px solid #ff0000;
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    background: #ffffff;
+    max-width: 800px;
+    padding-bottom:4px;
+    padding-top:8px;
 }
 
 .dm_device_list_nav_bar.dm_filter_name{
@@ -86,5 +84,8 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
     letter-spacing: 0.5px;
 }
 
+.dm_devices_page .cui_canvas {
+    border-top: 1px solid #d0d0d0;
+}
 .dm_devices_page.cui_hsplit_layout .cui_hsplit_layout.cui_cell.cui_right {
 }
