@@ -116,7 +116,7 @@ function DmDeviceListScreen(params) {
 
         if (live) {
             sidebarNode.onLive();
-            deviceListNode.refresh(live);
         }
+        deviceListNode.refresh(live);
     }
 }

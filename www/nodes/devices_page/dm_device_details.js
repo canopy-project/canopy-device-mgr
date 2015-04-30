@@ -285,7 +285,7 @@ function DmDeviceDetails(params) {
             }
         }
 
-        cuiRefresh([deviceNameEditable, locationNoteEditable], live);
+        cuiRefresh([deviceNameEditable, locationNoteEditable, plotOption, plot], live);
         /*var redraw = dirty();
         if (_device != device) {
             device = _device;

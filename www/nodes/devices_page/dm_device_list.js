@@ -144,6 +144,9 @@ function DmDeviceList(params) {
     this.onRefresh = function($me, dirty, live) {
         var refresh = dirty("page");
 
+        if (this.liveStatus() == CUI_LIVE_STATUS_TRANSITION_TO_LIVE) {
+            refresh = true;
+        }
         if (deviceQuery != _deviceQuery) {
             refresh = true;
             deviceQuery = _deviceQuery;
