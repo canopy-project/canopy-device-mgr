@@ -19,7 +19,8 @@
  *
  *  PARAMS:
  *
- *      autoRefreshInterval - default: 20000
+ *      .autoRefreshInterval - default: 20000
+ *      .onDeviceModified
  *
  *  METHODS:
  *      setDevice(device)
@@ -34,6 +35,8 @@ function DmDeviceDetails(params) {
     var _device;
     var cloudVarWidgets = [];
     var $plotOption;
+    var deviceNameEditable;
+    var locationNoteEditable;
 
     var autoRefreshInterval = (params.autoRefreshInterval ? params.autoRefreshInterval : 20000);
     var interval;
@@ -45,10 +48,12 @@ function DmDeviceDetails(params) {
     var $connectionStatusText;
     var $locationNoteText;
     var $infoTable;
+    var $secretKey;
 
     var cachedDeviceName;
     var cachedDeviceId;
     var cachedDeviceId2;
+    var cachedSecretKey;
     var cachedLastActivity;
     var cachedConnectionStatus;
     var cachedLocationNote;
@@ -71,7 +76,49 @@ function DmDeviceDetails(params) {
         
         $plotOption = $("<div>");
 
-        $title = $("<div class='dm_device_details dm_title'></div>");
+        deviceNameEditable = new CuiEditableText({
+            cssClass: "cui_default dm_device_details",
+            value: "My Device",
+            onChange: function(value, userEdited) {
+                console.log("onChange", userEdited);
+                if (userEdited) {
+                    device.name(value);
+                    device.updateToRemote().onDone(function(result, resp) {
+                        if (result != CANOPY_SUCCESS) {
+                            alert("Error changing device name: " + resp.errorMsg);
+                        }
+                        if (params.onDeviceModified) {
+                            params.onDeviceModified(device);
+                        }
+                    });
+                }
+            }
+        });
+
+        locationNoteEditable = new CuiEditableText({
+            cssClass: "cui_default dm_device_details",
+            value: "",
+            onChange: function(value, userEdited) {
+                console.log("onChange", userEdited);
+                if (userEdited) {
+                    device.locationNote(value);
+                    device.updateToRemote().onDone(function(result, resp) {
+                        if (result != CANOPY_SUCCESS) {
+                            alert("Error changing location note: " + resp.errorMsg);
+                        }
+                        if (params.onDeviceModified) {
+                            params.onDeviceModified(device);
+                        }
+                    });
+                }
+            }
+        });
+
+        $title = cuiCompose([
+            "<div class='dm_device_details dm_title'>",
+                deviceNameEditable,
+            "</div>"
+        ]);
 
         $id = $("<div class='dm_device_details dm_id'></div>");
 
@@ -80,10 +127,11 @@ function DmDeviceDetails(params) {
         $lastActivityText = $("<div>Loading...</div>");
         $connectionStatusText = $("<div>Loading...</div>");
         $locationNoteText = $("<div>Loading...</div>");
+        $secretKey = $("<div>Loading...</div>");
 
         $infoTable = cuiCompose([
             "<div class='dm_device_details dm_contents'>",
-                "<table width=100% cellspacing=0 cellpadding=0'>",
+                "<table width=100% cellspacing=0 cellpadding=0>",
                     "<tr>",
                         "<td width=1 nowrap align=left style='font-weight:400; color:#404040'>",
                             "Activity Status:",
@@ -105,20 +153,20 @@ function DmDeviceDetails(params) {
                             "Secret Key:",
                         "</td>",
                         "<td>",
-                            "<div style='font-size:14px; font-family:monospace'>",
-                                "<a href=show>show</a>",
+                            "<div style='font-size:12px; font-family:monospace'>",
+                                    $secretKey, 
                             "</div>",
                         "</td>",
                     "</tr>",
                     "<tr>",
                         "<td width=1 nowrap align=left style='font-weight:400; color:#404040'>",
-                            "Location Note",
+                            "Location Note:",
                         "</td>",
                         "<td>",
-                            $locationNoteText,
+                            locationNoteEditable,
                         "</td>",
                     "</tr>",
-                "</table><br>",
+                "</table>",
             "</div>"
         ]);
 
@@ -145,11 +193,15 @@ function DmDeviceDetails(params) {
         if (dirty("info") && device) {
             if (cachedDeviceName !== device.name()) {
                 cachedDeviceName = device.name();
-                $title.html(cachedDeviceName);
+                deviceNameEditable.setValue(cachedDeviceName);
             }
             if (cachedDeviceId !== device.id()) {
                 cachedDeviceId = device.id();
                 $id.html("ID: " + cachedDeviceId);
+            }
+            if (cachedSecretKey !== device.secretKey()) {
+                cachedSecretKey = device.secretKey();
+                $secretKey.html(" " + cachedSecretKey);
             }
             if (cachedLastActivity !== device.lastActivitySecondsAgo()
                 || cachedConnectionStatus !== device.websocketConnected()
@@ -161,7 +213,7 @@ function DmDeviceDetails(params) {
             }
             if (cachedLocationNote !== device.locationNote()) {
                 cachedLocationNote = device.locationNote();
-                $locationNoteText.html(cachedLocationNote);
+                locationNoteEditable.setValue(cachedLocationNote);
             }
         }
 
@@ -177,7 +229,6 @@ function DmDeviceDetails(params) {
 
             for (var i = 0; i < vars.length; i++) {
                 if (cloudVarWidgets[i] === undefined) {
-                    console.log("Creating cloudvar widget");
                     var cloudVarWidget = new CuiCloudVarWidget({
                         cssClass: "dm_device_details",
                         cloudVar: vars[i],
@@ -186,7 +237,6 @@ function DmDeviceDetails(params) {
                     $cloudvars.append(cloudVarWidget.get$());
                     cloudVarWidget.refresh(live);
                 } else {
-                    console.log("Using existing cloudvar widget");
                     cloudVarWidgets[i].setCloudVar(vars[i]);
                     if (countChanged) {
                         $cloudvars.append(cloudVarWidgets[i].get$());
@@ -234,6 +284,8 @@ function DmDeviceDetails(params) {
                 }
             }
         }
+
+        cuiRefresh([deviceNameEditable, locationNoteEditable], live);
         /*var redraw = dirty();
         if (_device != device) {
             device = _device;

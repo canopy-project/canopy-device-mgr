@@ -84,9 +84,9 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
 
 .dm_device_details.dm_title {
     font-size: 26px;
-    padding: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
     border-top: 4px solid #40b040;
 }
 
@@ -112,11 +112,12 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
     font-size: 22px;
 }
 
+.dm_device_details.dm_contents table {
+    padding: 12px;
+}
 .dm_device_details.dm_contents td {
     font-size: 16px;
-    padding: 16px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding: 4px;
     border-bottom: 1px solid #d8d8d8;
     white-space: nowrap;
 }
@@ -200,4 +201,31 @@ td.dm_device_table.dm_uuid {
 .dm_device_details.cui_option .cui_option.cui_toggle.cui_on {
     background: #303030;
     color: #ffffff;
+}
+
+.dm_device_details.dm_title .dm_device_details.cui_editable_text {
+    font-size: 26px;
+}
+.dm_device_details.dm_title .dm_device_details.cui_editable_text .cui_value{
+    font-size: 26px;
+}
+.dm_device_details.dm_title .dm_device_details.cui_editable_text input {
+    font-size: 26px;
+    width: auto;
+}
+
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text {
+    font-size: 16px;
+    padding: 0px;
+}
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text .cui_value{
+    padding: 2px;
+}
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text .cui_value:hover{
+    padding: 1px;
+}
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text input {
+    padding: 1px;
+    font-size: 16px;
+    width: auto;
 }

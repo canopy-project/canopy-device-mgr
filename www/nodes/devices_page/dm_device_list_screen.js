@@ -60,7 +60,7 @@ function DmDeviceListScreen(params) {
             user: params.user,
             autoRefreshInterval: 5000,
             onDeviceModified: function() {
-                deviceListNode.refresh();
+                deviceListNode.markDirty("page").refresh();
             }
         });
 
