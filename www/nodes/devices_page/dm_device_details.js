@@ -71,7 +71,7 @@ function DmDeviceDetails(params) {
     this.onConstruct = function() {
         plot = new CuiCloudVarPlot({
             height: 100,
-            autoRefreshInterval: autoRefreshInterval,
+            autoRefreshInterval: 0,
         });
         
         $plotOption = $("<div>");
