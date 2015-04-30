@@ -101,7 +101,6 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
 
 .dm_device_details.dm_cloud_vars {
     padding: 16px;
-    background: #d0d0d0;
     white-space:nowrap;
     overflow: auto;
 }
@@ -153,6 +152,8 @@ td.dm_device_table.dm_uuid {
     min-width:360px; 
     width: 30%;
     top:125px; 
+    /*bottom:16px; */
+    overflow: auto;
     z-index:10000; 
     background:#ffffff; 
     border: 1px solid #a0a0a0; 
@@ -176,4 +177,27 @@ td.dm_device_table.dm_uuid {
         bottom: 284px;
         border-bottom: 1px solid #a0a0a0;
     }
+}
+
+.dm_device_details.cui_option {
+    display: inline-block;
+    font-size: 14px;
+    padding-left:16px;
+    font-weight: 400;
+}
+
+.dm_device_details.cui_option .cui_option.cui_toggle {
+    display: inline-block;
+    border-radius: 16px;
+    padding: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #a0a0a0;
+}
+
+.dm_device_details.cui_option .cui_option.cui_toggle.cui_on {
+    background: #303030;
+    color: #ffffff;
 }

@@ -30,12 +30,14 @@ function DmDeviceDetails(params) {
 
     var device = params.device;
     var _device;
+    var $plotOption;
 
     var $title;
     var $contents;
     var $id;
     var $cloudvars;
     var plot;
+    var plotOption;
 
     this.setDevice = function(__device) {
         _device = __device;
@@ -47,6 +49,8 @@ function DmDeviceDetails(params) {
             height: 100,
             autoRefreshInterval: 5000,
         });
+        
+        $plotOption = $("<div>");
 
         $title = $("<div class='dm_device_details dm_title'></div>");
 
@@ -60,11 +64,13 @@ function DmDeviceDetails(params) {
                 $title,
                 $id,
                 $contents,
-                "<div style='padding-left:8px; font-weight:400; font-size:16px'>Cloud Variables</div>",
+                "<div style='padding-left:16px; font-weight:400; font-size:16px'>CLOUD VARIABLES</div>",
                 $cloudvars,
-                "<div style='padding-left:8px; font-weight:400; font-size:16px'>bagel_mode channel darkness avg_rssi humidity temperature station_cnt</div>",
-                plot,
-                "<br><br>",
+                "<div style='padding-left:16px; font-weight:400; font-size:16px'>PAST HOUR</div>",
+                $plotOption,
+                "<div style='padding-left:0px; padding-right:0px; border-top:1px solid #d0d0d0; border-bottom:1px solid #d0d0d0'>",
+                    plot,
+                "</div><br>",
             "</div>"
         ];
     }
@@ -144,9 +150,37 @@ function DmDeviceDetails(params) {
                     }
                     plot.setCloudVar(device.vars()[0]).refresh(live);
                 }
+
+                $plotOption.html("");
+                if (device.vars().length == 0) {
+                    $plotOption.html("No history");
+                } else {
+                    var items = [];
+                    for (var i = 0; i < device.vars().length; i++) {
+                        items.push({
+                            "content" : device.vars()[i].name(),
+                            "value" : device.vars()[i],
+                        });
+                    }
+                    plotOption = new CuiOption({
+                        cssClass: "dm_device_details",
+                        items: items,
+                        onSelect: function(idx) {
+                            return function(_idx, value) {
+                                plot.setCloudVar(value).refresh(live);
+                            };
+                        }(i),
+                        selectedIdx: 0,
+                    });
+                    $plotOption.html(plotOption.get$());
+                    plotOption.live();
+                }
+
             } else {
                 $title.html("Select a device");
             }
+
+
         }
         cuiRefresh([], live);
     }
