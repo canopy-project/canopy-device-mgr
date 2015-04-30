@@ -209,7 +209,23 @@ function DmDeviceDetails(params) {
                 cachedLastActivity = device.lastActivitySecondsAgo();
                 cachedConnectionStatus = device.websocketConnected();
                 $lastActivityText.html(CanopyUtil_LastSeenSecondsAgoText(cachedLastActivity));
-                $connectionStatusText.html(CanopyUtil_ConnectionStatusText(cachedLastActivity, device.websocketConnected()));
+                $connectionStatusText.html(CanopyUtil_ConnectionStatusText(cachedLastActivity, cachedConnectionStatus));
+
+                if (!cachedLastActivity) {
+                    $title.css("border-top", "4px solid #3060c0");
+                } else if (cachedLastActivity < 60) {
+                    $title.css("border-top", "4px solid #30b030");
+                } else if (cachedLastActivity < 60*60) {
+                    $title.css("border-top", "4px solid #a0a030");
+                } else {
+                    $title.css("border-top", "4px solid #b03030");
+                }
+
+                // A bit of a hack to make the list update a bit more
+                // responsive on status change.
+                if (params.onDeviceModified) {
+                    params.onDeviceModified(device);
+                }
             }
             if (cachedLocationNote !== device.locationNote()) {
                 cachedLocationNote = device.locationNote();
