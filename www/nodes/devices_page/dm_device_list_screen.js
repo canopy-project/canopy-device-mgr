@@ -58,6 +58,7 @@ function DmDeviceListScreen(params) {
 
         deviceDetailsNode = new DmDeviceDetails({
             user: params.user,
+            autoRefreshInterval: 5000,
             onDeviceModified: function() {
                 deviceListNode.refresh();
             }

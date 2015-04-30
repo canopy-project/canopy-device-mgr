@@ -20,6 +20,7 @@
  *  PARAMS:
  *      params.user -- Optional CanopyUser object
  *      params.onCreateDeviceRequest
+ *      params.autoRefreshInterval - default 20000
  *
  *  METHODS:
  *      setDeviceQuery(dq)
@@ -29,6 +30,8 @@ function DmDeviceList(params) {
     cuiInitNode(this);
     var self = this;
 
+    var autoRefreshInterval = (params.autoRefreshInterval ? params.autoRefreshInterval : 20000);
+
     var navBar;
     var canvas;
     var selectedDevice = null;
@@ -37,6 +40,7 @@ function DmDeviceList(params) {
     var _deviceQuery;
 
     var devices;
+    var interval;
 
     this.setDeviceQuery = function(__deviceQuery) {
         _deviceQuery = __deviceQuery;
@@ -159,8 +163,21 @@ function DmDeviceList(params) {
                         alert("Problem fetching devices: " + data.errorMsg);
                         return;
                     }
-                    $deviceList.html(constructTable(data.devices));
+                    
                     devices = data.devices;
+
+                    /*// update selectedDevice to use the new CanopyDevice object.
+                    for (var i = 0; i < devices.length; i++) {
+                        if (selectedDevice && (selectedDevice.id() == devices[i].id())) {
+                            selectedDevice = devices[i];
+                            break;
+                        }
+                    }
+                    if (i == devices.length) {
+                        selectedDevice = null;
+                    }*/
+
+                    $deviceList.html(constructTable(data.devices));
                 });
             });
         } else if (dirty("table")) {
@@ -173,5 +190,11 @@ function DmDeviceList(params) {
     }
 
     this.onSetupCallbacks = function() {
+        if (!interval) {
+            interval = setInterval(function() {
+                self.markDirty("page");
+                self.refresh();
+            }, autoRefreshInterval);
+        }
     }
 }

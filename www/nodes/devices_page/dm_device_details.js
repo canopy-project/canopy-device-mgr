@@ -19,35 +19,54 @@
  *
  *  PARAMS:
  *
+ *      autoRefreshInterval - default: 20000
+ *
  *  METHODS:
  *      setDevice(device)
  *
  */
 function DmDeviceDetails(params) {
     cuiInitNode(this);
-    this.markDirty();
+    this.markDirty("info", "vars", "device");
     var self = this;
 
     var device = params.device;
     var _device;
+    var cloudVarWidgets = [];
     var $plotOption;
 
+    var autoRefreshInterval = (params.autoRefreshInterval ? params.autoRefreshInterval : 20000);
+    var interval;
+
     var $title;
-    var $contents;
     var $id;
     var $cloudvars;
+    var $lastActivityText;
+    var $connectionStatusText;
+    var $locationNoteText;
+    var $infoTable;
+
+    var cachedDeviceName;
+    var cachedDeviceId;
+    var cachedDeviceId2;
+    var cachedLastActivity;
+    var cachedConnectionStatus;
+    var cachedLocationNote;
+    var cachedVarCount;
+
     var plot;
     var plotOption;
 
     this.setDevice = function(__device) {
         _device = __device;
+        this.markDirty("info", "vars", "device");
         return this;
     }
 
     this.onConstruct = function() {
         plot = new CuiCloudVarPlot({
             height: 100,
-            autoRefreshInterval: 5000,
+            autoRefreshInterval: autoRefreshInterval,
         });
         
         $plotOption = $("<div>");
@@ -56,14 +75,58 @@ function DmDeviceDetails(params) {
 
         $id = $("<div class='dm_device_details dm_id'></div>");
 
-        $contents = $("<div class='dm_device_details dm_contents'></div>");
         $cloudvars = $("<div class='dm_device_details dm_cloud_vars'></div>");
+
+        $lastActivityText = $("<div>Loading...</div>");
+        $connectionStatusText = $("<div>Loading...</div>");
+        $locationNoteText = $("<div>Loading...</div>");
+
+        $infoTable = cuiCompose([
+            "<div class='dm_device_details dm_contents'>",
+                "<table width=100% cellspacing=0 cellpadding=0'>",
+                    "<tr>",
+                        "<td width=1 nowrap align=left style='font-weight:400; color:#404040'>",
+                            "Activity Status:",
+                        "</td>",
+                        "<td>",
+                            $lastActivityText,
+                        "</td>",
+                    "</tr>",
+                    "<tr>",
+                        "<td width=1 nowrap align=left style='font-weight:400; color:#404040'>",
+                            "Websocket:",
+                        "</td>",
+                        "<td>",
+                            $connectionStatusText,
+                        "</td>",
+                    "</tr>",
+                    "<tr>",
+                        "<td width=1 nowrap align=left style='font-weight:400; color:#404040'>",
+                            "Secret Key:",
+                        "</td>",
+                        "<td>",
+                            "<div style='font-size:14px; font-family:monospace'>",
+                                "<a href=show>show</a>",
+                            "</div>",
+                        "</td>",
+                    "</tr>",
+                    "<tr>",
+                        "<td width=1 nowrap align=left style='font-weight:400; color:#404040'>",
+                            "Location Note",
+                        "</td>",
+                        "<td>",
+                            $locationNoteText,
+                        "</td>",
+                    "</tr>",
+                "</table><br>",
+            "</div>"
+        ]);
 
         return [
             "<div class='dm_device_details " + params.cssClass + "'>",
                 $title,
                 $id,
-                $contents,
+                $infoTable,
                 "<div style='padding-left:16px; font-weight:400; font-size:16px'>CLOUD VARIABLES</div>",
                 $cloudvars,
                 "<div style='padding-left:16px; font-weight:400; font-size:16px'>PAST HOUR</div>",
@@ -76,7 +139,102 @@ function DmDeviceDetails(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        var redraw = dirty();
+        if (_device != device) {
+            device = _device;
+        }
+        if (dirty("info") && device) {
+            if (cachedDeviceName !== device.name()) {
+                cachedDeviceName = device.name();
+                $title.html(cachedDeviceName);
+            }
+            if (cachedDeviceId !== device.id()) {
+                cachedDeviceId = device.id();
+                $id.html("ID: " + cachedDeviceId);
+            }
+            if (cachedLastActivity !== device.lastActivitySecondsAgo()
+                || cachedConnectionStatus !== device.websocketConnected()
+            ) {
+                cachedLastActivity = device.lastActivitySecondsAgo();
+                cachedConnectionStatus = device.websocketConnected();
+                $lastActivityText.html(CanopyUtil_LastSeenSecondsAgoText(cachedLastActivity));
+                $connectionStatusText.html(CanopyUtil_ConnectionStatusText(cachedLastActivity, device.websocketConnected()));
+            }
+            if (cachedLocationNote !== device.locationNote()) {
+                cachedLocationNote = device.locationNote();
+                $locationNoteText.html(cachedLocationNote);
+            }
+        }
+
+        if (dirty("vars") && device) {
+            var vars = device.vars();
+            var countChanged = false;
+            if (cachedVarCount != vars.length) {
+                cachedVarCount = vars.length;
+                countChanged = true;
+                // Force repopulation
+                $cloudvars.html("");
+            }
+
+            for (var i = 0; i < vars.length; i++) {
+                if (cloudVarWidgets[i] === undefined) {
+                    console.log("Creating cloudvar widget");
+                    var cloudVarWidget = new CuiCloudVarWidget({
+                        cssClass: "dm_device_details",
+                        cloudVar: vars[i],
+                    });
+                    cloudVarWidgets.push(cloudVarWidget);
+                    $cloudvars.append(cloudVarWidget.get$());
+                    cloudVarWidget.refresh(live);
+                } else {
+                    console.log("Using existing cloudvar widget");
+                    cloudVarWidgets[i].setCloudVar(vars[i]);
+                    if (countChanged) {
+                        $cloudvars.append(cloudVarWidgets[i].get$());
+                    }
+                    cloudVarWidgets[i].refresh(live);
+                }
+
+                //$cloudvars.append(cloudVarWidgets[i].get$());
+                //cloudVarWidgets[i].refresh(live);
+            }
+            if (vars.length == 0) {
+                $cloudvars.html("No Cloud Variables");
+            }
+        }
+
+        if (dirty("device") && device) {
+            if (cachedDeviceId2 !== device.id()) {
+                cachedDeviceId2 = device.id();
+                $plotOption.html("");
+                if (device.vars().length == 0) {
+                    $plotOption.html("<div style='padding:16px'>No history</div>");
+                    plot.get$().hide();
+                } else {
+                    plot.get$().show();
+                    var items = [];
+                    for (var i = 0; i < device.vars().length; i++) {
+                        items.push({
+                            "content" : device.vars()[i].name(),
+                            "value" : device.vars()[i],
+                        });
+                    }
+                    plotOption = new CuiOption({
+                        cssClass: "dm_device_details",
+                        items: items,
+                        onSelect: function(idx) {
+                            return function(_idx, value) {
+                                plot.setCloudVar(value).refresh(live);
+                            };
+                        }(i),
+                        selectedIdx: 0,
+                    });
+                    plot.setCloudVar(device.vars()[0]).refresh(live);
+                    $plotOption.html(plotOption.get$());
+                    plotOption.refresh(live);
+                }
+            }
+        }
+        /*var redraw = dirty();
         if (_device != device) {
             device = _device;
             redraw = true;
@@ -184,6 +342,21 @@ function DmDeviceDetails(params) {
 
 
         }
-        cuiRefresh([], live);
+        cuiRefresh([], live);*/
     }
+
+    this.onSetupCallbacks = function($me) {
+        if (!interval) {
+            interval = setInterval(function() {
+                device.updateFromRemote().onDone(function(result, resp) {
+                    if (result != CANOPY_SUCCESS) {
+                        console.log(resp.errorMsg);
+                        return;
+                    }
+                    self.markDirty("info", "vars").refresh();
+                });
+            }, autoRefreshInterval);
+        }
+    }
+
 }
