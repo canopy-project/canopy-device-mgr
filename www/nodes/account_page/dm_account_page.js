@@ -32,6 +32,7 @@ function DmAccountPage(params) {
     var switcher;
     var profileScreen;
     var passwordScreen;
+    var canvas;
     
     this.onConstruct = function() {
         menu = new CuiTopbar({
@@ -74,12 +75,25 @@ function DmAccountPage(params) {
             }
         });
 
+        layout = new CuiHSplitLayout({
+            left: sidebar.get$(),
+            right: cuiCompose(["<div style='padding:16px'>", switcher, "</div>"]),
+            leftSize: "220px"
+        });
+
+        canvas = new CuiCanvas({
+            preceededBy: menu,
+            contents: cuiCompose([
+                // TODO: Why is this needed?
+                "<div class='dm_account_page' style='position:absolute; width:100%; height:100%'>", 
+                    layout,
+                "</div>"
+            ]),
+        });
+
         return [
             menu,
-            sidebar,
-            "<div style='padding:16px; margin-left: 280px;'>", 
-                switcher, 
-            "</div>"
+            canvas,
         ];
     }
 
@@ -87,6 +101,6 @@ function DmAccountPage(params) {
         profileScreen.onLive();
         passwordScreen.onLive();
         sidebar.onLive();
-        cuiRefresh([menu, sidebar, switcher], live);
+        cuiRefresh([menu, canvas, switcher], live);
     }
 }

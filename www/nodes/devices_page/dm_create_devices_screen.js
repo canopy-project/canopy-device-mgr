@@ -95,7 +95,7 @@ function DmCreateDevicesScreen(params) {
 
         $errorMsg = $("<div style='display:none; font-style:italic; color: #ff0000;'></div>");
         return [
-            "<div style='margin-left: 280px'>",
+            "<div style='margin-left: 220px'>",
                 "<div style='padding:16px;'>",
                     "<div style='font-size: 30px; font-weight:400'>",
                         "Create Devices",

@@ -54,7 +54,7 @@ function DmAggregateScreen(params) {
         $cloudVarHistograms = $("<div>");
 
         return [
-            "<div style='margin-left:280px; padding:16px;'>",
+            "<div style='margin-left:220px; padding:16px;'>",
                 "<div class=l style='margin-bottom:16px'>Connectivity</div>",
                 chartNode,
                 chartNode2,

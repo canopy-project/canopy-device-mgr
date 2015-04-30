@@ -62,4 +62,5 @@ includeJsFile("/nodes/main/dm_main.js");
 
 includeCssFile("/nodes/dm.css");
 includeCssFile("/nodes/devices_page/dm_devices_page.css");
+includeCssFile("/nodes/account_page/dm_account_page.css");
 

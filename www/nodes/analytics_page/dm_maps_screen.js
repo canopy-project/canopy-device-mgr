@@ -68,10 +68,10 @@ function DmMapsScreen(params) {
         });
 
         return [
-            "<div style='position:absolute; left: 0px; width:280px; height: 100%;'>",
+            "<div style='position:absolute; left: 0px; width:220px; height: 100%;'>",
                 sidebar,
             "</div>",
-            "<div style='position:absolute; left: 280px; right:0px; height: 100%;'>",
+            "<div style='position:absolute; left: 220px; right:0px; height: 100%;'>",
                 map,
             "</div>"
         ];
