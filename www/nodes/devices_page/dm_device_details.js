@@ -153,8 +153,10 @@ function DmDeviceDetails(params) {
 
                 $plotOption.html("");
                 if (device.vars().length == 0) {
-                    $plotOption.html("No history");
+                    $plotOption.html("<div style='padding:16px'>No history</div>");
+                    plot.get$().hide();
                 } else {
+                    plot.get$().show();
                     var items = [];
                     for (var i = 0; i < device.vars().length; i++) {
                         items.push({
