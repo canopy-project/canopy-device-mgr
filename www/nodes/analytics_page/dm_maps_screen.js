@@ -28,11 +28,15 @@
  */
 function DmMapsScreen(params) {
     cuiInitNode(this);
+    var self=this;
 
     var map;
     var deviceList = [];
     var initialized = false;
     var sidebar;
+    var interval;
+
+    var cachedDeviceList;
 
     this.jumpTo = function(lat, lng) {
         map.jumpTo(lat, lng);
@@ -78,59 +82,71 @@ function DmMapsScreen(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        map.clearMarkersAndPaths();
 
-        // Add markers:
-        var markersSidebarHtml = "";
-        for (var i = 0; i < deviceList.length; i++) {
-            params.user.devices().get(deviceList[i].id()
-            ).onDone(function(result, data) {
-                if (result != CANOPY_SUCCESS) {
-                    alert("Error fetching device");
-                    return;
-                }
-                var dev = data.device;
-                var latVar = dev.varByName("latitude");
-                var lngVar = dev.varByName("longitude");
-                var lat = latVar.value();
-                var lng = lngVar.value();
-
-                map.addMarker(lat, lng, dev.name());
+        if (deviceList) {
+            // Update markers
+            map.clearAllMarkers();
+            for (var i = 0; i < deviceList.length; i++) {
+                var dev = deviceList[i];
+                var lat = dev.varByName("latitude").value();
+                var lng = dev.varByName("longitude").value();
+                map.setMarker(dev.id(), lat, lng, dev.name());
 
                 if (!initialized) {
                     initialized = true;
                     map.jumpTo(lat, lng);
                 }
+            }
 
-                // Add path
-                var _tmp = function(_latVar, _lngVar) {
-                    _latVar.historicData().onDone(function(result, latData) {
+            // Update paths
+            function addPath(device) {
+                var latVar = device.varByName("latitude");
+                var lngVar = device.varByName("longitude");
+                latVar.historicData().onDone(function(result, latData) {
+                    if (result != CANOPY_SUCCESS) {
+                        return
+                    }
+                    if (latData.samples.length < 2) {
+                        return;
+                    }
+                    lngVar.historicData().onDone(function(result, lngData) {
                         if (result != CANOPY_SUCCESS) {
-                            return;
+                            return
                         }
-                        if (latData.samples.length < 2) {
-                            return;
+                        path = [];
+                        for (var i = 0; i < lngData.samples.length; i++) {
+                            if (latData.samples[i])
+                                path.push(new google.maps.LatLng(latData.samples[i].v, lngData.samples[i].v));
                         }
-
-                        _lngVar.historicData().onDone(function(result, lngData) {
-                            if (result != CANOPY_SUCCESS) {
-                                return
-                            }
-                            var i;
-                            path = [];
-                            for (i = 0; i < lngData.samples.length; i++) {
-                                if (latData.samples[i])
-                                    path.push(new google.maps.LatLng(latData.samples[i].v, lngData.samples[i].v));
-                            }
-                            path.push(new google.maps.LatLng(_latVar.value(), lngVar.value()));
-                            map.addPath(path).refresh();
-                        });
+                        map.setPath(device.id(), path).refresh();
                     });
-                }(latVar, lngVar);
-            });
+                });
+            }
+
+            for (var i = 0; i < deviceList.length; i++) {
+                addPath(deviceList[i]);
+            }
         }
 
         cuiRefresh([map, sidebar], live);
     }
 
+    this.onSetupCallbacks = function() {
+        if (!interval) {
+            interval = setInterval(function() {
+                function updateDevice(i, cnt) {
+                    deviceList[i].updateFromRemote().onDone(function() {
+                        if ((i + 1) < cnt) {
+                            updateDevice(i + 1, cnt);
+                        } else {
+                            self.refresh();
+                        }
+                    })
+                }
+                if (deviceList && deviceList.length > 0) {
+                    updateDevice(0, deviceList.length);
+                }
+            }, 10000);
+        }
+    }
 }

@@ -187,8 +187,10 @@ function DmDeviceDetails(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
+        var deviceChanged = false;
         if (_device != device) {
             device = _device;
+            deviceChanged = true;
         }
         if (dirty("info") && device) {
             if (cachedDeviceName !== device.name()) {
@@ -223,7 +225,7 @@ function DmDeviceDetails(params) {
 
                 // A bit of a hack to make the list update a bit more
                 // responsive on status change.
-                if (params.onDeviceModified) {
+                if (!deviceChanged && params.onDeviceModified) {
                     params.onDeviceModified(device);
                 }
             }

@@ -113,15 +113,10 @@ function DmAnalyticsPage(params) {
                 if (result != CANOPY_SUCCESS) {
                     alert("problem");
                 }
-                mapsScreen.setMapDevices(data.devices).refresh();
+                mapsScreen.get$(); // make sure it is constructed
+                mapsScreen.setMapDevices(data.devices);
+                mapsScreen.refresh();
             });
-            /*user.devices().count().onDone(function(result, data) {
-                if (result != CANOPY_SUCCESS) {
-                    alert("problem");
-                }
-                numDevices = data.count;
-                selectPage("aggregate");
-            });*/
         }
         cuiRefresh([menu, canvas], live);
     }
