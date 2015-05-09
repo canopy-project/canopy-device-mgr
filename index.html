@@ -2,54 +2,37 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
+    <script>
+        var CUI_INCLUDE_PATH = "canopy-web-ui/www"
+        var DM_INCLUDE_PATH = "www"
+    </script>
+    <script src="canopy-web-ui/www/cui_include.js"></script>
+    <script src="www/dm_include.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="//www.google.com/jsapi"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRMz0xxBvCrYp4K_iYu1ncN8lHM6ITnYY"></script>
     <script src="canoweb.conf.js"></script>
     <script>
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
     </script>
-    <script src="canopy-js-client/canopy.js"></script>
     <script src="canopy_app_util.js"></script>
     <script src="nodes/cano.js"></script>
-    <script src="nodes/cano_account_dropdown.js"></script>
-    <script src="nodes/cano_account_page.js"></script>
     <script src="nodes/cano_account_password_section.js"></script>
     <script src="nodes/cano_account_profile_section.js"></script>
     <script src="nodes/cano_account_sidebar.js"></script>
     <script src="nodes/cano_account_upgrade_section.js"></script>
-    <script src="nodes/cano_analytics_dashboard.js"></script>
-    <script src="nodes/cano_analytics_map.js"></script>
-    <script src="nodes/cano_analytics_map_sidebar.js"></script>
     <script src="nodes/cano_analytics_histogram_widget.js"></script>
-    <script src="nodes/cano_analytics_page.js"></script>
     <script src="nodes/cano_analytics_no_devices.js"></script>
-    <script src="nodes/cano_analytics_sidebar.js"></script>
     <script src="nodes/cano_analytics_widget.js"></script>
     <script src="nodes/cano_apps_list.js"></script>
     <script src="nodes/cano_apps_page.js"></script>
     <script src="nodes/cano_apps_sidebar.js"></script>
-    <script src="nodes/cano_cloud_var_box.js"></script>
-    <script src="nodes/cano_device_list.js"></script>
-    <script src="nodes/cano_device_details.js"></script>
-    <script src="nodes/cano_device_details_details.js"></script>
-    <script src="nodes/cano_device_details_vars.js"></script>
-    <script src="nodes/cano_device_details_vars_plot.js"></script>
-    <script src="nodes/cano_devices_page.js"></script>
-    <script src="nodes/cano_devices_sidebar.js"></script>
-    <script src="nodes/cano_devices_create.js"></script>
     <script src="nodes/cano_device_no_devices_msg.js"></script>
-    <script src="nodes/cano_editable.js"></script>
-    <script src="nodes/cano_hover_plot.js"></script>
-    <script src="nodes/cano_main_page.js"></script>
     <script src="nodes/cano_option.js"></script>
-    <script src="nodes/cano_plot.js"></script>
     <script src="nodes/cano_popup.js"></script>
     <script src="nodes/cano_switcher.js"></script>
-    <script src="nodes/cano_topbar.js"></script>
-    <script src="nodes/cano_topbar_submenu.js"></script>
-    <script src="canoweb_dispatcher.js"></script>
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
     <link href='canoweb.css' rel='stylesheet' type='text/css'>
 </head>
@@ -60,30 +43,25 @@
 
 </body>
 <script>
-var canopy = new CanopyClient(gCanopyWebAppConfiguration);
 
-var dispatcher = new CanowebDispatcher(canopy);
-
-canopy.OnReady(function() {
-    if (!canopy.IsLoggedIn()) {
-        // User already logged in.  Redirect to device manager.
+Canopy.initUserClient({
+    // TODO: other settings?
+    "host" : gCanopyWebAppConfiguration.cloudHost,
+}).onDone(function(result, data) {
+    if (result != CANOPY_SUCCESS) {
+        // Error getting selfUser.  Probably not logged in.
         window.location.replace("login.html");
         return;
     }
 
-    dispatcher.showPage("main");
-    /*var tmp = new CanoCloudVarBoxNode({
-        cloudvar: canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0)
+    var main = new DmMain({
+        user: data.user, 
     });
-    $("#main").html(tmp.get$());
-    tmp.onLive();
 
-    canopy.me.Devices()["b4330902-e99a-428e-af4b-36740e586a51"].Vars().Var(0).FetchHistoricData({
-        onSuccess: function() {
-            alert("Done Fetching History");
-        }
-    });*/
+    $("#main").html(main.get$());
+    main.live();
 });
+
 </script>
 
 </html>

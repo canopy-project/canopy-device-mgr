@@ -36,9 +36,9 @@ function CanopyUtil_ConnectionStatusText(lastActivitySecondsAgo, connectionStatu
         return "-";
     }
     else {
-        if (connectionStatus == "connected")
+        if (connectionStatus === true)
             return "<span style='color:#30b030; font-weight:400'>Connected</span>";
-        if (connectionStatus == "disconnected")
+        if (connectionStatus === false)
             return "<span style='color:#b03030; font-weight:400'>Disconnected</span>";
     }
     return "unknown";

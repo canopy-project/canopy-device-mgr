@@ -16,9 +16,7 @@
 function CanoAppsPageNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
-        topbarSubmenuNode,
+        topbarSubmenu,
         sidebarNode,
         appsListNode,
         mainNode
@@ -32,7 +30,7 @@ function CanoAppsPageNode(params) {
 
     this.onLive = function() {
         sidebarNode.onLive();
-        topbarSubmenuNode.onLive();
+        topbarSubmenu.live();
         mainNode.onLive();
         
         this.refresh();
@@ -42,25 +40,19 @@ function CanoAppsPageNode(params) {
         mainNode.select("apps");
     }
 
-    sidebarNode = new CanoAppsSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
+    sidebarNode = new CanoAppsSidebarNode({ });
 
-    topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        canopyClient: canopy,
+    topbarSubmenu = new CuiTopbar({
+        appName: params.user.username(),
+        cssClass: "cui_default cui_topbar_submenu",
         items: [ {
             content: "Credentials",
             value: "apps"
         }],
-        onSelect: function(val) {
-            mainNode.select(val);
-        }
-    })
-
-    appsListNode = new CanoAppsListNode({
-        canopyClient: canopy
+        showAppDropdown: false,
     });
+
+    appsListNode = new CanoAppsListNode({ });
 
 
     mainNode = new CanoSwitcherNode({
@@ -72,7 +64,7 @@ function CanoAppsPageNode(params) {
     });
 
     $me = CanopyUtil_Compose(["<div>\
-        ", topbarSubmenuNode, "\
+        ", topbarSubmenu, "\
         ", sidebarNode, "\
         &nbsp; <div style='padding:16px; margin-left: 260px; margin-top:18px'>", mainNode, "</div>\
     </div>"]);

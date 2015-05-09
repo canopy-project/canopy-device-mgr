@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * Params has:
+ *      remote - CanopyRemote object
+ *      redirect - String URL
+ */
 function CanoSignupFormNode(params) {
     var self=this,
-        $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher;
+        $me
+    ;
 
     $.extend(this, new CanoNode());
 
@@ -41,7 +46,7 @@ function CanoSignupFormNode(params) {
             var password = $("#signup_password").val();
             var confirmPassword = $("#signup_confirm_password").val();
 
-            $("#signup_error").slideUp();
+            $("#signup_error").hide();
             if (username == "") {
                 $("#signup_error").html("Username required.");
                 $("#signup_error").slideDown();
@@ -58,7 +63,7 @@ function CanoSignupFormNode(params) {
                 return;
             }
             if (password == "") {
-                $("#signup_error").html("Passowrd required.");
+                $("#signup_error").html("Password required.");
                 $("#signup_error").slideDown();
                 return;
             }
@@ -73,24 +78,27 @@ function CanoSignupFormNode(params) {
                 return;
             }
 
-            canopy.CreateAccount({
+            params.remote.createUser({
                 username: username,
                 email: email,
-                password: password,
-                confirmPassword: confirmPassword,
-                onSuccess: function() {
-                    window.location.replace("index.html");
-                },
-                onError: function(reason) {
-                    if (reason == "username_already_taken") {
-                        $("#signup_error").html("Username already taken");
-                        $("#signup_error").slideDown();
+                password: password
+            }).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    var msg;
+                    if (data.error_msg) {
+                        msg = data.error_msg;
+                    } else if (result == CANOPY_ERROR_USERNAME_NOT_AVAILABLE) {
+                        msg = "Sorry, that username is not available";
+                    } else if (result == CANOPY_ERROR_EMAIL_TAKEN) {
+                        msg = "That email address already has a Canopy account";
+                    } else {
+                        msg = "Oops.  An error occurred.";
                     }
-                    else {
-                        $("#signup_error").html("Oops... Error creating account");
-                        $("#signup_error").slideDown();
-                    }
+                    $("#signup_error").html(msg);
+                    $("#signup_error").slideDown();
+                    return;
                 }
+                window.location.replace(params.redirect);
             });
         });
     }

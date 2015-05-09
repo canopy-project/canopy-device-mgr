@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+ * params contains:
+ *      remote - CanopyRemote object
+ *      redirect - string URL
+ */
 function CanoLoginFormNode(params) {
     var self=this,
-        $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher;
+        $me;
 
     $.extend(this, new CanoNode());
 
@@ -42,21 +46,24 @@ function CanoLoginFormNode(params) {
                 return;
             }
 
-            canopy.Login({
+            params.remote.login({
                 username: username,
-                password: password,
-                onSuccess: function() {
-                    window.location.replace(params.redirect);
-                },
-                onError: function(reason) {
-                    if (reason == "incorrect_username_or_password") {
-                        $("#login_error").html("Incorrect username or password.");
+                password: password
+            }).onDone(function(result, data) {
+                if (result != CANOPY_SUCCESS) {
+                    var msg;
+                    if (data.error_msg) {
+                        msg = data.error_msg;
+                    } else if (result == CANOPY_ERROR_INCORRECT_USERNAME_OR_PASSWORD) {
+                        msg = "Incorrect username or password";
+                    } else {
+                        msg = "Oops.  An error occurred.";
                     }
-                    else {
-                        $("#login_error").html("Oops... Error signing in.");
-                    }
+                    $("#login_error").html(msg);
                     $("#login_error").slideDown();
+                    return;
                 }
+                window.location.replace(params.redirect);
             });
         });
     }

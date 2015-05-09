@@ -15,12 +15,7 @@
  */
 function CanoAppsSidebarNode(params) {
     var self=this,
-        $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
-        topbarNode,
-        sidebarNode,
-        mainNode
+        $me
     ;
 
     $.extend(this, new CanoNode());
@@ -30,36 +25,10 @@ function CanoAppsSidebarNode(params) {
     }
 
     this.onLive = function() {
-        topbarNode.onLive();
-        sidebarNode.onLive();
-        mainNode.onLive();
-
         $newAppBtn.off('click').on('click', function() {
             alert("Creating new apps is not supported at this time");
         });
     }
-
-    topbarNode = new CanoTopbarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    sidebarNode = new CanoDevicesSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    mainNode = new CanoDevicesNoDevicesMsgNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    var numDevices = canopy.me.Devices().length;
-    var numDevicesQuota = 10;
-    var numDevicesPct = numDevices/numDevicesQuota;
-    if (numDevicesPct > 1.0)
-        numDevicesPct = 1.0;
-    var numDevicesPixels = Math.round(numDevicesPct*200);
 
     var $newAppBtn = $("<input type='submit' value='NEW APP'>");
 

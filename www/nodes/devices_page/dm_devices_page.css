@@ -1,0 +1,264 @@
+/*
+ * Copyright 2015 Canopy Services, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.dm_devices_page.dm_filter_list {
+    padding: 16px;
+}
+
+.dm_devices_page.dm_filter_list, 
+.dm_devices_page.dm_filter_list input,
+.dm_devices_page.dm_filter_list label {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.dm_devices_page.dm_filter_list input,
+.dm_devices_page.dm_filter_list label {
+    cursor: pointer;
+}
+
+.dm_devices_page.dm_sidebar_bottom {
+    padding: 16px;
+    text-align: center;
+    z-index: 500; 
+    color:#000000;
+    position: absolute;
+    bottom: 0px;
+    background: #ffffff;
+}
+
+table.dm_devices_page.dm_device_table{
+    width: 100%;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+table.dm_devices_page.dm_device_table .selected td {
+    background: #fafac0;
+    font-weight: 400;
+}
+
+table.dm_devices_page.dm_device_table th {
+    font-weight: 400;
+    background: #ffffff;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+table.dm_devices_page.dm_device_table td {
+    border-bottom: 1px solid #d0d0d0;
+}
+
+table.dm_devices_page.dm_device_table tr:nth-child(even) {
+    background: #f4f4f4;
+}
+table.dm_devices_page.dm_device_table tr:nth-child(odd) {
+    background: #f0f0f0;
+}
+
+.dm_devices_page.dm_device_list_nav_bar {
+    padding-bottom:4px;
+    padding-top:8px;
+}
+
+.dm_device_list_nav_bar.dm_filter_name{
+    font-size: 16px;
+    color: #404040;
+    letter-spacing: 0.5px;
+}
+
+.dm_devices_page .cui_canvas {
+    border-top: 1px solid #d0d0d0;
+}
+
+.dm_device_details.dm_title {
+    font-size: 26px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-top: 4px solid #40b040;
+}
+
+.dm_device_details.dm_id {
+    background: #d0d0d0;
+    color: #000000;
+    font-weight: 400;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 16px;
+}
+
+.dm_device_details.dm_cloud_vars {
+    padding: 16px;
+    white-space:nowrap;
+    overflow: auto;
+}
+
+.dm_device_details .cui_cloudvar {
+}
+
+.dm_device_details .cui_cloudvar_value {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 22px;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text,
+.dm_device_details .cui_cloudvar_value.cui_editable_text .cui_value {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    min-width: 50px;
+    font-size: 22px;
+    line-height: 1;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text .cui_value {
+    background: #505050;
+    border-radius: 2px;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text .cui_value:hover {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px dashed #ffffff;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text input {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: inline-block;
+    font-size: 22px;
+    width: 50px;
+    line-height: 1;
+    background: #808080;
+    color: #ffffff;
+}
+
+.dm_device_details.dm_contents table {
+    padding: 12px;
+}
+.dm_device_details.dm_contents td {
+    font-size: 16px;
+    padding: 4px;
+    border-bottom: 1px solid #d8d8d8;
+    white-space: nowrap;
+}
+
+td.dm_device_table.dm_uuid {
+    width: 270px;
+}
+
+.dm_device_table td,
+.dm_device_table th {
+    white-space:nowrap;
+    padding: 8px;
+}
+
+@media (min-width : 1260px) {
+    .dm_invisible_above_1260w {
+        visibility: hidden;
+    }
+}
+
+@media (max-width : 1150px) {
+    .dm_device_table td {
+        white-space:nowrap;
+        padding: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+}
+
+.dm_devices_page.dm_device_details_window {
+    position:fixed; 
+    right:24px; 
+    min-width:360px; 
+    width: 30%;
+    top:125px; 
+    /*bottom:16px; */
+    overflow: auto;
+    z-index:10000; 
+    background:#ffffff; 
+    border: 1px solid #a0a0a0; 
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width : 1024px) {
+    .dm_hide_below_1024w {
+        display: none !important;
+    }
+    .dm_devices_page.dm_device_details_window {
+        left:228px; 
+        right:8px; 
+        width: auto;
+        bottom:16px; 
+        top: auto;
+        height: 255px; 
+        overflow: auto;
+    }
+    .dm_devices_page .cui_canvas {
+        bottom: 284px;
+        border-bottom: 1px solid #a0a0a0;
+    }
+}
+
+.dm_device_details.cui_option {
+    display: inline-block;
+    font-size: 14px;
+    padding-left:16px;
+    font-weight: 400;
+}
+
+.dm_device_details.cui_option .cui_option.cui_toggle {
+    display: inline-block;
+    border-radius: 16px;
+    padding: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    border: 1px solid #a0a0a0;
+}
+
+.dm_device_details.cui_option .cui_option.cui_toggle.cui_off:hover {
+    background: #d0f0f8;
+}
+.dm_device_details.cui_option .cui_option.cui_toggle.cui_on {
+    background: #303030;
+    color: #ffffff;
+}
+
+.dm_device_details.dm_title .dm_device_details.cui_editable_text {
+    font-size: 26px;
+}
+.dm_device_details.dm_title .dm_device_details.cui_editable_text .cui_value{
+    font-size: 26px;
+}
+.dm_device_details.dm_title .dm_device_details.cui_editable_text input {
+    font-size: 26px;
+    width: auto;
+}
+
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text {
+    font-size: 16px;
+    padding: 0px;
+}
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text .cui_value{
+    padding: 2px;
+}
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text .cui_value:hover{
+    padding: 1px;
+}
+.dm_device_details.dm_contents .dm_device_details.cui_editable_text input {
+    padding: 1px;
+    font-size: 16px;
+    width: auto;
+}

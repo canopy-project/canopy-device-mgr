@@ -16,11 +16,9 @@
 function CanoAccountSidebarNode(params) {
     var self=this,
         $me,
-        canopy = params.canopyClient,
-        dispatcher = params.dispatcher,
-        topbarNode,
-        sidebarNode,
-        mainNode
+        $numDevices = $("<b>?</b>"),
+        $numDevicesQuota = $("<b>?</b>"),
+        $devicesBar = $("<div style='height:10px; width: 0px; background:#3060b0;'>")
     ;
 
     $.extend(this, new CanoNode());
@@ -30,51 +28,41 @@ function CanoAccountSidebarNode(params) {
     }
 
     this.onLive = function() {
-        topbarNode.onLive();
-        sidebarNode.onLive();
-        mainNode.onLive();
+        params.user.devices().count().onDone(function(result, data) {
+            if (result != CANOPY_SUCCESS) {
+                return;
+            }
+            var numDevices = data.count;
+            var numDevicesQuota = 10.0;
+            var numDevicesPct = numDevices/numDevicesQuota;
+            if (numDevicesPct > 1.0)
+                numDevicesPct = 1.0;
+            var numDevicesPixels = Math.round(numDevicesPct*180);
+
+            $numDevices.html(numDevices);
+            $numDevicesQuota.html(numDevicesQuota);
+            $devicesBar.css("width", (numDevicesPixels + "px"));
+        });
     }
 
-    topbarNode = new CanoTopbarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    sidebarNode = new CanoDevicesSidebarNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    mainNode = new CanoDevicesNoDevicesMsgNode({
-        canopyClient : canopy,
-        dispatcher: dispatcher
-    });
-
-    var numDevices = canopy.me.Devices().length;
-    var numDevicesQuota = 10;
-    var numDevicesPct = numDevices/numDevicesQuota;
-    if (numDevicesPct > 1.0)
-        numDevicesPct = 1.0;
-    var numDevicesPixels = Math.round(numDevicesPct*200);
 
     $me = CanopyUtil_Compose(["\
-<div style='z-index: 400; position:fixed; width: 250px; top: 89px; border-right:1px solid #d0d0d0; bottom:0px; background:#f8f8f8; color:#000000'>\
-    <div style='padding:16px; font-size: 16px; border-right:1px solid #f0f0f0;'>\
+<div>\
+    <div style='padding:16px; font-size: 16px;'>\
         <div class=ml>Quotas</div>\
         <table>\
             <tr>\
-                <td valign=top style='font-size:16px;'>\
+                <td valign=top style='font-size:14px;'>\
                     <b>Account Type:</b> <span style='color:#008000'>Free</span><br>\
                     <table>\
                         <tr>\
                             <td>Devices:</td>\
-                            <td><b>" + numDevices + "</b> of <b>" + numDevicesQuota + "</b></td>\
+                            <td><b>", $numDevices, "</b> of <b>", $numDevicesQuota, "</b></td>\
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
-                                    <div style='height:10px; width:" + numDevicesPixels + "px; background:#3060b0;'>\
-                                    </div>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                    ", $devicesBar, "\
                                 </div>\
                             </td>\
                         </tr>\
@@ -84,7 +72,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:00px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
@@ -96,7 +84,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:00px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
@@ -108,7 +96,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:0px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
@@ -120,19 +108,19 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:0px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
                             </td>\
                         </tr>\
                     </table>\
-                    <br><a href='..'><b>UPGRADE</b></a>\
+                    <!--br><a href='..'><b>UPGRADE</b></a-->\
                 </td>\
             </tr>\
         </table>\
     </div>\
-        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#f8f8f8; color:#000000'>\
+        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 220px; bottom:0px;'>\
             Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
         </div>\
 </div>"]);
