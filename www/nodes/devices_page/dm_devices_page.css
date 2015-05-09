@@ -109,7 +109,37 @@ table.dm_devices_page.dm_device_table tr:nth-child(odd) {
 }
 
 .dm_device_details .cui_cloudvar_value {
+    padding-top: 8px;
+    padding-bottom: 8px;
     font-size: 22px;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text,
+.dm_device_details .cui_cloudvar_value.cui_editable_text .cui_value {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    min-width: 50px;
+    font-size: 22px;
+    line-height: 1;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text .cui_value {
+    background: #505050;
+    border-radius: 2px;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text .cui_value:hover {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px dashed #ffffff;
+}
+.dm_device_details .cui_cloudvar_value.cui_editable_text input {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    display: inline-block;
+    font-size: 22px;
+    width: 50px;
+    line-height: 1;
+    background: #808080;
+    color: #ffffff;
 }
 
 .dm_device_details.dm_contents table {
@@ -198,6 +228,9 @@ td.dm_device_table.dm_uuid {
     border: 1px solid #a0a0a0;
 }
 
+.dm_device_details.cui_option .cui_option.cui_toggle.cui_off:hover {
+    background: #d0f0f8;
+}
 .dm_device_details.cui_option .cui_option.cui_toggle.cui_on {
     background: #303030;
     color: #ffffff;

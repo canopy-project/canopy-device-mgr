@@ -44,15 +44,20 @@ function DmDeviceListScreen(params) {
     }
 
     this.onConstruct = function() {
-        sidebarNode = new CanoDevicesSidebarNode({
+        sidebarNode = new DmDevicesSidebar({
             user: params.user,
-            onCreateDeviceLink : function() {
+            onCreateDeviceClicked : function() {
                 if (params.onCreateDeviceRequest) {
                     params.onCreateDeviceRequest();
                 }
             },
             onFilterChange : function(filterName, filter) {
+                var dq = params.user.devices();
                 deviceListNode.setFilterName(filterName).refresh();
+                if (filter) {
+                    dq = dq.filter(filter);
+                }
+                deviceListNode.setDeviceQuery(dq).refresh();
             }
         });
 
@@ -88,7 +93,7 @@ function DmDeviceListScreen(params) {
         deviceListNode.setDeviceQuery(params.user.devices());
             
         layout = new CuiHSplitLayout({
-            left: sidebarNode.get$(),
+            left: sidebarNode,
             right: cuiCompose([deviceListNode, $deviceDetailsWindow]),
             leftSize: "220px"
         });
@@ -109,14 +114,8 @@ function DmDeviceListScreen(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        if (dirty("user")) {
-        }
-
-        cuiRefresh([layout, deviceDetailsNode], live);
-
-        if (live) {
-            sidebarNode.onLive();
-        }
-        deviceListNode.refresh(live);
+        cuiRefresh([layout, deviceListNode, deviceDetailsNode], live);
+        // Note: Sidebar gets refreshed implicitely by layout, but the others
+        // don't.
     }
 }
