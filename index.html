@@ -2,10 +2,17 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Canopy - An Open Source Platform for the Internet of Things</title>
+    <script>
+        var CUI_INCLUDE_PATH = "canopy-web-ui/www"
+        var DM_INCLUDE_PATH = "www"
+    </script>
+    <script src="canopy-web-ui/www/cui_include.js"></script>
+    <script src="www/dm_include.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="//www.google.com/jsapi"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRMz0xxBvCrYp4K_iYu1ncN8lHM6ITnYY"></script>
     <script src="canoweb.conf.js"></script>
     <script>
         document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
@@ -41,13 +48,10 @@
     <script src="nodes/cano_device_no_devices_msg.js"></script>
     <script src="nodes/cano_editable.js"></script>
     <script src="nodes/cano_hover_plot.js"></script>
-    <script src="nodes/cano_main_page.js"></script>
     <script src="nodes/cano_option.js"></script>
     <script src="nodes/cano_plot.js"></script>
     <script src="nodes/cano_popup.js"></script>
     <script src="nodes/cano_switcher.js"></script>
-    <script src="nodes/cano_topbar.js"></script>
-    <script src="nodes/cano_topbar_submenu.js"></script>
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
     <link href='canoweb.css' rel='stylesheet' type='text/css'>
 </head>
@@ -69,9 +73,12 @@ Canopy.initUserClient({
         return;
     }
 
-    (new CanoMainPageNode({
+    var main = new DmMain({
         user: data.user, 
-    })).render($("#main"));
+    });
+
+    $("#main").html(main.get$());
+    main.live();
 });
 
 </script>

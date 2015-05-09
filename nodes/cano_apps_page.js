@@ -16,7 +16,7 @@
 function CanoAppsPageNode(params) {
     var self=this,
         $me,
-        topbarSubmenuNode,
+        topbarSubmenu,
         sidebarNode,
         appsListNode,
         mainNode
@@ -30,7 +30,7 @@ function CanoAppsPageNode(params) {
 
     this.onLive = function() {
         sidebarNode.onLive();
-        topbarSubmenuNode.onLive();
+        topbarSubmenu.live();
         mainNode.onLive();
         
         this.refresh();
@@ -42,16 +42,15 @@ function CanoAppsPageNode(params) {
 
     sidebarNode = new CanoAppsSidebarNode({ });
 
-    topbarSubmenuNode = new CanoTopbarSubmenuNode({
-        user: params.user,
+    topbarSubmenu = new CuiTopbar({
+        appName: params.user.username(),
+        cssClass: "cui_default cui_topbar_submenu",
         items: [ {
             content: "Credentials",
             value: "apps"
         }],
-        onSelect: function(val) {
-            mainNode.select(val);
-        }
-    })
+        showAppDropdown: false,
+    });
 
     appsListNode = new CanoAppsListNode({ });
 
@@ -65,7 +64,7 @@ function CanoAppsPageNode(params) {
     });
 
     $me = CanopyUtil_Compose(["<div>\
-        ", topbarSubmenuNode, "\
+        ", topbarSubmenu, "\
         ", sidebarNode, "\
         &nbsp; <div style='padding:16px; margin-left: 260px; margin-top:18px'>", mainNode, "</div>\
     </div>"]);

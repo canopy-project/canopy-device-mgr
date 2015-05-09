@@ -37,7 +37,7 @@ function CanoAccountSidebarNode(params) {
             var numDevicesPct = numDevices/numDevicesQuota;
             if (numDevicesPct > 1.0)
                 numDevicesPct = 1.0;
-            var numDevicesPixels = Math.round(numDevicesPct*200);
+            var numDevicesPixels = Math.round(numDevicesPct*180);
 
             $numDevices.html(numDevices);
             $numDevicesQuota.html(numDevicesQuota);
@@ -47,12 +47,12 @@ function CanoAccountSidebarNode(params) {
 
 
     $me = CanopyUtil_Compose(["\
-<div style='z-index: 400; position:fixed; width: 250px; top: 89px; border-right:1px solid #d0d0d0; bottom:0px; background:#f8f8f8; color:#000000'>\
-    <div style='padding:16px; font-size: 16px; border-right:1px solid #f0f0f0;'>\
+<div>\
+    <div style='padding:16px; font-size: 16px;'>\
         <div class=ml>Quotas</div>\
         <table>\
             <tr>\
-                <td valign=top style='font-size:16px;'>\
+                <td valign=top style='font-size:14px;'>\
                     <b>Account Type:</b> <span style='color:#008000'>Free</span><br>\
                     <table>\
                         <tr>\
@@ -61,7 +61,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     ", $devicesBar, "\
                                 </div>\
                             </td>\
@@ -72,7 +72,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:00px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
@@ -84,7 +84,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:00px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
@@ -96,7 +96,7 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:0px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
@@ -108,19 +108,19 @@ function CanoAccountSidebarNode(params) {
                         </tr>\
                         <tr>\
                             <td colspan=2>\
-                                <div style='height:10px; width:200px; background:#ffffff; border:1px solid #a0a0a0;'>\
+                                <div style='height:10px; width:180px; background:#ffffff; border:1px solid #a0a0a0;'>\
                                     <div style='height:10px; width:0px; background:#3060b0;'>\
                                     </div>\
                                 </div>\
                             </td>\
                         </tr>\
                     </table>\
-                    <br><a href='..'><b>UPGRADE</b></a>\
+                    <!--br><a href='..'><b>UPGRADE</b></a-->\
                 </td>\
             </tr>\
         </table>\
     </div>\
-        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 250px; bottom:0px; background:#f8f8f8; color:#000000'>\
+        <div style='padding-bottom:16px; text-align:center; z-index: 500; position:fixed; width: 220px; bottom:0px;'>\
             Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>\
         </div>\
 </div>"]);

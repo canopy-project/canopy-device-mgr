@@ -1,23 +1,25 @@
 v15.05.01
+- FIX timeseries plots
+- Realtime update
+- FIX filters
+- FIX editable text.
 
-- SimpleThings -> Canopy Services, Inc.
-- Helpful login/create-acct errors
-- Device List: Pagination
+- Device List: Filtering
 - Device List: Sorting
 - Responsive Design
-- Hide "Secret Key" once activated 
-- Download secret keys
 - Realtime refresh
-- App Registration
 - Fix timeseries plots
 - Move quota logic to server-side.
 - Support "friendly_name_base" when creating devices
-- Organizations
-- Sharing/Permissions
 - With large creation, disable the "Create button" until response comes back.
 - Numbers when creating devices should be 0-padded.
-- App dropdown selection
-- Canopy Enterprise -> Canopy Device Manager
-- It now says "websocket: unknown"
+- Helpful error responses on Password Reset page, Account Activation page, etc.
 
-- Pagination in device response
+POSTPONED
+
+- Organizations
+- Sharing/Permissions
+- App Registration
+- Hide "Secret Key" once activated 
+- Download secret keys
+- App dropdown selection

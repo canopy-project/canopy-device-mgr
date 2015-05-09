@@ -65,7 +65,7 @@ function CanoAccountProfileSectionNode(params) {
         <div style='font-size: 30px; font-weight:400'>\
             Profile for " + params.user.username() + "\
         </div>\
-        <br>Account Activated: ", $emailConfirmed, "\
+        <br>Email Confirmed: ", $emailConfirmed, "\
         ", $errorMsg, "\
         <br><br>\
             Email address\
@@ -73,11 +73,11 @@ function CanoAccountProfileSectionNode(params) {
         <br><br>\
             ", $saveBtn, "\
             ", $successMsg, "\
-        <div style='font-size: 30px; font-weight:400'>\
+        <!--div style='font-size: 30px; font-weight:400'>\
             <br>Organizations\
         </div>\
         <br>You are not a member of any organizations.\
         <br><br>\
             ", $createOrgBtn, "\
-    </div>"]);
+    </div-->"]);
 }
