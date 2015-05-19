@@ -239,6 +239,9 @@ function DmDeviceDetails(params) {
             var vars = device.vars();
             var countChanged = false;
             if (cachedVarCount != vars.length) {
+                for (var i = 0; i < cachedVarCount; i++) {
+                    cloudVarWidgets[i].refresh(false);
+                }
                 cachedVarCount = vars.length;
                 countChanged = true;
                 // Force repopulation
@@ -253,13 +256,11 @@ function DmDeviceDetails(params) {
                     });
                     cloudVarWidgets.push(cloudVarWidget);
                     $cloudvars.append(cloudVarWidget.get$());
-                    cloudVarWidget.refresh(live);
                 } else {
                     cloudVarWidgets[i].setCloudVar(vars[i]);
                     if (countChanged) {
                         $cloudvars.append(cloudVarWidgets[i].get$());
                     }
-                    cloudVarWidgets[i].refresh(live);
                 }
 
                 //$cloudvars.append(cloudVarWidgets[i].get$());
@@ -304,6 +305,7 @@ function DmDeviceDetails(params) {
         }
 
         cuiRefresh([deviceNameEditable, locationNoteEditable, plotOption, plot], live);
+        cuiRefresh(cloudVarWidgets, live);
         /*var redraw = dirty();
         if (_device != device) {
             device = _device;
