@@ -44,7 +44,12 @@ function DmAccountPage(params) {
             }, {
                 content: "Password",
                 value: "password"
+            }, {
+                content: "Organizations",
+                value: "organizations"
             }],
+            navState: cuiNavState,
+            navStateName: "acct_page",
             onSelect: function(val) {
                 switcher.select(val).refresh();
             },
@@ -63,10 +68,15 @@ function DmAccountPage(params) {
             user: params.user
         });
 
+        orgScreen = new DmOrganizationsScreen({
+            user: params.user
+        });
+
         switcher = new CuiSwitcher({
             children: {
                 "profile": new CuiWrapper(profileScreen.get$()),
-                "password": new CuiWrapper(passwordScreen.get$())
+                "password": new CuiWrapper(passwordScreen.get$()),
+                "organizations": orgScreen
             },
             default: "profile",
             onSelect: function() {
