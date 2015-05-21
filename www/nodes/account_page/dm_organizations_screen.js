@@ -19,6 +19,7 @@
  *
  *  PARAMS:
  *      params.user -- Optional CanopyUser object
+ *      params.onCreateClicked -- 
  *
  *  METHODS:
  *      setUser
@@ -45,7 +46,12 @@ function DmOrganizationsScreen(params) {
         $orgList = $("<div>");
         createOrgBtn = new CuiButton({
             cssClass: "cui_default",
-            content: "CREATE ORGANIZATION"
+            content: "CREATE ORGANIZATION",
+            onClick: function() {
+                if (params.onCreateClicked) {
+                    params.onCreateClicked();
+                }
+            }
         });
         return ["<div>", 
             "<div style='font-size: 30px; font-weight:400'>",
@@ -74,7 +80,7 @@ function DmOrganizationsScreen(params) {
 
                 $orgList.html("");
                 for (var i = 0; i < data.orgs.length; i++) {
-                    $orgList.append("<a href='.'>" + data.orgs[i].name() + "</a>");
+                    $orgList.append("<a href='.'>" + data.orgs[i].name() + "</a><br>");
                 }
             });
 

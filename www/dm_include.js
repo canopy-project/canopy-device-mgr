@@ -45,6 +45,7 @@ function includeCssFile(filename) {
 
 includeJsFile("/nodes/account_page/dm_account_page.js");
 includeJsFile("/nodes/account_page/dm_organizations_screen.js");
+includeJsFile("/nodes/account_page/dm_create_organization.js");
 
 includeJsFile("/nodes/analytics_page/dm_aggregate_screen.js");
 includeJsFile("/nodes/analytics_page/dm_analytics_page.js");

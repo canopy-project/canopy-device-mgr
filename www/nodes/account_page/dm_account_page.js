@@ -68,15 +68,32 @@ function DmAccountPage(params) {
             user: params.user
         });
 
+        createOrgScreen = new DmCreateOrganization({
+            user: params.user,
+            onCancel: function() {
+                menu.setBreadcrumb(null).refresh();
+                switcher.select("organizations").refresh();
+            },
+            onCreated: function() {
+                menu.setBreadcrumb(null).refresh();
+                switcher.select("organizations").refresh();
+            }
+        });
+
         orgScreen = new DmOrganizationsScreen({
-            user: params.user
+            user: params.user,
+            onCreateClicked: function() {
+                switcher.select("create_organization").refresh();
+                menu.setBreadcrumb(["Account", "Create Organization"]).refresh();
+            }
         });
 
         switcher = new CuiSwitcher({
             children: {
                 "profile": new CuiWrapper(profileScreen.get$()),
                 "password": new CuiWrapper(passwordScreen.get$()),
-                "organizations": orgScreen
+                "organizations": orgScreen,
+                "create_organization": createOrgScreen
             },
             default: "profile",
             onSelect: function() {
