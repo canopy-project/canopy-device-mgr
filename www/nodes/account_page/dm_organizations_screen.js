@@ -82,9 +82,14 @@ function DmOrganizationsScreen(params) {
                 for (var i = 0; i < data.orgs.length; i++) {
                     $orgList.append("<a href='.'>" + data.orgs[i].name() + "</a><br>");
                 }
-            });
 
-            $details.html("<div style='font-size:16px'>You are a member of:</div>");
+                if (data.orgs.length == 0) {
+                    $details.html("<div style='font-size:16px'>You are not currently a member of any organizations.</div>");
+                } else {
+                    $details.html("<div style='font-size:16px'>Your organizations:</div>");
+                }
+            });
+            $details.html("<div style='font-size:16px'></div>");
         }
         
         cuiRefresh([createOrgBtn], live);
