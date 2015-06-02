@@ -75,6 +75,7 @@ function DmMain(params) {
             },
             user: user,
             showAppDropdown: false,
+            showUserDropdown: true,
         });
 
         switcher = new CuiSwitcher({

@@ -53,7 +53,9 @@ function DmAccountPage(params) {
             onSelect: function(val) {
                 switcher.select(val).refresh();
             },
-            showAppDropdown: false,
+            showDropdown: "org",
+            showUserDropdown: false,
+            user: params.user
         });
 
         sidebar = new CanoAccountSidebarNode({
