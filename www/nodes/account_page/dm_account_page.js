@@ -68,7 +68,7 @@ function DmAccountPage(params) {
                 "profile": new CuiWrapper(profileScreen.get$()),
                 "password": new CuiWrapper(passwordScreen.get$())
             },
-            default: "profile",
+            dflt: "profile",
             onSelect: function() {
                 profileScreen.onLive();
                 passwordScreen.onLive();

@@ -84,7 +84,7 @@ function DmMain(params) {
                 "visualization" : analyticsPage,
                 "account" : accountPage,
             },
-            default: "devices",
+            dflt: "devices",
         });
 
         this.markDirty("user");
