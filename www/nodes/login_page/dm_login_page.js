@@ -16,19 +16,39 @@
 
 /*
  * Login page for Canopy web applications.
+ *
+ * PARAMS:
+ *
+ *      .hostname - Hostname of cloud server
+ *      .remote - CanopyRemote object
+ *      .redirect
  */
 
 function DmLoginPage(params) {
     cuiInitNode(this);
 
+    var header;
+    var footer;
+
     this.onConstruct = function() {
+        header = new DmLoginHeader({
+            hostname: params.hostname
+        });
+
+        footer = new DmLoginFooter({});
+
         return [
             "<div>",
                 header,
-                forms,
+                "<div style='background: #d8d8d8; padding-top:16px; padding-bottom:16px'>",
+                    "<div style='display:inline-block; border:1px solid #a0a0a0; width:50%; vertical-align: top; text-align:right'>",
+                        "forms",
+                    "</div><div style='display:inline-block; border:1px solid #a0a0a0; vertical-align: top; text-align:right'>",
+                        "forms<br>Foo",
+                    "</div>",
+                "</div>",
                 footer,
             "</div>"
-        ]
-
+        ];
     }
 }
