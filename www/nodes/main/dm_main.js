@@ -74,7 +74,8 @@ function DmMain(params) {
                 switcher.select(value).refresh();
             },
             user: user,
-            showAppDropdown: false,
+            showDropdown: "app",
+            showUserDropdown: true,
         });
 
         switcher = new CuiSwitcher({
