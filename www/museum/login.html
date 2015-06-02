@@ -69,5 +69,26 @@
             });
         </script>
     </div>
+
+    <div class='section'>
+        <div class='title'>DmSignupForm - nodes/login_page/dm_signup_form.js</div>
+        <div class='desc'>Signup form.</div>
+        <div id=dm_signup_form>
+        </div>
+        <script>
+            var remote = Canopy.initContext().initRemote({
+                // TODO: other params
+                host: gCanopyWebAppConfiguration.cloudHost
+            });
+            var signupForm = new DmSignupForm({
+                remote : remote,
+                redirect: "."
+            });
+            $(function() {
+                $("#dm_signup_form").html(signupForm.get$());
+                signupForm.live();
+            });
+        </script>
+    </div>
 </body>
 </html>

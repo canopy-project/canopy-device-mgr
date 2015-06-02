@@ -81,11 +81,13 @@ Canopy.initUserClient({
     $("#loginform").html(loginForm.get$());
     loginForm.live();
 
-
-    (new CanoSignupFormNode({
+    var signupForm = new DmSignupForm({
         remote: data.remote,
         redirect: "index.html"
-    })).render($("#signupform"));
+    });
+    $("#signupform").html(signupForm.get$());
+    signupForm.live();
+
 });
 
 </script>

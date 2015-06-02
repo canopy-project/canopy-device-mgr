@@ -15,48 +15,56 @@
  */
 
 /*
- * Login form
+ * Signup form
  *
  * PARAMS:
  *      .remote - CanopyRemote object
  *      .redirect - string URL
  */
-function DmLoginForm(params) {
+function DmSignupForm(params) {
     cuiInitNode(this);
 
     var $username;
+    var $email;
     var $password;
+    var $confirmPassword;
     var $submit;
     var $error;
 
     this.onConstruct = function() {
         if (!params.remote) {
-            return ["<div style='color:#ff0000'>DmLoginForm: params.remote required</div>"];
+            return ["<div style='color:#ff0000'>DmSignupForm: params.remote required</div>"];
         }
         if (!params.redirect) {
-            return ["<div style='color:#ff0000'>DmLoginForm: params.redirect required</div>"];
+            return ["<div style='color:#ff0000'>DmSignupForm: params.redirect required</div>"];
         }
         $username = $("<input style='width:250px' type=text></input>");
+        $email = $("<input style='width:250px' type=text></input>");
         $password = $("<input style='width:250px' type=password></input>");
-        $submit = $("<input type=submit value='SIGN IN'></input>");
+        $confirmPassword = $("<input style='width:250px' type=password></input>");
+        $submit = $("<input type=submit value='CREATE ACCOUNT'></input>");
         $error = $("<div style='display:none; font-style: italic; color: #ff0000;'></div>");
 
         return [
             "<div class=dm_login_form>",
                 "<div style='font-size: 30px; font-weight:400'>",
-                    "Log In",
+                    "Sign Up",
                 "</div>",
                 $error,
                 "<br>",
-                "Username or email<br>",
+                "Username<br>",
                 $username,
                 "<br><br>",
-                "Password<br>",
+                "Email<br>",
+                $email,
+                "<br><br>",
+                "Choose Password<br>",
                 $password,
                 "<br><br>",
+                "Confirm Password<br>",
+                $confirmPassword,
+                "<br><br>",
                 $submit,
-                "<br>",
-                "<a style='font-size: 13px' href='reset_password.html'>Forgot password?</a>",
             "</div>"
         ];
     }
@@ -64,30 +72,55 @@ function DmLoginForm(params) {
     this.onSetupCallbacks = function() {
         $submit.on('click', function() {
             var username = $username.val();
+            var email = $email.val();
             var password = $password.val();
-            $error.hide();
+            var confirmPassword = $confirmPassword.val();
 
+            $error.hide();
             if (username == "") {
-                $error.html("Please enter username.");
+                $error.html("Username required.");
+                $error.slideDown();
+                return;
+            }
+            if (email == "") {
+                $error.html("Email required.");
+                $error.slideDown();
+                return;
+            }
+            if (!CanopyUtil_IsValidEmail(email)) {
+                $error.html("Invalid email address.");
                 $error.slideDown();
                 return;
             }
             if (password == "") {
-                $error.html("Please enter password.");
+                $error.html("Password required.");
+                $error.slideDown();
+                return;
+            }
+            if (confirmPassword == "") {
+                $error.html("Confirm Passowrd required.");
+                $error.slideDown();
+                return;
+            }
+            if (password != confirmPassword) {
+                $error.html("Passwords don't match");
                 $error.slideDown();
                 return;
             }
 
-            params.remote.login({
+            params.remote.createUser({
                 username: username,
+                email: email,
                 password: password
             }).onDone(function(result, data) {
                 if (result != CANOPY_SUCCESS) {
                     var msg;
                     if (data.error_msg) {
                         msg = data.error_msg;
-                    } else if (result == CANOPY_ERROR_INCORRECT_USERNAME_OR_PASSWORD) {
-                        msg = "Incorrect username or password";
+                    } else if (result == CANOPY_ERROR_USERNAME_NOT_AVAILABLE) {
+                        msg = "Sorry, that username is not available";
+                    } else if (result == CANOPY_ERROR_EMAIL_TAKEN) {
+                        msg = "That email address already has a Canopy account";
                     } else {
                         msg = "Oops.  An error occurred.";
                     }
