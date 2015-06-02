@@ -61,6 +61,8 @@ includeJsFile("/nodes/devices_page/dm_no_devices_screen.js");
 
 // TODO: only include for login page
 includeJsFile("/nodes/login_page/dm_login_header.js");
+includeJsFile("/nodes/login_page/dm_login_footer.js");
+includeJsFile("/nodes/login_page/dm_login_form.js");
 
 includeCssFile("/nodes/login_page/dm_login.css");
 

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>DM Museum</title>
+    <script src="../../canoweb.conf.js"></script>
     <script>
         var CUI_INCLUDE_PATH = "../../canopy-web-ui/www"
         var DM_INCLUDE_PATH = "../../www"
@@ -29,6 +30,42 @@
             $(function() {
                 $("#dm_login_header").html(header.get$());
                 header.live();
+            });
+        </script>
+    </div>
+
+    <div class='section'>
+        <div class='title'>DmLoginFooter - nodes/login_page/dm_login_footer.js</div>
+        <div class='desc'>Footer for login page.</div>
+        <div id=dm_login_footer>
+        </div>
+        <script>
+            var footer = new DmLoginFooter({
+            });
+            $(function() {
+                $("#dm_login_footer").html(footer.get$());
+                footer.live();
+            });
+        </script>
+    </div>
+
+    <div class='section'>
+        <div class='title'>DmLoginForm - nodes/login_page/dm_login_form.js</div>
+        <div class='desc'>Login form.</div>
+        <div id=dm_login_form>
+        </div>
+        <script>
+            var remote = Canopy.initContext().initRemote({
+                // TODO: other params
+                host: gCanopyWebAppConfiguration.cloudHost
+            });
+            var loginForm = new DmLoginForm({
+                remote : remote,
+                redirect: "."
+            });
+            $(function() {
+                $("#dm_login_form").html(loginForm.get$());
+                loginForm.live();
             });
         </script>
     </div>

@@ -12,3 +12,41 @@
     color: #3060b0;
     display: inline;
 }
+
+.dm_login_footer {
+    background: #204080;
+    background: -webkit-linear-gradient(#204080, #102040);
+    background: -o-linear-gradient(#204080, #102040);
+    background: -moz-linear-gradient(#204080, #102040);
+    background: linear-gradient(#204080, #102040);
+    color: #ffffff;
+}
+
+.dm_login_footer .dm_cloud_img {
+    margin-top:20px; 
+    filter: alpha(opacity=80); 
+    opacity:0.8;
+    width: 240px;
+    margin-bottom:20px;
+}
+
+.dm_login_form input[type=submit] {
+    display: inline-block; 
+    border:1px solid #4060a0;
+    background: #3060a0;
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 2px;
+    padding: 8px;
+    cursor: pointer;
+}
+.dm_login_form input[type=submit]:hover {
+    background: #4080c0;
+}
+.dm_login_form input[type=text], .dm_login_form input[type=password] {
+    border:1px solid #c0c0c0;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 0px;
+    padding: 8px;
+}
