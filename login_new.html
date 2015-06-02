@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Canopy - An Open Source Platform for the Internet of Things</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Canopy - An Open Source Platform for the Internet of Things</title>
+    <script>
+        var CUI_INCLUDE_PATH = "canopy-web-ui/www"
+        var DM_INCLUDE_PATH = "www"
+    </script>
+    <script src="canopy-web-ui/www/cui_include.js"></script>
+    <script src="www/dm_include.js"></script>
+    <script src="canoweb.conf.js"></script>
+    <script>
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="nodes/cano.js"></script>
+    <script src="nodes/cano_login_form.js"></script>
+    <script src="nodes/cano_signup_form.js"></script>
+    <script src="canopy_app_util.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700|ABeeZee|Titillium+Web:200,300,400,700' rel='stylesheet' type='text/css'>
+    <link href='canoweb.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<div class=main-outer>
+    <div id=topbar></div>
+   
+    <div class='centered' style='background:#f0f0f0; padding-top:30px'>
+        <div style='text-align:left; display:inline-block; max-width:1014px; padding-right:20px; padding-left:20px;'>
+            <table border=0 cellspacing=0 cellpadding=0 width=100%>
+                <tr>
+                    <td valign=top width=290 style='padding:8px; padding-right:80px; border-right:1px solid #c0c0c0'>
+                        <div id=signupform></div>
+                    </td>
+                    <td valign=top style='padding:8px; padding-left:30px; padding-right:80px'>
+                        <div id=loginform></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br><br>
+    </div>
+    
+
+    <center class=bg-blue-gradient style='padding-top:00px; padding-bottom:30px' >
+        <table width=800>
+            <tr>
+                <td valign=bottom>
+                    <img style='position: relative; top:15px;' class=frontpage-cloudplug-img src=images/cloud_circuit_h256.png></img>
+                </td>
+                <td valign=center>
+                    <div class='l' style=''>Canopy Device Manager</div>
+                    <ul>
+                        <li>Monitor, control and share your Canopy-enabled devices.</li>
+                        <li>Advanced administrative tools for device makers.</li>
+                        <li>100% open source.</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <div style='font-size: 16px'>
+            Twitter:
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='http://twitter.com/CanopyIoT'>
+                @CanopyIoT
+            </a>
+            <div style='display:inline-block; width:50px'></div>
+            Email:
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='mailto:info@canopy.link'>
+                info@canopy.link
+            </a>
+            <div style='display:inline-block; width:50px'></div>
+            GitHub:
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='http://github.com/canopy-project'>
+                github.com/canopy-project
+            </a>
+            <div style='display:inline-block; width:50px'></div>
+            Forum
+            <a target=_blank style='color:#ffff80; font-weight:400;' href='http://canopy.lefora.com'>
+                canopy.lefora.com
+            </a>
+        </div>
+    </center>
+
+    <center>
+            <br><div style='font-size:16px'>Copyright 2014-2015 Canopy Services, Inc.</div>
+    </center>
+</div>
+</body>
+<script>
+
+Canopy.initUserClient({
+    // TODO: other settings?
+    "host" : gCanopyWebAppConfiguration.cloudHost,
+}).onDone(function(result, data) {
+    if (result == CANOPY_SUCCESS) {
+        // User already logged in.  Redirect to device manager.
+        window.location.replace("index.html");
+        return;
+    }
+
+    // TODO: confirm that not_logged_in error was the problem
+    $("#host_title").html(" for " + gCanopyWebAppConfiguration.cloudHost);
+
+    var topbar = new DmLoginHeader({
+        hostname : gCanopyWebAppConfiguration.cloudHost
+    });
+    $("#topbar").html(topbar.get$());
+    topbar.live();
+
+    (new CanoLoginFormNode({
+        remote: data.remote,
+        redirect: "index.html"
+    })).render($("#loginform"));
+
+    (new CanoSignupFormNode({
+        remote: data.remote,
+        redirect: "index.html"
+    })).render($("#signupform"));
+});
+
+</script>
+</html>
+
+

@@ -1,0 +1,14 @@
+.dm_login_topbar {
+    text-align: center;
+    border-bottom: 1px solid #d8d8d8;
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.dm_login_topbar .dm_logo {
+    font-family: "ABeeZee";
+    font-size: 32px;
+    color: #3060b0;
+    display: inline;
+}
