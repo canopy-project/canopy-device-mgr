@@ -37,18 +37,37 @@ function DmLoginPage(params) {
 
         footer = new DmLoginFooter({});
 
+        loginForm = new DmLoginForm({
+            remote: params.remote,
+            redirect: params.redirect
+        });
+
+        signupForm = new DmSignupForm({
+            remote: params.remote,
+            redirect: params.redirect
+        });
+
         return [
             "<div>",
                 header,
-                "<div style='background: #d8d8d8; padding-top:16px; padding-bottom:16px'>",
-                    "<div style='display:inline-block; border:1px solid #a0a0a0; width:50%; vertical-align: top; text-align:right'>",
-                        "forms",
-                    "</div><div style='display:inline-block; border:1px solid #a0a0a0; vertical-align: top; text-align:right'>",
-                        "forms<br>Foo",
+                "<div style='background: #f0f0f0; padding-top:32px; padding-bottom:32px'>",
+                    "<div style='display:inline-block; border-right:1px solid #b0b0b0; width:50%; vertical-align: top; text-align:right'>",
+                        "<div style='display:inline-block; padding-right: 60px; text-align:left'>",
+                            signupForm,
+                        "</div>",
+                    "</div>",
+                    "<div style='display:inline-block; vertical-align: top; text-align:right'>",
+                        "<div style='display:inline-block; padding-left: 20px; text-align:left'>",
+                            loginForm,
+                        "</div>",
                     "</div>",
                 "</div>",
                 footer,
             "</div>"
         ];
+    }
+
+    this.onRefresh = function($me, dirty, live) {
+        cuiRefresh([header, footer, loginForm, signupForm], live);
     }
 }
