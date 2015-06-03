@@ -420,13 +420,15 @@ function DmDeviceDetails(params) {
     this.onSetupCallbacks = function($me) {
         if (!interval) {
             interval = setInterval(function() {
-                device.updateFromRemote().onDone(function(result, resp) {
-                    if (result != CANOPY_SUCCESS) {
-                        console.log(resp.errorMsg);
-                        return;
-                    }
-                    self.markDirty("info", "vars").refresh();
-                });
+                if (device) {
+                    device.updateFromRemote().onDone(function(result, resp) {
+                        if (result != CANOPY_SUCCESS) {
+                            console.log(resp.errorMsg);
+                            return;
+                        }
+                        self.markDirty("info", "vars").refresh();
+                    });
+                }
             }, autoRefreshInterval);
         }
     }

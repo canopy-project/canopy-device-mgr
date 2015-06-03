@@ -95,7 +95,7 @@ function DmAnalyticsPage(params) {
             },
             onSelect: function(name) {
             },
-            default: "aggregate"
+            dflt: "aggregate"
         });
 
         canvas = new CuiCanvas({

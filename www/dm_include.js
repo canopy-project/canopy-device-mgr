@@ -43,6 +43,8 @@ function includeCssFile(filename) {
     );
 }
 
+includeJsFile("/../canopy_app_util.js");
+
 includeJsFile("/nodes/account_page/dm_account_page.js");
 
 includeJsFile("/nodes/analytics_page/dm_aggregate_screen.js");
@@ -58,6 +60,15 @@ includeJsFile("/nodes/devices_page/dm_device_list_screen.js");
 includeJsFile("/nodes/devices_page/dm_devices_page.js");
 includeJsFile("/nodes/devices_page/dm_devices_sidebar.js");
 includeJsFile("/nodes/devices_page/dm_no_devices_screen.js");
+
+// TODO: only include for login page
+includeJsFile("/nodes/login_page/dm_login_footer.js");
+includeJsFile("/nodes/login_page/dm_login_form.js");
+includeJsFile("/nodes/login_page/dm_login_header.js");
+includeJsFile("/nodes/login_page/dm_login_page.js");
+includeJsFile("/nodes/login_page/dm_signup_form.js");
+
+includeCssFile("/nodes/login_page/dm_login.css");
 
 includeJsFile("/nodes/main/dm_main.js");
 

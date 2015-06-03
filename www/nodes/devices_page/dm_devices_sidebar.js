@@ -115,7 +115,7 @@ function DmDevicesSidebar(params) {
             "<div class='dm_devices_page dm_sidebar_bottom'>",
                 $createDevice,
                 "<br><br>",
-                "Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</div>",
+                "Powered by <a target=_blank href=http://canopy.link><span class='logo-in-text'>Canopy</span></a>",
             "</div>",
         ];
     }

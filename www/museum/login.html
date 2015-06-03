@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <title>DM Museum</title>
+    <script src="../../canoweb.conf.js"></script>
+    <script>
+        var CUI_INCLUDE_PATH = "../../canopy-web-ui/www"
+        var DM_INCLUDE_PATH = "../../www"
+    </script>
+    <script src="../../canopy-web-ui/www/cui_include.js"></script>
+    <script src="../../www/dm_include.js"></script>
+    <script>
+        document.write('<script src="' + gCanopyWebAppConfiguration.javascriptClientURL + '" type="text/javascript"><\/script>');
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!--link href="museum.css" rel="stylesheet" type="text/css"-->
+    <link href="../../canopy-web-ui/www/museum/museum.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class='museum'>
+    <div class='section'>
+        <div class='title'>DmLoginHeader - nodes/login_page/dm_login_header.js</div>
+        <div class='desc'>Header for login page.</div>
+        <div id=dm_login_header>
+        </div>
+        <script>
+            var header = new DmLoginHeader({
+                hostname : "HOSTNAME.canopy.link",
+            });
+            $(function() {
+                $("#dm_login_header").html(header.get$());
+                header.live();
+            });
+        </script>
+    </div>
+
+    <div class='section'>
+        <div class='title'>DmLoginFooter - nodes/login_page/dm_login_footer.js</div>
+        <div class='desc'>Footer for login page.</div>
+        <div id=dm_login_footer>
+        </div>
+        <script>
+            var footer = new DmLoginFooter({
+            });
+            $(function() {
+                $("#dm_login_footer").html(footer.get$());
+                footer.live();
+            });
+        </script>
+    </div>
+
+    <div class='section'>
+        <div class='title'>DmLoginForm - nodes/login_page/dm_login_form.js</div>
+        <div class='desc'>Login form.</div>
+        <div id=dm_login_form>
+        </div>
+        <script>
+            var remote = Canopy.initContext().initRemote({
+                // TODO: other params
+                host: gCanopyWebAppConfiguration.cloudHost
+            });
+            var loginForm = new DmLoginForm({
+                remote : remote,
+                redirect: "."
+            });
+            $(function() {
+                $("#dm_login_form").html(loginForm.get$());
+                loginForm.live();
+            });
+        </script>
+    </div>
+
+    <div class='section'>
+        <div class='title'>DmSignupForm - nodes/login_page/dm_signup_form.js</div>
+        <div class='desc'>Signup form.</div>
+        <div id=dm_signup_form>
+        </div>
+        <script>
+            var remote = Canopy.initContext().initRemote({
+                // TODO: other params
+                host: gCanopyWebAppConfiguration.cloudHost
+            });
+            var signupForm = new DmSignupForm({
+                remote : remote,
+                redirect: "."
+            });
+            $(function() {
+                $("#dm_signup_form").html(signupForm.get$());
+                signupForm.live();
+            });
+        </script>
+    </div>
+</body>
+</html>

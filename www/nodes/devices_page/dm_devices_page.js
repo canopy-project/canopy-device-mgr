@@ -110,7 +110,7 @@ function DmDevicesPage(params) {
                     }
                 }
             },
-            default: "device_list"
+            dflt: "device_list"
         });
 
         canvas = new CuiCanvas({

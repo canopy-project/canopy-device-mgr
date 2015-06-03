@@ -98,16 +98,6 @@ function DmDeviceListScreen(params) {
             leftSize: "220px"
         });
 
-        /*layout = new CuiHSplit3Layout({
-            cssClass: "",
-            left: sidebarNode.get$(),
-            middle: deviceListNode.get$(),
-            right: deviceDetailsNode.get$(),
-
-            leftSize: "240px",
-            rightSize: "680px",
-        });*/
-
         // TODO: Why is this needed?
         return ["<div class='dm_devices_page' style='position:absolute; width:100%; height:100%'>", layout, "</div>"];
         //return layout;
