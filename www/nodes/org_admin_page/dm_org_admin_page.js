@@ -55,7 +55,8 @@ function DmOrgAdminPage(params) {
             },
             showDropdown: "org",
             showUserDropdown: false,
-            user: params.user
+            user: params.user,
+            viewerName: params.org.name()
         });
 
         canvas = new CuiCanvas({

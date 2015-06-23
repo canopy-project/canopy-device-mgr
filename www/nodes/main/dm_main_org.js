@@ -25,7 +25,7 @@
  *      .setUser   -- Authenticated User
  *      .setViewer -- Viewer (User or Org) whose perspective should be shown.
  */
-function DmMain(params) {
+function DmMainOrg(params) {
     cuiInitNode(this);
     this.markDirty("user", "viewer");
 
@@ -52,33 +52,18 @@ function DmMain(params) {
     }
 
     this.onConstruct = function() {
-        devicesPage = new DmDevicesPage({
-            user: user,
-            viewer: viewer
-        });
 
-        accountPage = new DmAccountPage({
+        orgAdminPage = new DmOrgAdminPage({
             user: user,
-            viewer: viewer
-        });
-
-        analyticsPage = new DmAnalyticsPage({
-            user: user,
-            viewer: viewer
+            org: viewer
         });
 
         topbar = new CuiTopbar({
             appName: "Device Manager",
             cssClass : "cui_default",
             items: [{
-                content: "Devices",
-                value: "devices"
-            }, {
-                content: "Visualize",
-                value: "visualization"
-            }, {
-                content: "Account",
-                value: "account"
+                content: "Organization",
+                value: "organization"
             } ],
             navState: cuiNavState,
             navStateName: "page",
@@ -92,12 +77,10 @@ function DmMain(params) {
 
         switcher = new CuiSwitcher({
             children: {
-                "devices" : devicesPage,
-                "visualization" : analyticsPage,
-                "account" : accountPage,
+                "organization" : orgAdminPage,
             },
-            default: "devices",
-        });
+            default: "organization",
+        })
 
         this.markDirty("user");
 
