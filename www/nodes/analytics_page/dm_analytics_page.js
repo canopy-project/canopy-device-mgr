@@ -56,7 +56,6 @@ function DmAnalyticsPage(params) {
 
     this.onConstruct = function() {
         menu = new CuiTopbar({
-            appName: user ? user.username() : "Not signed in",
             cssClass: "cui_default cui_topbar_submenu",
             items: [ {
                 content: "Aggregate",
@@ -70,7 +69,10 @@ function DmAnalyticsPage(params) {
             onSelect: function(value) {
                 switcher.select(value).refresh();
             },
-            showAppDropdown: false,
+            showDropdown: "org",
+            showUserDropdown: false,
+            user: params.user,
+            viewerName: params.viewer.name()
         });
         
         aggregateScreen = new DmAggregateScreen({

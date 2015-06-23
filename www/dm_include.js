@@ -61,9 +61,12 @@ includeJsFile("/nodes/devices_page/dm_devices_page.js");
 includeJsFile("/nodes/devices_page/dm_devices_sidebar.js");
 includeJsFile("/nodes/devices_page/dm_no_devices_screen.js");
 
+includeJsFile("/nodes/org_admin_page/dm_org_admin_page.js");
+
 includeJsFile("/nodes/main/dm_main.js");
 
 includeCssFile("/nodes/dm.css");
 includeCssFile("/nodes/devices_page/dm_devices_page.css");
 includeCssFile("/nodes/account_page/dm_account_page.css");
+includeCssFile("/nodes/org_admin_page/dm_org_admin_page.css");
 

@@ -54,12 +54,23 @@ Canopy.initUserClient({
         return;
     }
 
-    var main = new DmMain({
-        user: data.user, 
-    });
+    // TODO: use "v" in query
+    data.user.organization(cuiNavState.get("v")).onDone(function(result2, data2) {
+        if (result2 != CANOPY_SUCCESS) {
+            alert("Problem generating org view");
+            var main = new DmMain({
+                user: data.user, 
+            });
+        } else {
+            var main = new DmMain({
+                user: data.user, 
+                viewer: data2.org
+            });
+        }
 
-    $("#main").html(main.get$());
-    main.live();
+        $("#main").html(main.get$());
+        main.live();
+    });
 });
 
 </script>

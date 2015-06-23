@@ -19,13 +19,15 @@
  *
  *  PARAMS:
  *      params.user
+ *      params.viewer
  *
  *  MEHTODS:
- *      .setUser
+ *      .setUser   -- Authenticated User
+ *      .setViewer -- Viewer (User or Org) whose perspective should be shown.
  */
 function DmMain(params) {
     cuiInitNode(this);
-    this.markDirty("user");
+    this.markDirty("user", "viewer");
 
     var topbar;
     var switcher;
@@ -35,6 +37,7 @@ function DmMain(params) {
     var accountPage;
 
     var user = params.user;
+    var viewer = params.viewer;
 
     this.setUser = function(_user) {
         user = _user;
@@ -42,17 +45,31 @@ function DmMain(params) {
         return this;
     }
 
+    this.setViewer = function(_viewer) {
+        viewer = _viewer;
+        this.markDirty("viewer");
+        return this;
+    }
+
     this.onConstruct = function() {
         devicesPage = new DmDevicesPage({
-            user: user
+            user: user,
+            viewer: viewer
         });
 
         accountPage = new DmAccountPage({
-            user: user
+            user: user,
+            viewer: viewer
         });
 
         analyticsPage = new DmAnalyticsPage({
-            user: user
+            user: user,
+            viewer: viewer
+        });
+
+        orgAdminPage = new DmOrgAdminPage({
+            user: user,
+            org: viewer
         });
 
         topbar = new CuiTopbar({
@@ -103,6 +120,15 @@ function DmMain(params) {
                 cuiNavState.set("u", "");
             }
         }
+
+        if (dirty("viewer")) {
+            if (viewer) {
+                cuiNavState.set("v", viewer.name());
+            } else {
+                cuiNavState.set("v", "");
+            }
+        }
+
         cuiRefresh([topbar, switcher], live);
     }
 

@@ -58,13 +58,15 @@ function DmDevicesPage(params) {
 
     this.onConstruct = function() {
         menu = new CuiTopbar({
-            appName: user ? user.username() : "Not signed in",
             cssClass: "cui_default cui_topbar_submenu",
             items: [ {
                 content: "Device List",
                 value: "devices"
             }],
-            showAppDropdown: false,
+            showDropdown: "org",
+            showUserDropdown: false,
+            user: params.user,
+            viewerName: params.viewer.name()
         });
 
         deviceListScreen = new DmDeviceListScreen({

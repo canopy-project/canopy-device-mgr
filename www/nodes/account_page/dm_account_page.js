@@ -19,9 +19,7 @@
  *
  *  PARAMS:
  *      params.user -- Optional CanopyUser object
- *
- *  METHODS:
- *      setUser
+ *      params.viewer -- CanopyUser or CanopyOrganization perspective to show.
  *
  */
 function DmAccountPage(params) {
@@ -36,7 +34,6 @@ function DmAccountPage(params) {
     
     this.onConstruct = function() {
         menu = new CuiTopbar({
-            appName: params.user.username(),
             cssClass: "cui_default cui_topbar_submenu",
             items: [ {
                 content: "Profile",
@@ -55,7 +52,8 @@ function DmAccountPage(params) {
             },
             showDropdown: "org",
             showUserDropdown: false,
-            user: params.user
+            user: params.user,
+            viewerName: params.viewer.name()
         });
 
         sidebar = new CanoAccountSidebarNode({
