@@ -19,6 +19,7 @@
  *
  *  PARAMS:
  *      params.user -- Optional CanopyUser object
+ *      params.viewer -- CanopyUser or CanopyOrganization perspective to show
  *
  *  METHODS:
  *      setUser

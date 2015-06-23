@@ -38,6 +38,7 @@ function DmMain(params) {
 
     var user = params.user;
     var viewer = params.viewer;
+    console.log(viewer);
 
     this.setUser = function(_user) {
         user = _user;
