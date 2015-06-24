@@ -29,15 +29,23 @@ function DmOrgMembersScreen(params) {
     cuiInitNode(this);
 
     var memberListOuter;
+    var inviteBtn;
 
     this.onConstruct = function() {
         memberListOuter = $("<div>loading...</div>");
 
+        inviteBtn = new CuiButton({
+            cssClass: "cui_default",
+            content: "+ Invite member",
+        });
+
+
         return [
             "<div style='margin-left:240px; margin-top:24px'>",
-                "Members of <b>" + params.org.name() + "</b>:",
                 memberListOuter,
-            "</b>"
+                "<br>",
+                inviteBtn,
+            "</div>"
         ];
     }
 
@@ -49,18 +57,21 @@ function DmOrgMembersScreen(params) {
                     return;
                 }
                 var tbl = $("<table cellspacing=0 cellpadding=0 class='dm_org_admin_page dm_table'>" +
-                        "<tr><th>Username</th><th>Email</th><th>Teams</th><th>Actions</th></tr>" +
                     "</table>"
                 );
                 for (var i = 0; i < data.members.length; i++) {
-                    tbl.append($("<tr><td>" + data.members[i].username + "</td>" + 
-                    "<td>" + data.members[i].email + "</td>" + 
-                    "<td></td>" + 
-                    "<td>Remove</td>" + 
+                    tbl.append($("<tr>" +
+                        "<th colspan=3>Members of " + params.org.name() + "</th></tr><tr>" +
+                            "<td><b>" + data.members[i].username + "</b><br>" + 
+                    data.members[i].email + "</td>" + 
+                    "<td>1 team</td>" + 
+                    "<td><a href='.'>Remove</a></td>" + 
                     "</tr>)"));
                 }
                 memberListOuter.html(tbl);
             });
         }
+
+        return cuiRefresh([inviteBtn], live);
     }
 }

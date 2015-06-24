@@ -16,6 +16,9 @@
 table.dm_org_admin_page.dm_table{
     font-size: 15px;
     cursor: pointer;
+    border-left: 1px solid #d0d0d0;
+    border-top: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
 }
 
 table.dm_org_admin_page.dm_table .selected td {
@@ -25,7 +28,7 @@ table.dm_org_admin_page.dm_table .selected td {
 
 table.dm_org_admin_page.dm_table th {
     font-weight: 400;
-    background: #ffffff;
+    background: #f0f0f0;
     border-bottom: 1px solid #d0d0d0;
 }
 
@@ -33,16 +36,10 @@ table.dm_org_admin_page.dm_table td {
     border-bottom: 1px solid #d0d0d0;
 }
 
-table.dm_org_admin_page.dm_table tr:nth-child(even) {
-    background: #f4f4f4;
-}
-table.dm_org_admin_page.dm_table tr:nth-child(odd) {
-    background: #f0f0f0;
-}
-
 .dm_org_admin_page td,
 .dm_org_admin_page th {
     text-align: left;
     white-space:nowrap;
-    padding: 8px;
+    padding: 12px;
+    padding-right: 32px;
 }
