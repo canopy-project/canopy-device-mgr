@@ -80,7 +80,14 @@ function DmOrganizationsScreen(params) {
 
                 $orgList.html("");
                 for (var i = 0; i < data.orgs.length; i++) {
-                    $orgList.append("<a href='.'>" + data.orgs[i].name() + "</a><br>");
+                    $link = $("<a href='javascript:void(0)'>" + data.orgs[i].name() + "</a>");
+                    $link.on('click', function(idx) {
+                        return function() {
+                            cuiNavState.newTab("v", data.orgs[idx].name());
+                        }
+                    }(i));
+                    $orgList.append($link);
+                    $orgList.append("<br>");
                 }
 
                 if (data.orgs.length == 0) {
