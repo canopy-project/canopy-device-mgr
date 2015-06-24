@@ -30,8 +30,14 @@ function DmOrgAdminPage(params) {
 
     var menu;
     var canvas;
+    var membersScreen;
     
     this.onConstruct = function() {
+        membersScreen = new DmOrgMembersScreen({
+            user: params.user,
+            org: params.org
+        });
+
         menu = new CuiTopbar({
             appName: params.user.username(),
             cssClass: "cui_default cui_topbar_submenu",
@@ -64,7 +70,7 @@ function DmOrgAdminPage(params) {
             contents: cuiCompose([
                 // TODO: Why is this needed?
                 "<div class='dm_org_admin_page' style='position:absolute; width:100%; height:100%'>", 
-                    "Org settings",
+                    membersScreen,
                 "</div>"
             ]),
         });
@@ -76,6 +82,6 @@ function DmOrgAdminPage(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        cuiRefresh([menu, canvas], live);
+        cuiRefresh([menu, canvas, membersScreen], live);
     }
 }
