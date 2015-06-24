@@ -30,34 +30,46 @@ function DmOrgAdminPage(params) {
 
     var menu;
     var canvas;
+    var inviteMemberScreen;
     var membersScreen;
+    var switcher;
     
     this.onConstruct = function() {
         membersScreen = new DmOrgMembersScreen({
             user: params.user,
-            org: params.org
+            org: params.org,
+            onInviteClicked: function() {
+                switcher.select("invite_member").refresh();
+                menu.setBreadcrumb(["Organization", "Add Member"]).refresh();
+            }
         });
+
+        inviteMemberScreen = new DmOrgInviteMemberScreen({
+            user: params.user,
+            org: params.org,
+            onCancel: function() {
+                menu.setBreadcrumb(null).refresh();
+                switcher.select("members").refresh();
+            }
+        })
 
         menu = new CuiTopbar({
             appName: params.user.username(),
             cssClass: "cui_default cui_topbar_submenu",
             items: [ {
-                content: "Settings",
-                value: "settings"
-            }, {
                 content: "Members",
-                value: "password"
+                value: "members"
             }, {
                 content: "Teams",
-                value: "password"
+                value: "teams"
             }, {
-                content: "Organizations",
-                value: "organizations"
+                content: "Settings",
+                value: "settings"
             }],
             navState: cuiNavState,
             navStateName: "org_admin_page",
             onSelect: function(val) {
-                //switcher.select(val).refresh();
+                switcher.select(val).refresh();
             },
             showDropdown: "org",
             showUserDropdown: false,
@@ -65,12 +77,22 @@ function DmOrgAdminPage(params) {
             viewerName: params.org.name()
         });
 
+        switcher = new CuiSwitcher({
+            children: {
+                "members": membersScreen,
+                "teams": new CuiWrapper($("<b>teams</b>")),
+                "settings": new CuiWrapper($("<b>settings</b>")),
+                "invite_member": inviteMemberScreen
+            },
+            default: "members",
+        });
+
         canvas = new CuiCanvas({
             preceededBy: menu,
             contents: cuiCompose([
                 // TODO: Why is this needed?
                 "<div class='dm_org_admin_page' style='position:absolute; width:100%; height:100%'>", 
-                    membersScreen,
+                    switcher,
                 "</div>"
             ]),
         });
@@ -82,6 +104,6 @@ function DmOrgAdminPage(params) {
     }
 
     this.onRefresh = function($me, dirty, live) {
-        cuiRefresh([menu, canvas, membersScreen], live);
+        cuiRefresh([menu, canvas, switcher], live);
     }
 }

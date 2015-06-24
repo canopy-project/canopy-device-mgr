@@ -19,10 +19,7 @@
  *
  *  PARAMS:
  *      params.org -- Optional CanopyOrganization object
- *
- *  METHODS:
- *      setUser
- *      setOrg
+ *      params.onInviteClicked -- Callback when "invite" button is clicked.
  *
  */
 function DmOrgMembersScreen(params) {
@@ -37,6 +34,11 @@ function DmOrgMembersScreen(params) {
         inviteBtn = new CuiButton({
             cssClass: "cui_default",
             content: "+ Invite member",
+            onClick: function() {
+                if (params.onInviteClicked) {
+                    params.onInviteClicked()
+                }
+            }
         });
 
 

@@ -63,6 +63,7 @@ includeJsFile("/nodes/devices_page/dm_no_devices_screen.js");
 
 includeJsFile("/nodes/org_admin_page/dm_org_admin_page.js");
 includeJsFile("/nodes/org_admin_page/dm_org_members_screen.js");
+includeJsFile("/nodes/org_admin_page/dm_org_invite_member_screen.js");
 
 includeJsFile("/nodes/main/dm_main.js");
 includeJsFile("/nodes/main/dm_main_org.js");
