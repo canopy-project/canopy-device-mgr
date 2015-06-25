@@ -24,6 +24,7 @@
  */
 function DmOrgMembersScreen(params) {
     cuiInitNode(this);
+    var self=this;
 
     var memberListOuter;
     var inviteBtn;
@@ -63,13 +64,27 @@ function DmOrgMembersScreen(params) {
                     "</table>"
                 );
                 for (var i = 0; i < data.members.length; i++) {
-                    tbl.append($("<tr>" +
-                            "<td><b>" + data.members[i].username + "</b><br>" + 
-                    data.members[i].email + "</td>" + 
-                    "<td>1 team</td>" + 
-                    "<td>Owner</td>" + 
-                    "<td><a href='.'>Remove</a></td>" + 
-                    "</tr>)"));
+                    removeBtn = $("<a href='javascript:void(0)'>Remove</a>");
+                    removeBtn.on('click', function(idx) {
+                        return function() {
+                            params.org.removeMember(data.members[idx].username).onDone(function(result, data) {
+                                self.refresh();
+                            });
+                        }
+                    }(i));
+                    tbl.append(cuiCompose([
+                        "<tr>",
+                            "<td>",
+                                "<b>", data.members[i].username, "</b><br>",
+                                data.members[i].email,
+                            "</td>",
+                            "<td>1 team</td>",
+                            "<td>Owner</td>",
+                            "<td>",
+                                removeBtn,
+                            "</td>" + 
+                        "</tr>"])
+                    );
                 }
                 memberListOuter.html(tbl);
             });
