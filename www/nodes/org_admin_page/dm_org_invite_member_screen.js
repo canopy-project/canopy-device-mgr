@@ -19,17 +19,33 @@
  *
  *  PARAMS:
  *      params.org -- Optional CanopyOrganization object
+ *      params.onCancel -- 
+ *      params.onAdded -- 
  *
  */
 function DmOrgInviteMemberScreen(params) {
     cuiInitNode(this);
 
     var inviteBtn;
+    var cancelBtn;
+    var userInput;
 
     this.onConstruct = function() {
         inviteBtn = new CuiButton({
             cssClass: "cui_default",
             content: "ADD MEMBER",
+            onClick: function() {
+                var username = userInput.val()
+                params.org.addMember(username).onDone(function(result, data) {
+                    if (result != CANOPY_SUCCESS) {
+                        alert("Problem adding member");
+                        return;
+                    }
+                    if (params.onAdded) {
+                        params.onAdded();
+                    }
+                });
+            }
         });
 
         cancelBtn = new CuiButton({
@@ -42,13 +58,15 @@ function DmOrgInviteMemberScreen(params) {
             }
         });
 
+        userInput = $("<input></input>");
 
         return [
             "<div style='margin-left:240px; margin-top:24px'>",
                 "<div class='xl'>Add Member</div>",
                 "<br>",
                 "<div class='s'>Enter username or email address of the person you would like to add to this organization.</div>",
-                "<input></input><br><br>",
+                userInput,
+                "<br><br>",
                 inviteBtn,
                 " ",
                 cancelBtn,

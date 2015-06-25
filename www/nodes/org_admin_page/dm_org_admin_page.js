@@ -47,10 +47,14 @@ function DmOrgAdminPage(params) {
         inviteMemberScreen = new DmOrgInviteMemberScreen({
             user: params.user,
             org: params.org,
+            onAdded: function() {
+                menu.setBreadcrumb(null).refresh();
+                switcher.select("members").refresh();
+            },
             onCancel: function() {
                 menu.setBreadcrumb(null).refresh();
                 switcher.select("members").refresh();
-            }
+            },
         })
 
         menu = new CuiTopbar({

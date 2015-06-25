@@ -33,7 +33,7 @@ function DmOrgMembersScreen(params) {
 
         inviteBtn = new CuiButton({
             cssClass: "cui_default",
-            content: "+ Invite member",
+            content: "+ ADD MEMBER",
             onClick: function() {
                 if (params.onInviteClicked) {
                     params.onInviteClicked()
@@ -59,14 +59,15 @@ function DmOrgMembersScreen(params) {
                     return;
                 }
                 var tbl = $("<table cellspacing=0 cellpadding=0 class='dm_org_admin_page dm_table'>" +
+                        "<th colspan=4>Members of " + params.org.name() + "</th></tr><tr>" +
                     "</table>"
                 );
                 for (var i = 0; i < data.members.length; i++) {
                     tbl.append($("<tr>" +
-                        "<th colspan=3>Members of " + params.org.name() + "</th></tr><tr>" +
                             "<td><b>" + data.members[i].username + "</b><br>" + 
                     data.members[i].email + "</td>" + 
                     "<td>1 team</td>" + 
+                    "<td>Owner</td>" + 
                     "<td><a href='.'>Remove</a></td>" + 
                     "</tr>)"));
                 }
