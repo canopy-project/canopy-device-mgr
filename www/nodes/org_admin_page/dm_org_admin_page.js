@@ -44,6 +44,28 @@ function DmOrgAdminPage(params) {
             }
         });
 
+        teamsScreen = new DmOrgTeamsScreen({
+            user: params.user,
+            org: params.org,
+            onCreateTeamClicked: function() {
+                switcher.select("create_team").refresh();
+                menu.setBreadcrumb(["Organization", "Create Team"]).refresh();
+            }
+        });
+
+        createTeamScreen = new DmOrgCreateTeamScreen({
+            user: params.user,
+            org: params.org,
+            onAdded: function() {
+                menu.setBreadcrumb(null).refresh();
+                switcher.select("teams").refresh();
+            },
+            onCancel: function() {
+                menu.setBreadcrumb(null).refresh();
+                switcher.select("teams").refresh();
+            },
+        })
+
         inviteMemberScreen = new DmOrgInviteMemberScreen({
             user: params.user,
             org: params.org,
@@ -84,9 +106,10 @@ function DmOrgAdminPage(params) {
         switcher = new CuiSwitcher({
             children: {
                 "members": membersScreen,
-                "teams": new CuiWrapper($("<b>teams</b>")),
+                "teams": teamsScreen,
                 "settings": new CuiWrapper($("<b>settings</b>")),
-                "invite_member": inviteMemberScreen
+                "invite_member": inviteMemberScreen,
+                "create_team": createTeamScreen
             },
             default: "members",
         });

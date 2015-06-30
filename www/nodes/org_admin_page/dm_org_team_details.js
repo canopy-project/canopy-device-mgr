@@ -19,42 +19,41 @@
  *
  *  PARAMS:
  *      params.org -- Optional CanopyOrganization object
- *      params.onInviteClicked -- Callback when "invite" button is clicked.
+ *      params.team
+ *
+ *  METHODS:
+ *      setTeam
  *
  */
-function DmOrgMembersScreen(params) {
+function DmOrgTeamDetails(params) {
     cuiInitNode(this);
     var self=this;
 
-    var memberListOuter;
-    var inviteBtn;
+    var team = params.team;
+    var cachedTeam = params.team;
+    var $content;
+
+    this.setTeam = function(_team) {
+        team = _team;
+        return this;
+    }
 
     this.onConstruct = function() {
-        memberListOuter = $("<div>loading...</div>");
-
-        inviteBtn = new CuiButton({
-            cssClass: "cui_default",
-            content: "+ ADD MEMBER",
-            onClick: function() {
-                if (params.onInviteClicked) {
-                    params.onInviteClicked()
-                }
-            }
-        });
-
-
+        $content = $("<div>No team selected.</div>");
         return [
-            "<div style='margin-left:240px; margin-top:24px'>",
-                memberListOuter,
-                "<br>",
-                inviteBtn,
-            "</div>"
+            "<div style='padding:16px'>",
+                $content,
+            "</div>",
         ];
     }
 
     this.onRefresh = function($me, dirty, live) {
-        if (live) {
-            params.org.members().onDone(function(result, data) {
+        if (cachedTeam != team) {
+            //
+            // Team changed
+            //
+            $content.html("<b>" +  team.name() + "</b> Members:");
+            team.members().onDone(function(result, data) {
                 if (result != CANOPY_SUCCESS) {
                     alert("Problem getting organization members");
                     return;
@@ -78,8 +77,8 @@ function DmOrgMembersScreen(params) {
                                 "<b>", data.members[i].username, "</b><br>",
                                 data.members[i].email,
                             "</td>",
-                            "<td>1 team</td>", // TODO
-                            "<td>Owner</td>",  // TODO
+                            "<td></td>", // TODO
+                            "<td></td>",  // TODO
                             "<td>",
                                 removeBtn,
                             "</td>" + 
@@ -88,8 +87,7 @@ function DmOrgMembersScreen(params) {
                 }
                 memberListOuter.html(tbl);
             });
+            cachedTeam = team;
         }
-
-        return cuiRefresh([inviteBtn], live);
     }
 }

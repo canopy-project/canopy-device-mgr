@@ -43,3 +43,10 @@ table.dm_org_admin_page.dm_table td {
     padding: 12px;
     padding-right: 32px;
 }
+
+.dm_org_team_selection.cui_option .cui_option.cui_toggle {
+}
+
+.dm_org_team_selection.cui_option .cui_option.cui_toggle.cui_on {
+    font-weight: 800;
+}
